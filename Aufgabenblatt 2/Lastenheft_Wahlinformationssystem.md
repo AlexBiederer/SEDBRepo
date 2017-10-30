@@ -25,6 +25,7 @@
 * Systemdokumentation
 
 ### Nicht-funktionale Anforderungen
+* Sicherheit/Manipulationsschutz
 * Verwendung der offiziellen Endergebnisse der Wahlen von 2017/2013 auf [bundeswahlleiter.de](https://www.bundeswahlleiter.de/)
 * Lauffähig auf der aktuellen Chrome-Version
 * Intuitiv zu bedienendes User-Interface (evtl. Usability-Test)
