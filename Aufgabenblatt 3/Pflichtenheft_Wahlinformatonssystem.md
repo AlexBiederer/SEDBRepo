@@ -38,21 +38,41 @@
 ### Abgrenzungskriterien
 * Das System soll keine weiteren Endergebnisse von Bundestagswahlen (bis auf die Bundestagswahl 2013) als Vergleichswerte heranziehen
 
-* Das System soll keine Möglichkeit zur Online-Stimmabgabe ermöglichen
+* Das System soll keine Möglichkeit zur Online-Stimmabgabe bieten
 
 * Das System soll es nicht ermöglichen, bestehende Datensätze zu verändern
 
 ### Technische Umsetzung
 
 * Datenbankmanagementsystem (DBMS): PostgreSQL
-* Frontend: AngularJS mit [D3.js](https://d3js.org/) für Daten-Visualisierungen (Pie-charts etc.); [Bootstrap](http://getbootstrap.com/) als CSS frontend framework 
+* Frontend: Angular 4 mit [D3.js](https://d3js.org/) für Daten-Visualisierungen (Pie-charts etc.); [Bootstrap](http://getbootstrap.com/) als CSS frontend framework 
 * Backend: Node.js als Webserver und zur Anbindung an das DBMS. 
 * Benötigten Daten können vom Backend zum Frontend, eigene Anfragen vom Frontend zum Backend mittels REST-API geschickt werden. Der Node-Webserver schickt die HTML-Seite sowie die benötigten JavaScript Dateien an den Client. Alle zusätzlich benötigten Bibliotheken/Frameworks werden vom Client über ein Content Delivery Network (CDN) geladen.
 
 ### GUI-Mockups
-@TODO
+
+* **Landingpage:**
+<img src="./landingpage.png" alt="Drawing" style="width: 600px;"/>
+
+* **Sitzverteilung/Mitglieder im Bundestag:**
+<img src="./bundestagsitzverteilung.png" alt="Drawing" style="width: 600px;"/>
+
+* **Wahlkreis:** Der Bereich **Wahlkreis** wird erst verfügbar, nachdem ein Bundesland ausgewählt wurde
+<img src="./wahlkreis.png" alt="Drawing" style="width: 600px;"/>
+
+* **Wahlkreisdetails:** Der Bereich **Wahlkreisdetails** wird erst verfügbar, nachdem ein Wahlkreis ausgewählt wurde
+<img src="./wahlkreisdetails.png" alt="Drawing" style="width: 600px;"/>
+
+* **Abgabe einer Einzelstimme:**
+<img src="./einzelstimmenabgabe1.png" alt="Drawing" style="width: 500px;"/>
+<img src="./einzelstimmenabgabe2.png" alt="Drawing" style="width: 600px;"/>
+
+* **Eigene Datenbank-Anfrage:**
+<img src="./eigene_dbanfrage.png" alt="Drawing" style="width: 600px;"/>
+
+
 
 ### UML-Diagram
-![UML-Diagram](../Aufgabenblatt%201/umlDiagram.png)
+<img src="../Aufgabenblatt%201/umlDiagram.png" alt="Drawing" style="width: 600px;"/>
 
 
