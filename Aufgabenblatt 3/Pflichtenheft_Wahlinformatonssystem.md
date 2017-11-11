@@ -1,4 +1,4 @@
-## Pflichteneft - Wahlinformationssystem
+## Pflichtenheft - Wahlinformationssystem
 
 ### Zielsetzung - Musskriterien
  * Das System muss die Wahlergebnisse der Bundestagswahl 2017 analysieren können:
