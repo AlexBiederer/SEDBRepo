@@ -9,9 +9,9 @@ app.get('/', (req, res) => {
 });
 
 
- app.listen(3000, () => console.log('Example app listening on port 3000!'))
+app.listen(3000, () => console.log('Example app listening on port 3000!'));
 
-
+console.log(data);
 debugger;
 fs.writeFile("./test.txt", "Hello World", function(err) {
   if (err) {
