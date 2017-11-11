@@ -57,8 +57,13 @@ CREATE TABLE partei17 (
 
 CREATE TABLE kandidat13 (
   id integer PRIMARY KEY,
+  titel text,
+  vorname text NOT NULL,
   name text NOT NULL,
   geschlecht text NOT NULL,
+  gebjahr integer,
+  gebort text,
+  beruf text,
   wahlSlogan text,
   bildURL text,
   partei integer references partei13(id)
@@ -66,13 +71,27 @@ CREATE TABLE kandidat13 (
 
 CREATE TABLE kandidat17 (
   id integer PRIMARY KEY,
+  titel text,
+  vorname text NOT NULL,
   name text NOT NULL,
   geschlecht text NOT NULL,
+  gebjahr integer,
+  gebort text,
+  beruf text,
   wahlSlogan text,
   bildURL text,
   partei integer references partei17(id)
 );
 
+CREATE TABLE direkt13 (
+  kandidat integer references kandidat13(id),
+  wahlkreis integer references wahlkreis13(id),
+);
+
+CREATE TABLE direkt17 (
+  kandidat integer references kandidat17(id),
+  wahlkreis integer references wahlkreis17(id),
+);
 
 CREATE TABLE liste13 (
   kandidat integer references kandidat13(id),
