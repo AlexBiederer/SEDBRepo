@@ -16,7 +16,7 @@ var port = 3000;
 
 // Script starts from here after deploying the index.html to the client
 var startHere = () => {
-   printToFile(wahlkreis17(dataComplete));
+  printToFile(aggZweit17(dataComplete), null, "sql/aggZweit17.sql");
 };
 
 // Returns the index.html and starts the script
@@ -45,10 +45,10 @@ var erst17 = data => {
     .on('json', (val) => {
       outputString = "";
       console.log(val.partei, val.wahlkreis);
-        for (var i = 1; i <= val.sum; i++) {
-          outputString += `,(${val.partei},${val.wahlkreis})`;
-        }
-      if(val.partei==="0" && val.wahlkreis === "1") outputString = outputString.substring(1, outputString.length);
+      for (var i = 1; i <= val.sum; i++) {
+        outputString += `,(${val.partei},${val.wahlkreis})`;
+      }
+      if (val.partei === "0" && val.wahlkreis === "1") outputString = outputString.substring(1, outputString.length);
       printToFile(outputString, {
         flag: 'a'
       });
@@ -61,10 +61,10 @@ var erst17_2 = data => {
     .on('json', (val) => {
       outputString = "";
       console.log(val.partei, val.wahlkreis);
-        for (var i = 1; i <= val.sum; i++) {
-          outputString += `${val.partei},${val.wahlkreis}\n`;
-        }
-    //  if(val.partei==="0" && val.wahlkreis === "1") outputString = outputString.substring(1, outputString.length);
+      for (var i = 1; i <= val.sum; i++) {
+        outputString += `${val.partei},${val.wahlkreis}\n`;
+      }
+      //  if(val.partei==="0" && val.wahlkreis === "1") outputString = outputString.substring(1, outputString.length);
       printToFile(outputString, {
         flag: 'a'
       });
@@ -74,14 +74,23 @@ var erst17_2 = data => {
 };
 var aggErst17 = data => {
   var wk = dataComplete.wahlkreise;
-  var outputString = "INSERT INTO aggerst17 (partei, wahlkreis, numstimmen) VALUES ";
+  var outputString = "INSERT INTO aggerst17 (partei,wahlkreis,numstimmen) VALUES ";
   for (var id in wk) {
-    outputString = "";
     wk[id].ParteiErgebnisse.forEach((val) => {
       outputString += `(${parteiToID[val.Partei]},${id},${val.Erststimme_17}),`;
     });
   }
-  return outputString;
+  return outputString.substring(0,outputString.length-1);
+};
+var aggZweit17 = data => {
+  var wk = dataComplete.wahlkreise;
+  var outputString = "INSERT INTO aggzweit17 (partei,wahlkreis,numstimmen) VALUES ";
+  for (var id in wk) {
+    wk[id].ParteiErgebnisse.forEach((val) => {
+      outputString += `(${parteiToID[val.Partei]},${id},${val.Zweitstimme_17}),`;
+    });
+  }
+  return outputString.substring(0,outputString.length-1);
 };
 var wahlkreis13 = data => {
   var wk = data.wahlkreise;
@@ -105,11 +114,13 @@ var wahlkreis17 = data => {
 /**
  * Print an input string to the query.sql file
  * @param {String} data which shall be printed
+ * @param {Object} options for the writeFile function e.g. flags etc.
+ * @param {String} target for the sql script
  */
 var printToFile = (data, options = {
   flag: 'w'
-}) => {
-  fs.writeFileSync("./app/sql/wahlkreis17.sql", data, options, function(err) {
+}, target = "sql/query.sql") => {
+  fs.writeFileSync(`./app/${target}`, data, options, function(err) {
     if (err) return console.log(err);
     console.log("The file was successfully saved!");
   });
