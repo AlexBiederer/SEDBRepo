@@ -16,7 +16,7 @@ var port = 3000;
 
 // Script starts from here after deploying the index.html to the client
 var startHere = () => {
-  erst17_2(); //printToFile(aggErst17(dataComplete));
+   printToFile(wahlkreis17(dataComplete));
 };
 
 // Returns the index.html and starts the script
@@ -109,7 +109,7 @@ var wahlkreis17 = data => {
 var printToFile = (data, options = {
   flag: 'w'
 }) => {
-  fs.writeFileSync("./app/sql/query3.sql", data, options, function(err) {
+  fs.writeFileSync("./app/sql/wahlkreis17.sql", data, options, function(err) {
     if (err) return console.log(err);
     console.log("The file was successfully saved!");
   });
