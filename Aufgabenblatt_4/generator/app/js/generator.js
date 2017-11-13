@@ -16,7 +16,7 @@ var port = 3000;
 
 // Script starts from here after deploying the index.html to the client
 var startHere = () => {
-  printToFile(aggErst13(dataComplete), null, "sql/aggErst13.sql");
+  printToFile(wahlkreis13(dataComplete), null, "sql/wahlkreis13.sql");
 };
 
 // Returns the index.html and starts the script
@@ -36,35 +36,17 @@ app.listen(port, () => console.log(`Generator is listening on port ${port}!`));
 /**
  * Functions for creating sql statements
  * @param {Object} data which shall be inserted into the db
- * @return {String} outputString containing all sql statements
+ *    @return {String} outputString containing all sql statements
+ * || @return {void} prints directly to a file (neccessary for verly large files e.g. erst17)
  */
 var erst17 = data => {
-  var outputString = "INSERT INTO erst17 (partei, wahlkreis) VALUES ";
-  printToFile(outputString);
   csv().fromFile("./app/csv/aggErst17.csv")
     .on('json', (val) => {
       outputString = "";
       console.log(val.partei, val.wahlkreis);
       for (var i = 1; i <= val.sum; i++) {
-        outputString += `,(${val.partei},${val.wahlkreis})`;
+        outputString += `${val.partei},${val.wahlkreis}`;
       }
-      if (val.partei === "0" && val.wahlkreis === "1") outputString = outputString.substring(1, outputString.length);
-      printToFile(outputString, {
-        flag: 'a'
-      });
-    }).on("end", (err) => {
-      //  printToFile(outputString);
-    });
-};
-var erst17_2 = data => {
-  csv().fromFile("./app/csv/aggErst17.csv")
-    .on('json', (val) => {
-      outputString = "";
-      console.log(val.partei, val.wahlkreis);
-      for (var i = 1; i <= val.sum; i++) {
-        outputString += `${val.partei},${val.wahlkreis}\n`;
-      }
-      //  if(val.partei==="0" && val.wahlkreis === "1") outputString = outputString.substring(1, outputString.length);
       printToFile(outputString, {
         flag: 'a'
       });
@@ -80,7 +62,7 @@ var aggErst17 = data => {
       outputString += `(${parteiToID[val.Partei]},${id},${val.Erststimme_17}),`;
     });
   }
-  return outputString.substring(0,outputString.length-1);
+  return outputString.substring(0, outputString.length - 1);
 };
 var aggErst13 = data => {
   var wk = dataComplete.wahlkreise;
@@ -90,7 +72,7 @@ var aggErst13 = data => {
       outputString += `(${parteiToID[val.Partei]},${id},${val.Erststimme_13}),`;
     });
   }
-  return outputString.substring(0,outputString.length-1);
+  return outputString.substring(0, outputString.length - 1);
 };
 var aggZweit17 = data => {
   var wk = dataComplete.wahlkreise;
@@ -100,7 +82,7 @@ var aggZweit17 = data => {
       outputString += `(${parteiToID[val.Partei]},${id},${val.Zweitstimme_17}),`;
     });
   }
-  return outputString.substring(0,outputString.length-1);
+  return outputString.substring(0, outputString.length - 1);
 };
 var aggZweit13 = data => {
   var wk = dataComplete.wahlkreise;
@@ -110,26 +92,26 @@ var aggZweit13 = data => {
       outputString += `(${parteiToID[val.Partei]},${id},${val.Zweitstimme_13}),`;
     });
   }
-  return outputString.substring(0,outputString.length-1);
-};
-var wahlkreis13 = data => {
-  var wk = data.wahlkreise;
-  for (var id in wk) {
-    outputString += `(${id}, '${wk[id]["Name"]}',${bundeslandToID[wk[id]["Bundesland"]]},${wk[id]["Wahlberechtigte_13"]},${wk[id]["Gueltige_13_Erst"]},
-  ${wk[id]["Gueltige_13_Zweit"]},${wk[id]["Ungueltige_13_Erst"]},${wk[id]["Ungueltige_13_Zweit"]}), \n`;
-  }
-  return outputString;
+  return outputString.substring(0, outputString.length - 1);
 };
 var wahlkreis17 = data => {
   var outputString = "";
   var wk = data.wahlkreise;
   outputString += "INSERT INTO wahlkreis17 (id, Name, Bundesland, numWahlb, numGueltigeErst, numGueltigeZweit, numUngueltigeErst, numUngueltigeZweit) VALUES "
   for (var id in wk) {
-    outputString += `(${id}, '${wk[id]["Name"]}',${bundeslandToID[wk[id]["Bundesland"]]},${wk[id]["Wahlberechtigte_17"]},${wk[id]["Gueltige_17_Erst"]},
-  ${wk[id]["Gueltige_17_Zweit"]},${wk[id]["Ungueltige_17_Erst"]},${wk[id]["Ungueltige_17_Zweit"]}), \n`;
+    outputString += `(${id},'${wk[id]["Name"]}',${bundeslandToID[wk[id]["Bundesland"]]},${wk[id]["Wahlberechtigte_17"]},${wk[id]["Gueltige_17_Erst"]},${wk[id]["Gueltige_17_Zweit"]},${wk[id]["Ungueltige_17_Erst"]},${wk[id]["Ungueltige_17_Zweit"]}),`;
   }
-  return outputString;
+  return outputString.substring(0, outputString.length - 1);;
 }
+var wahlkreis13 = data => {
+  var outputString = "";
+  var wk = data.wahlkreise;
+  outputString += "INSERT INTO wahlkreis13 (id, Name, Bundesland, numWahlb, numGueltigeErst, numGueltigeZweit, numUngueltigeErst, numUngueltigeZweit) VALUES "
+  for (var id in wk) {
+    outputString += `(${id},'${wk[id]["Name"]}',${bundeslandToID[wk[id]["Bundesland"]]},${wk[id]["Wahlberechtigte_13"]},${wk[id]["Gueltige_13_Erst"]},${wk[id]["Gueltige_13_Zweit"]},${wk[id]["Ungueltige_13_Erst"]},${wk[id]["Ungueltige_13_Zweit"]}),`;
+  }
+  return outputString.substring(0, outputString.length - 1);;
+};
 
 /**
  * Print an input string to the query.sql file
