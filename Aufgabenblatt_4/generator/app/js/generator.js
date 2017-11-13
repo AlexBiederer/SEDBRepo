@@ -16,7 +16,7 @@ var port = 3000;
 
 // Script starts from here after deploying the index.html to the client
 var startHere = () => {
-  printToFile(aggZweit17(dataComplete), null, "sql/aggZweit17.sql");
+  printToFile(aggErst13(dataComplete), null, "sql/aggErst13.sql");
 };
 
 // Returns the index.html and starts the script
@@ -82,12 +82,32 @@ var aggErst17 = data => {
   }
   return outputString.substring(0,outputString.length-1);
 };
+var aggErst13 = data => {
+  var wk = dataComplete.wahlkreise;
+  var outputString = "INSERT INTO aggerst13 (partei,wahlkreis,numstimmen) VALUES ";
+  for (var id in wk) {
+    wk[id].ParteiErgebnisse.forEach((val) => {
+      outputString += `(${parteiToID[val.Partei]},${id},${val.Erststimme_13}),`;
+    });
+  }
+  return outputString.substring(0,outputString.length-1);
+};
 var aggZweit17 = data => {
   var wk = dataComplete.wahlkreise;
   var outputString = "INSERT INTO aggzweit17 (partei,wahlkreis,numstimmen) VALUES ";
   for (var id in wk) {
     wk[id].ParteiErgebnisse.forEach((val) => {
       outputString += `(${parteiToID[val.Partei]},${id},${val.Zweitstimme_17}),`;
+    });
+  }
+  return outputString.substring(0,outputString.length-1);
+};
+var aggZweit13 = data => {
+  var wk = dataComplete.wahlkreise;
+  var outputString = "INSERT INTO aggzweit13 (partei,wahlkreis,numstimmen) VALUES ";
+  for (var id in wk) {
+    wk[id].ParteiErgebnisse.forEach((val) => {
+      outputString += `(${parteiToID[val.Partei]},${id},${val.Zweitstimme_13}),`;
     });
   }
   return outputString.substring(0,outputString.length-1);
