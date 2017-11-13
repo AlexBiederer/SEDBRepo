@@ -22,7 +22,8 @@ DROP TABLE IF EXISTS zweit17;
 
 CREATE TABLE bundesland (
   id integer PRIMARY KEY,
-  name text NOT NULL
+  name text NOT NULL,
+  numEinwoehner integer NOT NULL
 );
 
 CREATE TABLE wahlkreis13 (

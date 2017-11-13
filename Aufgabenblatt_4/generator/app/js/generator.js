@@ -16,7 +16,7 @@ var port = 3000;
 
 // Script starts from here after deploying the index.html to the client
 var startHere = () => {
-  erst17(); //printToFile(aggErst17(dataComplete));
+  erst17_2(); //printToFile(aggErst17(dataComplete));
 };
 
 // Returns the index.html and starts the script
@@ -46,9 +46,25 @@ var erst17 = data => {
       outputString = "";
       console.log(val.partei, val.wahlkreis);
         for (var i = 1; i <= val.sum; i++) {
-          outputString += `,(${val.partei}, ${val.wahlkreis})`;
+          outputString += `,(${val.partei},${val.wahlkreis})`;
         }
       if(val.partei==="0" && val.wahlkreis === "1") outputString = outputString.substring(1, outputString.length);
+      printToFile(outputString, {
+        flag: 'a'
+      });
+    }).on("end", (err) => {
+      //  printToFile(outputString);
+    });
+};
+var erst17_2 = data => {
+  csv().fromFile("./app/csv/aggErst17.csv")
+    .on('json', (val) => {
+      outputString = "";
+      console.log(val.partei, val.wahlkreis);
+        for (var i = 1; i <= val.sum; i++) {
+          outputString += `${val.partei},${val.wahlkreis}\n`;
+        }
+    //  if(val.partei==="0" && val.wahlkreis === "1") outputString = outputString.substring(1, outputString.length);
       printToFile(outputString, {
         flag: 'a'
       });
@@ -70,8 +86,8 @@ var aggErst17 = data => {
 var wahlkreis13 = data => {
   var wk = data.wahlkreise;
   for (var id in wk) {
-    outputString += `(${id}, '${wk[id]["Name"]}', ${bundeslandToID[wk[id]["Bundesland"]]}, ${wk[id]["Wahlberechtigte_13"]}, ${wk[id]["Gueltige_13_Erst"]},
-  ${wk[id]["Gueltige_13_Zweit"]}, ${wk[id]["Ungueltige_13_Erst"]}, ${wk[id]["Ungueltige_13_Zweit"]}), \n`;
+    outputString += `(${id}, '${wk[id]["Name"]}',${bundeslandToID[wk[id]["Bundesland"]]},${wk[id]["Wahlberechtigte_13"]},${wk[id]["Gueltige_13_Erst"]},
+  ${wk[id]["Gueltige_13_Zweit"]},${wk[id]["Ungueltige_13_Erst"]},${wk[id]["Ungueltige_13_Zweit"]}), \n`;
   }
   return outputString;
 };
@@ -80,8 +96,8 @@ var wahlkreis17 = data => {
   var wk = data.wahlkreise;
   outputString += "INSERT INTO wahlkreis17 (id, Name, Bundesland, numWahlb, numGueltigeErst, numGueltigeZweit, numUngueltigeErst, numUngueltigeZweit) VALUES "
   for (var id in wk) {
-    outputString += `(${id}, '${wk[id]["Name"]}', ${bundeslandToID[wk[id]["Bundesland"]]}, ${wk[id]["Wahlberechtigte_17"]}, ${wk[id]["Gueltige_17_Erst"]},
-  ${wk[id]["Gueltige_17_Zweit"]}, ${wk[id]["Ungueltige_17_Erst"]}, ${wk[id]["Ungueltige_17_Zweit"]}), \n`;
+    outputString += `(${id}, '${wk[id]["Name"]}',${bundeslandToID[wk[id]["Bundesland"]]},${wk[id]["Wahlberechtigte_17"]},${wk[id]["Gueltige_17_Erst"]},
+  ${wk[id]["Gueltige_17_Zweit"]},${wk[id]["Ungueltige_17_Erst"]},${wk[id]["Ungueltige_17_Zweit"]}), \n`;
   }
   return outputString;
 }
@@ -93,7 +109,7 @@ var wahlkreis17 = data => {
 var printToFile = (data, options = {
   flag: 'w'
 }) => {
-  fs.writeFileSync("./app/sql/query2.sql", data, options, function(err) {
+  fs.writeFileSync("./app/sql/query3.sql", data, options, function(err) {
     if (err) return console.log(err);
     console.log("The file was successfully saved!");
   });
