@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS zweit17;
 CREATE TABLE bundesland (
   id integer PRIMARY KEY,
   name text NOT NULL,
-  numEinwoehner integer NOT NULL
+  numEinwohner integer NOT NULL
 );
 
 CREATE TABLE wahlkreis13 (
@@ -158,22 +158,22 @@ CREATE TABLE zweit17 (
   wahlkreis integer references wahlkreis17(id)
 );
 /* Einfügen aller bundesländer*/
-INSERT INTO bundesland (id, name) VALUES (1, 'Schleswig-Holstein');
-INSERT INTO bundesland (id, name) VALUES (13, 'Mecklenburg-Vorpommern');
-INSERT INTO bundesland (id, name) VALUES (2, 'Hamburg');
-INSERT INTO bundesland (id, name) VALUES (3, 'Niedersachsen');
-INSERT INTO bundesland (id, name) VALUES (4, 'Bremen');
-INSERT INTO bundesland (id, name) VALUES (12, 'Brandenburg');
-INSERT INTO bundesland (id, name) VALUES (15, 'Sachsen-Anhalt');
-INSERT INTO bundesland (id, name) VALUES (11, 'Berlin');
-INSERT INTO bundesland (id, name) VALUES (5, 'Nordrhein-Westfalen');
-INSERT INTO bundesland (id, name) VALUES (14, 'Sachsen');
-INSERT INTO bundesland (id, name) VALUES (6, 'Hessen');
-INSERT INTO bundesland (id, name) VALUES (16, 'Thüringen');
-INSERT INTO bundesland (id, name) VALUES (7, 'Rheinland-Pfalz');
-INSERT INTO bundesland (id, name) VALUES (9, 'Bayern');
-INSERT INTO bundesland (id, name) VALUES (8, 'Baden-Württemberg');
-INSERT INTO bundesland (id, name) VALUES (10, 'Saarland');
+INSERT INTO bundesland (id, name, numEinwohner) VALUES (1, 'Schleswig-Holstein', 2673803);
+INSERT INTO bundesland (id, name, numEinwohner) VALUES (13, 'Mecklenburg-Vorpommern', 1548400);
+INSERT INTO bundesland (id, name, numEinwohner) VALUES (2, 'Hamburg', 1525090);
+INSERT INTO bundesland (id, name, numEinwohner) VALUES (3, 'Niedersachsen', 7278789);
+INSERT INTO bundesland (id, name, numEinwohner) VALUES (4, 'Bremen', 568510);
+INSERT INTO bundesland (id, name, numEinwohner) VALUES (12, 'Brandenburg', 2391746);
+INSERT INTO bundesland (id, name, numEinwohner) VALUES (15, 'Sachsen-Anhalt', 2145671);
+INSERT INTO bundesland (id, name, numEinwohner) VALUES (11, 'Berlin', 2975745);
+INSERT INTO bundesland (id, name, numEinwohner) VALUES (5, 'Nordrhein-Westfalen', 15707569);
+INSERT INTO bundesland (id, name, numEinwohner) VALUES (14, 'Sachsen', 3914671);
+INSERT INTO bundesland (id, name, numEinwohner) VALUES (6, 'Hessen', 5281198);
+INSERT INTO bundesland (id, name, numEinwohner) VALUES (16, 'Thüringen', 2077901);
+INSERT INTO bundesland (id, name, numEinwohner) VALUES (7, 'Rheinland-Pfalz', 3661245);
+INSERT INTO bundesland (id, name, numEinwohner) VALUES (9, 'Bayern', 11362245);
+INSERT INTO bundesland (id, name, numEinwohner) VALUES (8, 'Baden-Württemberg', 9365001);
+INSERT INTO bundesland (id, name, numEinwohner) VALUES (10, 'Saarland', 899748);
 
 /* Einfügen aller Parteien von 2017*/
 INSERT INTO partei17 (id, name) VALUES (0, 'Christlich Demokratische Union Deutschlands');
