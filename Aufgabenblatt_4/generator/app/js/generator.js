@@ -16,7 +16,7 @@ var port = 3000;
 
 // Script starts from here after deploying the index.html to the client
 var startHere = () => {
-  printToFile(wahlkreis13(dataComplete), null, "sql/wahlkreis13.sql");
+  printToFile(aggErst17(dataComplete), null, "sql/aggErst17.sql");
 };
 
 // Returns the index.html and starts the script
