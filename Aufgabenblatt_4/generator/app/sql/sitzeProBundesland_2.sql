@@ -251,88 +251,36 @@ sl4part2(divisor, bundesland, partei, wert) as
     )
 ),
 
-sitzeProParteiProBLFinal1(bundesland, partei, numSitze) as
-(
-    select sl1.bundesland, sl1.partei, 
-    (
-    	select count(*) 
-        from sl4part1 sl2
-        where sl2.partei = sl1.partei
-        and sl2.bundesland = sl1.bundesland
-        order by wert
-    )
-
-    
-),
-
-sitzeProParteiProBLFinal(bundesland, partei, numSitze) as
-(
-    select sl1.bundesland, sl1.partei, count(*) 
-	from sl4part1 sl1 
-    where sl1.wert > (select min(sl2.wert) from sl4part2 sl2 where sl2.partei = sl1.partei)
-    group by bundesland, partei
-)
-
-select * from sitzeProParteiProBLFinal where partei = 0 order by bundesland
-
-/*
-
-sl4(divisor, bundesland, wert) as (
-	(
-	select 0.5 as divisor, id, numEinwohner/0.5 as wert
-	from bundesland
-	)
-	union
-	(
-	select divisor + 1, id, numEinwohner/(divisor+1) as wert
-	from sl, bundesland
-	where divisor < (select sum(numSitze) from sitzeProParteiUeberhang)
-	and id = bundesland
-	)
-),
-
-sitzeProBLAusgleich (bundesland, numSitze) as 
-( 
-	select bundesland, count(*) 
-	from (
-		select *
-		from sl4
-		order by wert DESC
-		limit (select sum(numSitze) from sitzeProParteiUeberhang)) as tmp
-	group by bundesland
-),
-
-sl5(divisor, partei, bundesland, wert) as (
-	(
-	select 0.5 as divisor, zpb.partei, zpb.bundesland, zpb.numStimmen/0.5 as wert
-	from zweitProBLProPartei zpb
-	)
-	union
-	(
-	select sl.divisor + 1, sl.partei, sl.bundesland, (zpb.numStimmen)/(sl.divisor+1.0) as wert
-	from sl2 sl, zweitProBLProPartei zpb
-	where (divisor < (select numSitze from sitzeProBLAusgleich spba where sl.bundesland = spba.bundesland))
-	and zpb.bundesland = sl.bundesland
-	and zpb.partei = sl.partei
-	)
-),
-
 sitzeProParteiProBLAusgleich(bundesland, partei, numSitze) as
 (
-	select b.id, p.id, 
-	(
-		select count(*) from
-		(
-			select * from sl5 sl
-			where b.id = sl.bundesland
-			order by wert desc
-			limit (select numSitze from sitzeProBLAusgleich spba where spba.bundesland = b.id)
-		) as sllimit
-		where partei = p.id
-	)
-	from bundesland b, partei17 p
+    select distinct b.id, p.id, m3.numMandate + 
+    (
+    	select count(*) 
+        from 
+        (
+            select sl.* 
+            from sl4part1 sl, mandateProParteiProBL m2
+        	where sl.partei = p.id   
+            and sl.partei = m2.partei
+            and sl.bundesland = m2.bundesland
+            and sl.divisor > m2.nummandate
+        	order by sl.wert desc
+        	limit (select spp.numSitze from sitzeProParteiUeberhang spp where spp.partei = p.id) - (m1.numMandate)
+        ) as sllimit
+        where sllimit.partei = p.id
+        and sllimit.bundesland = b.id
+    )
+    from parteiNachHuerde p, bundesland b, mandateProPartei m1, mandateProParteiProBL m3
+    where m1.partei = p.id 
+    and m3.partei = p.id
+    and m3.bundesland = b.id
 )
 
-select sum(numsitze) from sitzeProBLAusgleich;
-
-*/
+--select * from sitzeProParteiProBLAusgleich where partei = 0
+--select * from mandateProParteiProBL order by bundesland, partei 
+--select sum(numsitze) from sitzeProParteiProBLAusgleich 
+select p.name, b.name, s.numsitze 
+from sitzeProParteiProBLAusgleich s, bundesland b, partei17 p
+where s.bundesland = b.id 
+and p.id = s.partei
+order by partei, bundesland 
