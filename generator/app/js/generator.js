@@ -16,7 +16,6 @@ var port = 3000;
 
 // Script starts from here after deploying the index.html to the client
 var startHere = () => {
-  printToFile(aggErst17(dataComplete), null, "sql/aggErst17.sql");
 };
 
 // Returns the index.html and starts the script
@@ -112,7 +111,23 @@ var wahlkreis13 = data => {
   }
   return outputString.substring(0, outputString.length - 1);;
 };
-
+var kandidat17 = data => {
+  printToFile("INSERT INTO kandidat17 (id,titel,vorname,name,geschlecht,gebjahr,gebort,beruf,partei) VALUES ",null,"sql/kandidat17.sql");
+  var id = 0;
+  var partei = "";
+  var titel = "";
+  csv({delimiter:";"}).fromFile("./app/csv/btw17_kandidaten_utf8-korr2.csv")
+    .on("json", val => {
+        outputString = "";
+        partei = parteiToID[val.Wahlkreis_ParteiKurzBez.startsWith("EB:") ? "Übrige" : val.Wahlkreis_ParteiKurzBez ? val.Wahlkreis_ParteiBez : val.Liste_ParteiBez];
+        outputString += val.Titel ? `,(${id},'${val.Titel}','${val.Vorname}','${val.Name}','${val.Geschlecht}',${val.Geburtsjahr},'${val.Geburtsort}','${val.Beruf}',${partei})`
+          : `,(${id},null,'${val.Vorname}','${val.Name}','${val.Geschlecht}',${val.Geburtsjahr},'${val.Geburtsort}','${val.Beruf}',${partei})`
+        if(id===0) printToFile(outputString.substring(1,outputString.length),{flag:'a'},"sql/kandidat17.sql")
+        else printToFile(outputString, {flag:'a'},"sql/kandidat17.sql");
+        id ++;
+    }).on("err", err => console.log(err));
+};
+var direkt17 = data => {};
 /**
  * Print an input string to the query.sql file
  * @param {String} data which shall be printed
