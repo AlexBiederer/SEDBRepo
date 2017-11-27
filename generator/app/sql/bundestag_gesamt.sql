@@ -266,7 +266,7 @@ slSitzeProParteiProBLAusgleich(divisor, bundesland, partei, wert) as (
 	)
 ),
 
--- die Sitzverteilung der Parteien je Bundesland nach verteilen der Ausgleichsmandate
+-- Q1: Die Sitzverteilung der Parteien je Bundesland nach verteilen der Ausgleichsmandate
 sitzeProParteiProBLAusgleich(bundesland, partei, numSitze) as
 (
     select distinct b.id, p.id, m3.numMandate + 
@@ -338,6 +338,7 @@ kandidatenProParteiProBL(bundesland, partei, kandidat) as
     )
 ),
 
+-- Q2: Mitglieder des Bundestages, 
 mitgliederDesBundestags(id, titel, vorname, name, geschlecht, gebjahr, gebort, beruf, wahlslogan, bildurl, partei) as
 (
     select k1.* 
