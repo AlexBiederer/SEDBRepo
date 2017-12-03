@@ -56,4 +56,4 @@ wahlkreisUebersicht(wahlkreis, partei, direktkandidat,
     where pa.wahlkreis = d.wahlkreis
 )
 
-select * from wahlkreisUebersicht' where wahlkreis = ${wahlkreis}` 
+select * from wahlkreisUebersicht where wahlkreis = ${wahlkreis}` 
