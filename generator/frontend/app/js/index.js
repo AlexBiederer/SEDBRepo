@@ -13,11 +13,14 @@ import PieChart from './pieChart';
 import * as d3 from 'd3';
 
 $(function() {
-  let p = new PieChart('#pieRoot', 'db/bundesland', {
-    value: 'sitze',
-    durationInit: 0,
-    durationMouse: 100
-  });
+  setTimeout(function () {
+    $("#divTest").hide();
+    new PieChart('#pieRoot', 'db/bundesland', {
+      value: 'sitze',
+      durationInit: 1000,
+      durationMouse: 100
+    })
+  }, 100);
 
   // fill table Mitglieder
   d3.json("db/mview/bundestagsmitglieder17", data => {
