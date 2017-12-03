@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<!--  <script src="https://code.jquery.com/jquery-1.12.4.js">  </script>
+  <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> -->
+
+  <script src="dist/js/app.js"></script>
+  <title>Wahlinformationssystem</title>
+</head>
+
+<body style="display: none">
+  <div class="container-fluid">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+          <a class="navbar-brand" href="#">Wahlinformationssystem</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active"><a data-toggle="tab" href="#bundestag">Bundestag</a></li>
+            <li><a href="#todo" data-toggle="tab">TODO</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Link</a></li>
+          </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+      </div>
+    </nav>
+
+    <div class="tab-content">
+      <div id="home" class="tab-pane fade">
+
+      </div>
+      <div id="bundestag" class="tab-pane fade in active">
+        <h2>Sitzverteilung im 19. Deutschen Bundestag</h2>
+        <div id="pieRoot"></div>
+
+        <h2>Mitglieder des 19. Deutschen Bundestags</h2>
+        <div class="container">
+          <table  id="membersTable" class="table table-bordered table-hover table">
+            <thead>
+              <tr>
+                <th>Titel</th>
+                <th>Vorname</th>
+                <th>Nachname</th>
+                <th>Geschlecht</th>
+                <th>Gebjahr</th>
+                <th>Partei</th>
+              </tr>
+            </thead>
+            <tbody id="membersTableBody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div id="todo" class="tab-pane fade">
+      <h2>TODO</h2>
+      </div>
+    </div>
+
+
+
+</body>
+
+</html>
