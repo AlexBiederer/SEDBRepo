@@ -14,10 +14,12 @@ const wahlkreisToID = require('../json/wahlkreisToID.json');
 const csv = require('csvtojson');
 const app = express();
 const dbConnector = require('./dbConnector');
-
+const q3 = require('./query/q3');
 
 // Script starts from here after deploying the index.html to the client
-const startHere = () => {};
+const startHere = () => {
+  printToFile(aggErst17(),null,"sql/aggErst17_2");
+};
 
 // Returns the index.html and starts the script
 app.get('/', (req, res) => {
@@ -62,6 +64,7 @@ const aggErst17 = () => {
   let outputString = "INSERT INTO aggerst17 (partei,wahlkreis,numstimmen) VALUES ";
   for (let id in wk) {
     wk[id].ParteiErgebnisse.forEach((val) => {
+      console.log(parteiToID[val.Partei]);
       outputString += `(${parteiToID[val.Partei]},${id},${val.Erststimme_17}),`;
     });
   }
