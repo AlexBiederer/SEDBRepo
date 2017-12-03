@@ -23,6 +23,7 @@ class DB_Connector {
     router.get('/testMitglieder', api.test);
     // Sql query file
     router.get('/query/:file', api.query);
+    router.get('/customQuery/:file', api.customQuery);
     // Materialized view
     router.get('/mview/:name', api.mview);
     return router;
@@ -44,6 +45,23 @@ class DB_Connector {
 
   test(req, res, next) {
       res.sendFile(path.join(__dirname, "..", "sql/testMitglieder.csv"));
+  }
+
+  customQuery(req, res, next){
+    const file = req.params.file;
+    const param = req.query.param.split(',');
+
+    const func = require(`./query/${file}`)(...param);
+    // async/await - check out a client
+    (async () => {
+      const client = await pool.connect();
+      try {
+        const queryRes = await client.query(func);
+        res.send(queryRes.rows);
+      } finally {
+        client.release()
+      }
+    })().catch(e => console.log(e.stack))
   }
 
 
