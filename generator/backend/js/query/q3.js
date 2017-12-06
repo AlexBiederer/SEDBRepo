@@ -55,5 +55,4 @@ wahlkreisUebersicht(wahlkreis, partei, direktkandidat,
     from wahlkreisdetails d, prozUndAbsZweitProParteiProWahlkreis pa
     where pa.wahlkreis = d.wahlkreis
 )
-
 select * from wahlkreisUebersicht where wahlkreis = ${wahlkreis}`
