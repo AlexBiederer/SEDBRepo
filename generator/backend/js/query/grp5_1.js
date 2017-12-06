@@ -2,7 +2,7 @@ module.exports = (agg) => `with wkSiegerStimmen(wk,maxStimmen) as (
 	Select agg1.wahlkreis, max(agg1.numstimmen) as max from ${agg} agg1 group by wahlkreis
 ),
 wkSieger(partei, wk, stimmen) as (
-	Select partei,wk,maxStimmen from wkSiegerStimmen, aggerst17 where wahlkreis = wk and maxStimmen = numstimmen order by partei, wk
+	Select partei,wk,maxStimmen from wkSiegerStimmen, ${agg} where wahlkreis = wk and maxStimmen = numstimmen order by partei, wk
 ),
 wkSiegerPercent(partei,wk,percent) as (
 Select wkS.partei, wkS.wk, Round((wkS.stimmen * 100.0 / wk17.numgueltigeerst),1) as prozent from wkSieger wkS, wahlkreis17 wk17 where wkS.wk = wk17.id

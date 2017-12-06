@@ -56,21 +56,7 @@ module.exports = {
   },
   plugins: debug ? [
     new webpack.IgnorePlugin(/vertx/), // disable es6-promise.auto.min (polyfill) webpack warning
-    new webpack.ProvidePlugin({
-        $: 'jquery',
-        jQuery: 'jquery',
-        'window.jQuery': 'jquery',
-        'window.$': 'jquery',
-        Popper: ['popper.js', 'default']
-      })
   ] : [ // plugins for build mode
-    new webpack.ProvidePlugin({
-        $: 'jquery',
-        jQuery: 'jquery',
-        'window.jQuery': 'jquery',
-        'window.$': 'jquery',
-        Popper: ['popper.js', 'default']
-      }),
     new ExtractTextPlugin({
       filename: '../../dist/css/style.css',
       disable: false,

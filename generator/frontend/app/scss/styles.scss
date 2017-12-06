@@ -1,8 +1,17 @@
 @import 'pieChart';
-
+@import 'jVectorMap';
 body {
   padding: 20px 0;
   padding-top: 4.5rem;
   min-height: 100vh;
   color: #333;
 }
+/* bootstrap hack: fix content width inside hidden tabs
+  neccessary for jVector maps
+*/
+.tab-content > .tab-pane:not(.active) {
+    display: block;
+    height: 0;
+    overflow-y: hidden;
+}
+/* bootstrap hack end */
