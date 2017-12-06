@@ -1,4 +1,4 @@
-module.exports = (wahlkreis) => `with 
+module.exports = (wahlkreis) => `with
 -- Neu Aggregierte Erststimmen 17
 recursive altAggErst17(partei, wahlkreis, numStimmen) as
 (
@@ -47,11 +47,11 @@ mandatProWahlkreis(wahlkreis, partei) as
 ),
 
 wahlkreisDetails(wahlkreis, direktkandidat,
-                   wahlbeteiligung, 
-                   wahlbeteiligungVorj) as 
+                   wahlbeteiligung,
+                   wahlbeteiligungVorj) as
 (
-	select w17.id as wahlkreis, 
-    d.kandidat as direktkandidat, 
+	select w17.id as wahlkreis,
+    d.kandidat as direktkandidat,
     cast (((w17.numgueltigeerst + w17.numungueltigeerst) / cast(w17.numwahlb as float)) * 100 as decimal(18, 2)) as wahlbeteiligung,
     cast (((w13.numgueltigeerst + w13.numungueltigeerst) / cast(w13.numwahlb as float)) * 100 as decimal(18, 2)) as wahlkbeteiligungVorj
     from wahlkreis13 w13, wahlkreis17 w17, mandatProWahlkreis mw, direkt17 d, kandidat17 k
@@ -64,10 +64,10 @@ wahlkreisDetails(wahlkreis, direktkandidat,
 
 prozUndAbsZweitProParteiProWahlkreis(partei, wahlkreis, numStimmenProz, numStimmenAbs, numStimmenProzVorj, numStimmenAbsVorj) as
 (
-	select z17.partei, z17.wahlkreis, 
+	select z17.partei, z17.wahlkreis,
     cast(100 * cast(z17.numStimmen as float)/(w17.numGueltigeZweit + w17.numUngueltigeZweit) as decimal(18, 2)),
     z17.numStimmen,
-    cast(100 * cast(z13.numStimmen as float)/(w13.numGueltigeZweit + w13.numUngueltigeZweit) as decimal(18, 2)), 
+    cast(100 * cast(z13.numStimmen as float)/(w13.numGueltigeZweit + w13.numUngueltigeZweit) as decimal(18, 2)),
     z13.numStimmen
     from altAggZweit17 z17, wahlkreis17 w17, altAggZweit13 z13, wahlkreis13 w13
     where z17.wahlkreis = w17.id
@@ -75,16 +75,16 @@ prozUndAbsZweitProParteiProWahlkreis(partei, wahlkreis, numStimmenProz, numStimm
     and w13.id = z13.wahlkreis
     and z17.partei = z13.partei
 ),
-    
+
 -- Q3 Wahlkreisübersicht
 wahlkreisUebersicht(wahlkreis, partei, direktkandidat,
-                   wahlbeteiligung, 
+                   wahlbeteiligung,
                    diffWahlbeteiligung,
                    numStimmmenProz, numStimmenAbs,
                    diffStimmenProz, diffStimmenAbs) as
 (
-    select d.wahlkreis, pa.partei, d.direktkandidat, 
-    d.wahlbeteiligung, 
+    select d.wahlkreis, pa.partei, d.direktkandidat,
+    d.wahlbeteiligung,
     d.wahlbeteiligung - d.wahlbeteiligungvorj,
     pa.numStimmenProz, pa.numStimmenAbs,
     pa.numstimmenProz - pa.numStimmenProzVorj,
@@ -93,4 +93,4 @@ wahlkreisUebersicht(wahlkreis, partei, direktkandidat,
     where pa.wahlkreis = d.wahlkreis
 )
 
-select * from wahlkreisUebersicht' where wahlkreis = ${wahlkreis}` 
+select * from wahlkreisUebersicht where wahlkreis = ${wahlkreis}` 

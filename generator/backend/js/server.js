@@ -48,7 +48,6 @@ const erst17 = data => {
   csv().fromFile("./csv/aggErst17.csv")
     .on('json', (val) => {
       outputString = "";
-      console.log(val.partei, val.wahlkreis);
       for (let i = 1; i <= val.sum; i++) {
         outputString += `${val.partei},${val.wahlkreis}`;
       }

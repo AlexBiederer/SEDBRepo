@@ -19,7 +19,7 @@ class DB_Connector {
   static createRouter() {
     let router = express.Router();
     let api = new DB_Connector();
-    router.get('/bundesland', api.bundesland);
+    router.get('/:table/', api.table);
     router.get('/testMitglieder', api.test);
     // Sql query file
     router.get('/query/:file', api.query);
@@ -40,7 +40,10 @@ class DB_Connector {
       } finally {
         client.release()
       }
-    })().catch(e => console.log(e.stack))
+    })().catch(e => {
+      res.status(500).send("Materialized view does not exist!");
+      console.log(e.stack);
+    })
   }
 
   test(req, res, next) {
@@ -49,9 +52,9 @@ class DB_Connector {
 
   customQuery(req, res, next){
     const file = req.params.file;
-    const param = req.query.param.split(',');
+    const params = req.query.param ? req.query.param.split(',') : [];
 
-    const func = require(`./query/${file}`)(...param);
+    const func = require(`./query/${file}`)(...params);
     // async/await - check out a client
     (async () => {
       const client = await pool.connect();
@@ -61,7 +64,10 @@ class DB_Connector {
       } finally {
         client.release()
       }
-    })().catch(e => console.log(e.stack))
+    })().catch(e => {
+      res.status(500).send("Custom query failed!");
+      console.log(e.stack);
+    })
   }
 
 
@@ -79,18 +85,20 @@ class DB_Connector {
     })().catch(e => console.log(e.stack))
   }
 
-  bundesland(req, res, next) {
+  table(req, res, next) {
+    const table = req.params.table;
     // async/await - check out a client
     (async () => {
       const client = await pool.connect();
       try {
-        const queryRes = await client.query('SELECT * FROM bundesland WHERE id > $1', [req.query.id || 0]);
-        console.log(queryRes.rows);
+        const queryRes = await client.query(`SELECT * FROM ${table}`);
         res.send(queryRes.rows);
       } finally {
         client.release()
       }
-    })().catch(e => console.log(e.stack))
+    })().catch(e => {
+      res.status(500).send("Table does not exist!");
+      console.log(e.stack)})
   }
 }
 

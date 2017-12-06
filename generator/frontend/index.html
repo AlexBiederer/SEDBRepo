@@ -3,13 +3,27 @@
 
 <head>
   <meta charset="utf-8">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="dist/css/dataTables.min.css">
+  <link rel="stylesheet" href="dist/css/jquery-jvectormap-2.0.3.css">
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <!-- bootstrap 3.3.7 -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- Data Tables -->
+  <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+  <!-- jVector map -->
+  <script src="dist/js/jquery-jvectormap-2.0.3.min.js"></script>
+  <script src="dist/js/jquery-jvectormap-de-merc.js"></script>
 
+  <!-- Main app JS file -->
   <script src="dist/js/app.js"></script>
   <title>Wahlinformationssystem</title>
 </head>
 
-<body style="display: none">
+<body>
   <div class="container-fluid">
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
@@ -22,17 +36,15 @@
         </button>
           <a class="navbar-brand" href="#">Wahlinformationssystem</a>
         </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li class="active"><a data-toggle="tab" href="#bundestag">Bundestag</a></li>
-            <li><a href="#todo" data-toggle="tab">TODO</a></li>
+            <li><a href="#bundesland" data-toggle="tab">Bundesland</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Link</a></li>
+            <li><a href="#">Eigene DB-Anfrage</a></li>
           </ul>
         </div>
-        <!-- /.navbar-collapse -->
       </div>
     </nav>
 
@@ -42,28 +54,19 @@
       </div>
       <div id="bundestag" class="tab-pane fade in active">
         <h2>Sitzverteilung im 19. Deutschen Bundestag</h2>
-        <div id="divTest" style="height:405px; width:510px"></div>
         <div id="pieRoot"></div>
         <h2>Mitglieder des 19. Deutschen Bundestags</h2>
         <div class="container">
           <table id="membersTable" class="table table-bordered table-hover table">
-            <thead>
-              <tr>
-                <th>Titel</th>
-                <th>Vorname</th>
-                <th>Nachname</th>
-                <th>Geschlecht</th>
-                <th>Gebjahr</th>
-                <th>Partei</th>
-              </tr>
-            </thead>
-            <tbody id="membersTableBody">
-            </tbody>
           </table>
         </div>
       </div>
-      <div id="todo" class="tab-pane fade">
-        <h2>TODO</h2>
+      <div id="bundesland" class="tab-pane fade">
+        <h2>Bundesländer</h2>
+        <div id="bundeslandMap" style="width: 500px; height: 500px"></div>
+        <h2>Wahlkreise</h2>
+        <table id="wkTable" class="table table-bordered table-hover table" style="display:none">
+        </table>
       </div>
     </div>
 </body>
