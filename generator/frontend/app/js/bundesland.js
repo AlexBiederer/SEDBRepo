@@ -11,9 +11,9 @@ export default function() {
     onRegionClick: function(event, region) {
       // init data table
       let bundeslandID = bundeslandToID[region.split('-')[1]];
-      if(!dataTable) dataTable = initDataTable("wkTable");
-      dataTable.columns( 1 )
-        .search( bundeslandID )
+      if (!dataTable) dataTable = initDataTable("wkTable");
+      dataTable.columns(2)
+        .search(bundeslandID)
         .draw();
     },
     regionsSelectable: true,
@@ -51,28 +51,37 @@ export default function() {
   });
 
   $.getJSON("db/wahlkreis17", data => {
-      $("#wkTable").append(`
+    $("#wkTable").append(`
     <thead>
     <tr>
+      <th>ID</th>
       <th>Name</th>
       <th>Bundesland</th>
       <th>Wahlberechtigte</th>
+      <th>Gültige Erststimmen</th>
+      <th>Gültige Zweitstimmen</th>
+      <th>Ungültige Erststimmen</th>
+      <th>Ungültige Zweitstimmen</th>
     </tr>
     </thead>
     <tbody id="wkTableBody">
     </tbody>
   `);
-      data.forEach(val => {
-        $("#wkTableBody").append(
-          `
+    data.forEach(val => {
+      $("#wkTableBody").append(
+        `
       <tr>
-
+      <td>${val.id}</td>
       <td>${val.name}</td>
       <td>${val.bundesland}</td>
       <td>${val.numwahlb}</td>
+      <td>${val.numgueltigeerst}</td>
+      <td>${val.numgueltigezweit}</td>
+      <td>${val.numungueltigeerst}</td>
+      <td>${val.numungueltigezweit}</td>
       </tr>
     `
-        );
-      });
+      );
     });
+  });
 }
