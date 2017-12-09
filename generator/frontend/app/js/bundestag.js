@@ -2,7 +2,6 @@ import PieChart from './pieChart';
 import initDataTable from './dataTable';
 
 export default function() {
-
   // create pie chart
   new PieChart('#pieRoot', 'db/bundesland', {
     value: 'sitze',
