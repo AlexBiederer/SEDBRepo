@@ -1,0 +1,64 @@
+$switchOffColor: #ccc;
+$switchOnColor: #2196F3;
+$switchBorderRadius: 1em;
+$switchSize: 0.8;
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: $switchSize * 60px;
+  height: $switchSize * 34px;
+  margin-top: 10px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $switchOffColor;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: $switchSize * 26px;
+  width: $switchSize * 26px;
+  left: $switchSize * 4px;
+  bottom: $switchSize * 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: $switchOnColor;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px $switchOnColor;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX($switchSize * 26px);
+  -ms-transform: translateX($switchSize * 26px);
+  transform: translateX($switchSize * 26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: $switchSize * 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+} 
