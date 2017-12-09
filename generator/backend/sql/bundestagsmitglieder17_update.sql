@@ -1,1 +1,1 @@
-update materialized view bundestagsmitglieder17;
+refresh materialized view bundestagsmitglieder17;
