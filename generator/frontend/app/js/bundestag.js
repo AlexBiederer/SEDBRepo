@@ -9,8 +9,10 @@ export default function() {
     durationMouse: 100
   });
 
+  var checked = $("#cb1:checked").length;
+
   // fill table Mitglieder
-  $.getJSON("db/mview/bundestagsmitglieder17", data => {
+  $.getJSON(checked ? "db/mview/bundestagsmitglieder17" : "db/mview/bundestagsmitglieder17", data => {
     $("#membersTable").append(`
       <thead>
       <tr>
@@ -31,10 +33,10 @@ export default function() {
         <tr>
         <td>${val.titel || ''}</td>
         <td>${val.vorname}</td>
-        <td>${val.nachname}</td>
+        <td>${val.name}</td>
         <td>${val.geschlecht}</td>
         <td>${val.gebjahr}</td>
-        <td>${val.abk}</td>
+        <td>${val.pname}</td>
         </tr>
       `
       );
