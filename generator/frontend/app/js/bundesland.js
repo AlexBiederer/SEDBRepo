@@ -3,21 +3,36 @@ import IDtoBundesland from './IDtoBundesland';
 import bundeslandToID from './bundeslandToID';
 
 export default function() {
-  let selectedWK;
+  let bundeslandID;
   let dataTable;
 
-  $('#bundeslandMap').vectorMap({
+  let map = $('#bundeslandMap').vectorMap({
     map: 'de_merc',
     onRegionClick: function(event, region) {
       // init data table
-      let bundeslandID = bundeslandToID[region.split('-')[1]];
-      if (!dataTable) dataTable = initDataTable("wkTable");
-      dataTable.columns(2)
-        .search(bundeslandID)
-        .draw();
+        var newID = bundeslandToID[region.split('-')[1]];
+
+      if (bundeslandID != newID) {
+          bundeslandID = newID;
+
+          $('#bundeslandMap').vectorMap("get", "mapObject").setSelectedRegions(region);
+
+          dataTable.columns(1)
+              .search(bundeslandID)
+              .draw();
+      }
+      else {
+        bundeslandID = null;
+          $('#bundeslandMap').vectorMap("get", "mapObject").clearSelectedRegions();
+        dataTable.columns(1)
+            .search("")
+            .draw();
+      }
+
+
     },
-    regionsSelectable: true,
-    regionsSelectableOne: true,
+    regionsSelectable: false,
+    regionsSelectableOne: false,
     regionStyle: {
       initial: {
         fill: '#81AC8B'
@@ -51,37 +66,29 @@ export default function() {
   });
 
   $.getJSON("db/wahlkreis17", data => {
-    $("#wkTable").append(`
+      $("#wkTable").append(`
     <thead>
     <tr>
-      <th>ID</th>
       <th>Name</th>
       <th>Bundesland</th>
       <th>Wahlberechtigte</th>
-      <th>Gültige Erststimmen</th>
-      <th>Gültige Zweitstimmen</th>
-      <th>Ungültige Erststimmen</th>
-      <th>Ungültige Zweitstimmen</th>
     </tr>
     </thead>
     <tbody id="wkTableBody">
     </tbody>
   `);
-    data.forEach(val => {
-      $("#wkTableBody").append(
-        `
+      data.forEach(val => {
+        $("#wkTableBody").append(
+          `
       <tr>
-      <td>${val.id}</td>
+
       <td>${val.name}</td>
       <td>${val.bundesland}</td>
       <td>${val.numwahlb}</td>
-      <td>${val.numgueltigeerst}</td>
-      <td>${val.numgueltigezweit}</td>
-      <td>${val.numungueltigeerst}</td>
-      <td>${val.numungueltigezweit}</td>
       </tr>
     `
-      );
+        );
+      })
+      dataTable = initDataTable("wkTable");
     });
-  });
 }
