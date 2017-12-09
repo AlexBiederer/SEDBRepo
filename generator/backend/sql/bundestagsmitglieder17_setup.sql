@@ -44,7 +44,7 @@ create materialized view bundestagsmitglieder17 as
 	mandatProWahlkreis(wahlkreis, partei) as
 	(
 		select agg1.wahlkreis, agg1.partei
-		from aggErst17 agg1 LEFT JOIN aggErst17 agg2
+		from altAggErst17 agg1 LEFT JOIN altAggErst17 agg2
 		on (agg1.wahlkreis = agg2.Wahlkreis and agg1.numStimmen < agg2.numStimmen)
 		where agg2.numStimmen IS NULL
 
@@ -54,13 +54,13 @@ create materialized view bundestagsmitglieder17 as
 	zweiterProWahlkreis(wahlkreis, partei) as
 	(
 		select agg1.wahlkreis, agg1.partei
-		from (select * from aggErst17 a
+		from (select * from altAggErst17 a
 			  where not exists 
 			  (
 				  select * from mandatProWahlkreis w
 				  where w.partei = a.partei 
 				  and w.wahlkreis = a.wahlkreis
-			  )) agg1 LEFT JOIN (select * from aggErst17 a
+			  )) agg1 LEFT JOIN (select * from altAggErst17 a
 			  where not exists 
 			  (
 				  select * from mandatProWahlkreis w
@@ -115,7 +115,7 @@ create materialized view bundestagsmitglieder17 as
 	zweitProBL(bundesland, numStimmen) as 
 	(
 		select w.bundesland, sum(agg.numStimmen) 
-		from aggZweit17 agg, wahlkreis17 w
+		from altAggZweit17 agg, wahlkreis17 w
 		where w.id = agg.wahlkreis
 		group by w.bundesland 
 	),
@@ -125,7 +125,7 @@ create materialized view bundestagsmitglieder17 as
 	zweitProBLProParteiOhneHuerde(bundesland, partei, numStimmen) as 
 	(
 		select w.bundesland, agg.partei, sum(agg.numStimmen) 
-		from aggZweit17 agg, wahlkreis17 w
+		from altAggZweit17 agg, wahlkreis17 w
 		where w.id = agg.wahlkreis
 		group by w.bundesland, agg.partei
 	),

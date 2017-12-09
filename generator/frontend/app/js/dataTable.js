@@ -19,8 +19,8 @@ export default function(id) {
       [0, "asc"]
     ],
     "columnDefs": [{
-      "targets": [1],
-      "visible": false
+      "targets": [0],
+      "visible": true
     }]
   });
 }

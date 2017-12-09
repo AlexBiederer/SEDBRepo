@@ -3,21 +3,36 @@ import IDtoBundesland from './IDtoBundesland';
 import bundeslandToID from './bundeslandToID';
 
 export default function() {
-  let selectedWK;
+  let bundeslandID;
   let dataTable;
 
-  $('#bundeslandMap').vectorMap({
+  let map = $('#bundeslandMap').vectorMap({
     map: 'de_merc',
     onRegionClick: function(event, region) {
       // init data table
-      let bundeslandID = bundeslandToID[region.split('-')[1]];
-      if(!dataTable) dataTable = initDataTable("wkTable");
-      dataTable.columns( 1 )
-        .search( bundeslandID )
-        .draw();
+        var newID = bundeslandToID[region.split('-')[1]];
+
+      if (bundeslandID != newID) {
+          bundeslandID = newID;
+
+          $('#bundeslandMap').vectorMap("get", "mapObject").setSelectedRegions(region);
+
+          dataTable.columns(1)
+              .search(bundeslandID)
+              .draw();
+      }
+      else {
+        bundeslandID = null;
+          $('#bundeslandMap').vectorMap("get", "mapObject").clearSelectedRegions();
+        dataTable.columns(1)
+            .search("")
+            .draw();
+      }
+
+
     },
-    regionsSelectable: true,
-    regionsSelectableOne: true,
+    regionsSelectable: false,
+    regionsSelectableOne: false,
     regionStyle: {
       initial: {
         fill: '#81AC8B'
@@ -73,6 +88,7 @@ export default function() {
       </tr>
     `
         );
-      });
+      })
+      dataTable = initDataTable("wkTable");
     });
 }
