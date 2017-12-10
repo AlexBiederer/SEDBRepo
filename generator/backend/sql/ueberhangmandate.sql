@@ -1,41 +1,4 @@
-with
-
--- Neu Aggregierte Erststimmen 17
-recursive altAggErst17(partei, wahlkreis, numStimmen) as
-(
-	select partei, wahlkreis, count(*)
-    from erst17
-    -- where wahlkreis = <wahlkreis>
-    group by partei, wahlkreis
-),
-
--- Neu Aggregierte Erststimmen 13
-altAggErst13(partei, wahlkreis, numStimmen) as
-(
-	select partei, wahlkreis, count(*)
-    from erst13
-    -- where wahlkreis = <wahlkreis>
-    group by partei, wahlkreis
-),
-
--- Neu Aggregierte Zweitstimmen 17
-altAggZweit17(partei, wahlkreis, numStimmen) as
-(
-	select partei, wahlkreis, count(*)
-    from zweit17
-    -- where wahlkreis = <wahlkreis>
-    group by partei, wahlkreis
-),
-
--- Neu Aggregierte Zweitstimmen 13
-altAggZweit13(partei, wahlkreis, numStimmen) as
-(
-	select partei, wahlkreis, count(*)
-    from zweit13
-    -- where wahlkreis = <wahlkreis>
-    group by partei, wahlkreis
-),
-
+with recursive
 -- Welche Partei hat welchen Wahlkreis gewonnen
 mandatProWahlkreis(wahlkreis, partei) as
 (
@@ -116,13 +79,6 @@ zweitProBL(bundesland, numStimmen) as
 	group by w.bundesland 
 ),
 
--- Anzahl der gesamt abgegebenen Zweitstimmen pro Bundesland 
-zweitGesamt(numStimmen) as 
-(
-    select sum(numStimmen) 
-    from zweitProBL
-),
-
 -- Wie viele Zweitstimmen hat eine Partei pro Bundesland erhalten 
 -- (mit Parteien, welche die Hürde nicht schaffen)
 zweitProBLProParteiOhneHuerde(bundesland, partei, numStimmen) as 
@@ -145,12 +101,12 @@ zweitProParteiOhneHuerde(partei, numStimmen) as
 -- Welche Parteien schaffen beide Hürden?
 parteiNachHuerde(id) as
 (
-    select distinct p.id
-    from partei17 p, zweitProParteiOhneHuerde zpbp, zweitGesamt zpb, mandateProParteiOhneHuerde mpp
-    where p.id = zpbp.partei 
+	select distinct p.id
+    from partei17 p, zweitProBLProParteiOhneHuerde zpbp, zweitProBL zpb, mandateProParteiOhneHuerde mpp
+	where p.id = zpbp.partei 
     and p.id = mpp.partei
     and (((zpbp.numStimmen)/(zpb.numStimmen)) > 0.05
-    or mpp.numMandate >= 3)
+	or mpp.numMandate >= 3)
 ),
 
 -- Wie viele Direktmandate hat jede Partei erhalten
@@ -483,57 +439,6 @@ numUeberhangMandateProParteiProBL(partei, bundesland, numMandate) as
     from minSitzeProParteiProBL ms, sitzeProParteiProBL s
     where s.partei = ms.partei
     and s.bundesland = ms.bundesland
-),
-
-abstandZuSieger(partei, wahlkreis, diffStimmen) as
-(
-	select e1.partei, e1.wahlkreis, e2.numstimmen - e1.numstimmen
-    from aggErst17 e1, aggErst17 e2, mandatProWahlkreis w
-    where e1.wahlkreis = e2.wahlkreis
-    and w.wahlkreis = e2.wahlkreis
-    and w.partei = e2.partei
-),
-
--- Abstand der Sieger zu den jeweils knappsten Konkurrenten
-siegerAbstand(partei, wahlkreis, diffStimmen) as
-(
-	select mw.partei, mw.wahlkreis, e1.numStimmen - e2.numStimmen
-    from mandatProWahlkreis mw, zweiterProWahlkreis zw, aggErst17 e1, aggErst17 e2
-	where mw.partei = e1.partei
-	and mw.wahlkreis = e1.wahlkreis
-    and e1.wahlkreis = e2.wahlkreis
-    and e2.wahlkreis = zw.wahlkreis
-    and e2.partei = zw.partei
-),
-
-abstandTabelle(partei, wahlkreis, diffStimmen, winner) as
-(
-	select az.partei, az.wahlkreis, 
-    (case when az.diffstimmen = 0 then - ae.diffstimmen else az.diffstimmen end), 
-    (case when az.diffstimmen = 0 then 1 else 0 end)
-    from abstandZuSieger az left outer join siegerAbstand ae
-    on az.wahlkreis = ae.wahlkreis
-    and az.partei = ae.partei
-),
-
-sortierteAbstandTabelle(partei, wahlkreis, diffStimmen, rang) as
-(
-	select a.partei, a.wahlkreis, a.diffStimmen,
-    row_number() over(partition by a.partei order by a.winner desc, abs(a.diffStimmen) asc) as rang
-    from abstandTabelle a, direkt17 d, kandidat17 k
-    where k.id = d.kandidat 
-    and k.partei = a.partei
-    and d.wahlkreis = a.wahlkreis
-),
-
--- Q6 Knappste Sieger
-knappsteSieger(partei, wahlkreis, diffStimmen) as
-(
-    select s.partei, s.wahlkreis, s.diffStimmen
-    from sortierteAbstandTabelle s
-    where s.rang <= 10
 )
 
-select * from mitgliederDesBundestags
---select * from knappsteSieger order by partei asc
---select k.partei, count(*) from direkt17 d, kandidat17 k where k.id = d.kandidat group by k.partei order by k.partei
+select * from numUeberhangMandateProParteiProBL

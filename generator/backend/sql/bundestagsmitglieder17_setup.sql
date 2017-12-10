@@ -2,7 +2,7 @@ drop materialized view bundestagsmitglieder17;
 
 create materialized view bundestagsmitglieder17 as
 (
-    with
+with
 
 	-- Neu Aggregierte Erststimmen 17
 	recursive altAggErst17(partei, wahlkreis, numStimmen) as
@@ -119,6 +119,13 @@ create materialized view bundestagsmitglieder17 as
 		where w.id = agg.wahlkreis
 		group by w.bundesland 
 	),
+    
+    	-- Anzahl der gesamt abgegebenen Zweitstimmen pro Bundesland 
+	zweitGesamt(numStimmen) as 
+	(
+		select sum(numStimmen) 
+		from zweitProBL
+	),
 
 	-- Wie viele Zweitstimmen hat eine Partei pro Bundesland erhalten 
 	-- (mit Parteien, welche die Hürde nicht schaffen)
@@ -143,7 +150,7 @@ create materialized view bundestagsmitglieder17 as
 	parteiNachHuerde(id) as
 	(
 		select distinct p.id
-		from partei17 p, zweitProBLProParteiOhneHuerde zpbp, zweitProBL zpb, mandateProParteiOhneHuerde mpp
+		from partei17 p, zweitProParteiOhneHuerde zpbp, zweitGesamt zpb, mandateProParteiOhneHuerde mpp
 		where p.id = zpbp.partei 
 		and p.id = mpp.partei
 		and (((zpbp.numStimmen)/(zpb.numStimmen)) > 0.05
@@ -407,7 +414,6 @@ create materialized view bundestagsmitglieder17 as
 		from kandidat17 k1 
 		 join kandidatenProParteiProBL k2 on k1.id = k2.kandidat
 	)
-	
-	select m.*, p.name as pname from mitgliederDesBundestags m, partei17 p where p.id = m.partei
-);
+
+	select m.*, p.name as pname from mitgliederDesBundestags m, partei17 p where p.id = m.partei);
 
