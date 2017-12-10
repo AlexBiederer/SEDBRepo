@@ -1,0 +1,10 @@
+Test PC Specs:
+Intel Core I7 6600K
+Samsung EVO 500 SSD
+
+Testdauer: 60s
+
+Test 1: n = 10, t = 1s
+Test 2: n = 20, t = 0.5s
+Test 3: n = 50, t = 0.1s
+Test 4: n = 100, t = 0.01s
