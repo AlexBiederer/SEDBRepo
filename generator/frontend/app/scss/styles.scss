@@ -1,11 +1,20 @@
 @import 'pieChart';
 @import 'jVectorMap';
+@import 'loader';
 @import 'toggle-switch';
 body {
   padding: 20px 0;
   padding-top: 4.5rem;
   min-height: 100vh;
   color: #333;
+}
+.topHeader {
+  float: left;
+}
+.switchLabel {
+  float: right;
+  padding-left: 5px;
+  margin-top: 15px;
 }
 /* bootstrap hack: fix content width inside hidden tabs
   neccessary for jVector maps
