@@ -7,6 +7,6 @@ create table zweit17(partei, wahlkreis) as (
 	where numstimmen > 0)
 	union all
 	(select partei, wahlkreis, numstimmen-1 from zweit17withNum where numstimmen > 1))
-	(select partei, wahlkreis from erst17withNum)
+	(select partei, wahlkreis from zweit17withNum)
 
 )
