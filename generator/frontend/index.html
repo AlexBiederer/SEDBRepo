@@ -40,18 +40,10 @@
           <ul class="nav navbar-nav">
             <li class="active"><a data-toggle="tab" href="#bundestag">Bundestag</a></li>
             <li><a href="#bundesland" data-toggle="tab">Bundesland</a></li>
-            <li><a href="#wahlkreis" data-toggle="tab">wahlkreis</a></li>
-
+            <li><a href="#wahlkreis" data-toggle="tab">Wahlkreis</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li>
-              <label class="switch">
-                <input type="checkbox" id="cb1" checked>
-                <span class="slider round"></span>
-              </label>
-            </li>>
-            <li><a for="cb1">Rohdaten verwenden</a></li>>
-            <li><a href="#">Eigene DB-Anfrage</a></li>
+            <li><a href="#">Stimmenabgabe</a></li>
           </ul>
         </div>
       </div>
@@ -63,7 +55,13 @@
 
       </div>
       <div id="bundestag" class="tab-pane fade in active">
-        <h2>Sitzverteilung im 19. Deutschen Bundestag</h2>
+        <h2 class="topHeader">Sitzverteilung im 19. Deutschen Bundestag</h2>
+        <label class="switchLabel" for="cb1">Rohdaten verwenden</label>
+        <label class="switch" id="switch">
+          <input type="checkbox" id="cb1">
+          <span class="slider round"></span>
+        </label>
+        <div class="loader" id="loader"></div>
         <div id="pieRoot"></div>
         <h2>Mitglieder des 19. Deutschen Bundestags</h2>
         <div class="container">
@@ -72,8 +70,36 @@
         </div>
       </div>
       <div id="bundesland" class="tab-pane fade">
-        <h2>Bundesländer</h2>
-        <div id="bundeslandMap" style="width: 500px; height: 500px"></div>
+
+        <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-6"><h2>Bundesländer</h2><div id="bundeslandMap" style="width: 500px; height: 500px"></div></div>
+              <div class="col-md-6"><h2>Wahlkreis-Übersicht</h2>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Mark</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>Jacob</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">3</th>
+                      <td>Larry</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+        </div>
+
         <h2>Wahlkreise</h2>
         <table id="wkTable" class="table table-bordered table-hover table" style="display:none">
         </table>

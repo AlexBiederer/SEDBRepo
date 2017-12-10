@@ -1,26 +1,22 @@
 // @TODO columnDefs müssen der Funktion übergeben werden, da nicht alle tables unsichtbare columns haben
-export default function(id) {
+export default function(id,options) {
+  const tableOptions = Object.assign(DATA_TABLE_DEFAULTS,options);
   // Show table
   $(`#${id}`).show();
   // init data table
-  return $(`#${id}`).DataTable({
-    "language": {
-      "search": "Suche",
-      "paginate": {
-        "first": "Erste",
-        "last": "Letzte",
-        "next": "Nächste",
-        "previous": "Vorherige"
-      },
-      "lengthMenu": "Zeige _MENU_ Einträge",
-      "info": "Zeige _START_ bis _END_ von _TOTAL_ Einträgen",
-    },
-    "order": [
-      [0, "asc"]
-    ],
-    "columnDefs": [{
-      "targets": [0],
-      "visible": true
-    }]
-  });
+  return $(`#${id}`).DataTable(tableOptions);
 }
+
+const DATA_TABLE_DEFAULTS = {
+  "language": {
+    "search": "Suche",
+    "paginate": {
+      "first": "Erste",
+      "last": "Letzte",
+      "next": "Nächste",
+      "previous": "Vorherige"
+    },
+    "lengthMenu": "Zeige _MENU_ Einträge",
+    "info": "Zeige _START_ bis _END_ von _TOTAL_ Einträgen",
+  }
+};
