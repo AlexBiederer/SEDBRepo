@@ -39,20 +39,48 @@ prozUndAbsZweitProParteiProWahlkreis(partei, wahlkreis, numStimmenProz, numStimm
     and z17.partei = z13.partei
 ),
 
--- Q3 Wahlkreisübersicht
+-- Q3 Wahlkreisübersicht 
 wahlkreisUebersicht(wahlkreis, partei, direktkandidat,
                    wahlbeteiligung,
                    diffWahlbeteiligung,
-                   numStimmmenProz, numStimmenAbs,
+                   numStimmenProz, numStimmenAbs,
                    diffStimmenProz, diffStimmenAbs) as
 (
-    select d.wahlkreis, pa.partei, d.direktkandidat,
+    select d.wahlkreis,
+  	p.name,
+    d.direktkandidat,
     d.wahlbeteiligung,
     d.wahlbeteiligung - d.wahlbeteiligungvorj,
-    pa.numStimmenProz, pa.numStimmenAbs,
+    pa.numStimmenProz,
+    pa.numStimmenAbs,
     pa.numstimmenProz - pa.numStimmenProzVorj,
     pa.numStimmenAbs - pa.numStimmenAbsVorj
-    from wahlkreisdetails d, prozUndAbsZweitProParteiProWahlkreis pa
+    from wahlkreisdetails d, prozUndAbsZweitProParteiProWahlkreis pa, partei17 p
     where pa.wahlkreis = d.wahlkreis
+    and p.id = pa.partei
+),
+
+wahlkreisUebersichtMitSonstige(wahlkreis, partei, direktkandidat,
+                   wahlbeteiligung,
+                   diffWahlbeteiligung,
+                   numStimmenProz, numStimmenAbs,
+                   diffStimmenProz, diffStimmenAbs) as
+(
+	(
+        select * from wahlkreisUebersicht
+    	where numStimmenProz >= 5
+    )
+    union
+    (
+        select wahlkreis, 'Sonstige',
+        direktkandidat, wahlbeteiligung, diffwahlbeteiligung, 
+        sum(numStimmenProz),
+        sum(numStimmenAbs),
+        sum(diffStimmenProz),
+        sum(diffStimmenAbs)
+        from wahlkreisUebersicht
+        where numStimmenProz < 5
+        group by wahlkreis, direktkandidat, wahlbeteiligung, diffWahlbeteiligung
+    )
 )
-select * from wahlkreisUebersicht where wahlkreis = ${wahlkreis}`
+select * from wahlkreisUebersichtMitSonstige where wahlkreis = ${wahlkreis}`
