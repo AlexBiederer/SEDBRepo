@@ -1,12 +1,14 @@
 import initDataTable from './dataTable';
 import IDtoBundesland from './IDtoBundesland';
 import bundeslandToID from './bundeslandToID';
+import Wahlkreis from './wahlkreis';
 
 class Bundesland {
 
   constructor() {
     this.initVectorMap();
     this.fillTable();
+    this.wahlkreis = new Wahlkreis();
   }
   // init germany jVector map
   initVectorMap() {
@@ -71,7 +73,7 @@ class Bundesland {
   // fill data table
   fillTable() {
     $.getJSON("db/wahlkreis17", data => {
-          $("#wkTable").append(`
+      $("#wkTable").append(`
         <thead>
           <tr>
             <th>ID</th>
@@ -110,7 +112,7 @@ class Bundesland {
           [0, "asc"]
         ],
         "columnDefs": [{
-          "targets": [0,2],
+          "targets": [0, 2],
           "visible": false
         }]
       });
@@ -118,14 +120,18 @@ class Bundesland {
     });
 
   }
-  initTableClick(){
+  initTableClick() {
+    const that = this;
     let dataTable = this.dataTable;
-    $('#wkTableBody').on('click', 'tr', function () {
+    $('#wkTableBody').on('click', 'tr', function() {
+        const data = dataTable.row(this).data();
+        $.getJSON(`db/customquery/q3?param=${data[0]}`, data => {
+            if(that.wahlkreis.getBarChart(data))that.wahlkreis.getBarChart(data).update(data);
+            $('.navbar-nav a[href="#wahlkreis"]').parent('li').removeClass('disabled');
+            $('.navbar-nav a[href="#wahlkreis"]').tab('show');
+          });
+        });
+    }
 
-        var data = dataTable.row( this ).data();
-        alert( 'You clicked on '+data[0]+'\'s row' );
-    } );
   }
-
-}
-export default Bundesland;
+  export default Bundesland;
