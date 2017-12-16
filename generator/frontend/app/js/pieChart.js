@@ -4,7 +4,7 @@
 */
 import * as d3 from 'd3';
 import Chart from './chart';
-import partyToColor from './partyToColor';
+import parteiToColor from './parteiToColor';
 
 
 class PieChart extends Chart {
@@ -63,7 +63,7 @@ class PieChart extends Chart {
       })
       //  .attr("d", chart.path)
       .attr("fill", function(d) {
-        return partyToColor[+d.data.partei];
+        return parteiToColor[+d.data.partei];
       }).transition().delay(function(d, i) {
         return i * chart.config.durationInit;
       }).duration(chart.config.durationInit)

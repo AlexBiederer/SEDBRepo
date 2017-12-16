@@ -24,9 +24,7 @@ class Bundestag {
         .clear()
         .draw();
       checked = $("#cb1:checked").length;
-      console.log(checked);
       if (checked) {
-        console.log("checked");
         $.getJSON("db/query/bundestagsmitglieder17_update");
       }
       debugger;

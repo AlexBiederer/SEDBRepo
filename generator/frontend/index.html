@@ -38,12 +38,10 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li class="active"><a data-toggle="tab" href="#bundestag">Bundestag</a></li>
+            <li><a data-toggle="tab" href="#bundestag">Bundestag</a></li>
             <li><a href="#bundesland" data-toggle="tab">Bundesland</a></li>
-            <li><a href="#wahlkreis" data-toggle="tab">Wahlkreis</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Stimmenabgabe</a></li>
+            <li class="disabled"><a href="#wahlkreis" data-toggle="tab">Wahlkreis</a></li>
+            <li class="active"><a data-toggle="tab" href="#stimmenAbgabe">Stimmenabgabe</a></li>
           </ul>
         </div>
       </div>
@@ -54,7 +52,7 @@
       <div id="home" class="tab-pane fade">
 
       </div>
-      <div id="bundestag" class="tab-pane fade in active">
+      <div id="bundestag" class="tab-pane fade">
         <h2 class="topHeader">Sitzverteilung im 19. Deutschen Bundestag</h2>
         <label class="switchLabel" for="cb1">Rohdaten verwenden</label>
         <label class="switch" id="switch">
@@ -73,36 +71,88 @@
 
         <div class="container-fluid">
           <div class="row">
-              <div class="col-md-6"><h2>Bundesländer</h2><div id="bundeslandMap" style="width: 500px; height: 500px"></div></div>
-              <div class="col-md-6"><h2>Wahlkreis-Übersicht</h2>
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th scope="col">Name</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>Mark</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>Jacob</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>Larry</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+            <div class="col-md-6">
+              <h2>Bundesländer</h2>
+              <div id="bundeslandMap" style="width: 500px; height: 500px"></div>
+            </div>
+            <div class="col-md-6">
+              <h2>Wahlkreis-Übersicht</h2>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>Larry</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
         <h2>Wahlkreise</h2>
         <table id="wkTable" class="table table-bordered table-hover table" style="display:none">
         </table>
+      </div>
+      <div id="wahlkreis" class="tab-pane fade ">
+        <svg id="barChart" width="960" height="500"></svg>
+      </div>
+      <div id="stimmenAbgabe" class="tab-pane fade in active">
+        <div class="header">
+          <h2>Stimmzettel</h2>
+          <h3>für die Wahl zum Deutschen Bundestag im<h3>
+          <h3 id="wkName"></h3>
+          <h3 id="datum"></h3>
+        </div>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-3 col-md-6">
+              <h2 class="header">Erststimme</h2>
+              <div class="centerAuswahl" id="erstStimme"></div>
+            </div>
+            <div class="col-sm-9 col-md-6">
+              <h2 class="header">Zweitstimme</h2>
+                <div class="centerAuswahl" id="zweitStimme"></div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary btn-block">Bestätigen</button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="sozNrModal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Bitte geben Sie ihre Sozialversicherungsnummer ein</h4>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label for="recipient-name" class="control-label">Sozialversicherungsnummer:</label>
+                    <input type="text" class="form-control" id="sozNrInput">
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+                <button type="button" id="submit" class="btn btn-primary">Bestätigen</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 </body>

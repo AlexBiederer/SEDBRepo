@@ -18,5 +18,7 @@ const DATA_TABLE_DEFAULTS = {
     },
     "lengthMenu": "Zeige _MENU_ Einträge",
     "info": "Zeige _START_ bis _END_ von _TOTAL_ Einträgen",
+    "infoFiltered": "(gefiltert aus _MAX_ Einträgen)",
+     "infoEmpty":   "Zeige 0 bis 0 aus 0 Einträgen",
   }
 };
