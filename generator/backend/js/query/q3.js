@@ -69,6 +69,7 @@ wahlkreisUebersichtMitSonstige(wahlkreis, partei, direktkandidat,
 	(
         select * from wahlkreisUebersicht
     	where numStimmenProz >= 5
+
     )
     union
     (
@@ -82,5 +83,7 @@ wahlkreisUebersichtMitSonstige(wahlkreis, partei, direktkandidat,
         where numStimmenProz < 5
         group by wahlkreis, direktkandidat, wahlbeteiligung, diffWahlbeteiligung
     )
+	order by numStimmenAbs desc
+
 )
 select * from wahlkreisUebersichtMitSonstige where wahlkreis = ${wahlkreis}`
