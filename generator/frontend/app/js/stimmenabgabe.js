@@ -1,3 +1,5 @@
+import parteiToAbk from "./parteiToAbk";
+
 class Stimmenabgabe {
   constructor() {
     $("#datum").html(`am ${this.formatDate(new Date())}`);
@@ -5,50 +7,42 @@ class Stimmenabgabe {
       console.log($('#sozNrInput').val());
       $("#sozNrModal").modal("hide");
     });
+    $("#submitStimme").on("click", _ => {
+      const erstStimme = $('input[name=optionsRadios1]:checked', "#erstStimme").val();
+      const zweitStimme = $('input[name=optionsRadios2]:checked', "#zweitStimme").val();
+      if (erstStimme && zweitStimme) {
+        $.getJSON(`db/customquery/insertErst?param=228,${erstStimme}`, data => {console.log(data)});
+        $.getJSON(`db/customquery/insertZweit?param=228,${zweitStimme}`, data => {console.log(data)});
+      }
+
+    });
     this.renderWahlzettel();
   }
 
   renderWahlzettel() {
-    const dataDirekt = [{
-      id: 0,
-      name: "Herr 1"
-    }, {
-      id: 1,
-      name: "Herr 2"
-    }, {
-      id: 2,
-      name: "Herr 3"
-    }, {
-      id: 3,
-      name: "Herr 4"
-    }];
-    const dataZweit = [{
-      id: 0,
-      name: "CDU"
-    }, {
-      id: 1,
-      name: "SPD"
-    }, {
-      id: 2,
-      name: "Grüne"
-    }, {
-      id: 3,
-      name: "FDP"
-    }];
-    dataDirekt.forEach((v,k) => {
-      $("#erstStimme").append(`<div class="radio">
-    <label >
-      <input type="radio" name="optionsRadios1" id="optionsRadios1" value="option1">
-    ${v.name}</label>
-  </div>`)
-    });
-    dataZweit.forEach((v,k) => {
-      $("#zweitStimme").append(`<div class="radio">
+    $.getJSON("db/customquery/erstKandidaten?param=228", data => {
+      console.log(data);
+      data.forEach((v, k) =>  {
+        $("#erstStimme").append(`<div class="radio">
     <label>
-      <input type="radio" name="optionsRadios2" id="optionsRadios2" value="option1">
-    ${v.name}</label>
+      <input type="radio" name="optionsRadios1" value="${v.pid}">
+    ${v.titel ? v.titel : ''} ${v.vorname}, ${v.name} (${v.partei})</label>
   </div>`)
+      });
     });
+
+    $.getJSON("/db/customquery/zweitParteien?param=228", data => {
+      console.log(data);
+      data.forEach((v, k) =>  {
+        $("#zweitStimme").append(`<div class="radio">
+    <label>
+      <input type="radio" name="optionsRadios2" value="${v.pid}">
+    ${v.pname}</label>
+    <div style="padding-left:20px;">${v.k1name}, ${v.k1vorname}; ${v.k2name}, ${v.k2vorname}; ${v.k3name}, ${v.k3vorname}</div>
+  </div>`)
+      });
+    });
+
 
   }
 
