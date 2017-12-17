@@ -13,6 +13,7 @@ class Stimmenabgabe {
       if (erstStimme && zweitStimme) {
         $.getJSON(`db/customquery/insertErst?param=228,${erstStimme}`, data => {console.log(data)});
         $.getJSON(`db/customquery/insertZweit?param=228,${zweitStimme}`, data => {console.log(data)});
+        alert("Stimme erfolgreich abgespeichert!");
       }
 
     });

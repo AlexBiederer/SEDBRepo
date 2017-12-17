@@ -3,3 +3,4 @@ node_modules/
 query*.*
 wahlD3/
 test*.html
+app.js
