@@ -7,14 +7,14 @@ Die Zuteilung ist zufällig, nur der Wahlkreis muss für jeden Bürger stimmen.
 Alle gültigen (und eindeutigen) Hashwerte werden vor der Verteilung der Codes auf Personen gespeichert, um keinen Rückschluss auf diese treffen zu können.
 Wählen funkioniert nun auf 2 Arten: Konventionell und Online:
 
-## Konventionelle Stimmabgabe
+### Konventionelle Stimmabgabe
 
 Der Wähler betritt das Wahllokal, und muss sich mit Ausweis wie bei dem bisherigen Wahlsystem ausweisen.
 Dann bekommt er zufällig einen Code, in Papierform ausgeteilt (wie bei Wahlunterlagen auch).
 Mit diesem Code kann beim Wahlsystem eine Stimme abgeben: Er scannt es ein, und bekommt alle für seinen Wahlkreis gültigen Kandidaten und Parteien
 angezeigt. Mit der Abgabe seiner Stimme wird der Hashwert seines Codes als ungültig markiert, sodass er nicht noch einmal wählen kann. 
 
-## Online Stimmabgabe
+### Online Stimmabgabe
 
 Zusätzlich zur konventionellen Wahl besteht die Möglichkeit, die Wahl online durchzuführen.
 Der dafür nötige Code wird (wie bisher), per Brief oder auch online angefordert.
