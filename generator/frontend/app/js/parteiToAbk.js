@@ -1,4 +1,5 @@
 export default {
+  "Union": "Union",
   "Christlich Demokratische Union Deutschlands": "CDU",
   "Sozialdemokratische Partei Deutschlands": "SPD",
   "DIE LINKE": "LINKE",

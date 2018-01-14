@@ -1,4 +1,5 @@
 export default {
+  "Union": "#000",
   0: "#000",
   CDU: "#000",
   1: "#DA0013",

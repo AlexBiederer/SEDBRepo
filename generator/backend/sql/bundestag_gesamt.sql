@@ -51,24 +51,24 @@ zweiterProWahlkreis(wahlkreis, partei) as
 (
 	select agg1.wahlkreis, agg1.partei
 	from (select * from aggErst17 a
-          where not exists 
+          where not exists
           (
               select * from mandatProWahlkreis w
-              where w.partei = a.partei 
+              where w.partei = a.partei
               and w.wahlkreis = a.wahlkreis
           )) agg1 LEFT JOIN (select * from aggErst17 a
-          where not exists 
+          where not exists
           (
               select * from mandatProWahlkreis w
-              where w.partei = a.partei 
+              where w.partei = a.partei
               and w.wahlkreis = a.wahlkreis
           )) agg2
 	on (agg1.wahlkreis = agg2.Wahlkreis and agg1.numStimmen < agg2.numStimmen)
 	where agg2.numStimmen IS NULL
 ),
 
--- Wie viele Direktmandate hat eine Partei pro Bundesland gewonnen 
--- (hier nur Parteien enthalten, welche auch etwas erhalten haben) 
+-- Wie viele Direktmandate hat eine Partei pro Bundesland gewonnen
+-- (hier nur Parteien enthalten, welche auch etwas erhalten haben)
 mandateProParteiProBLohne0(bundesland, partei, numMandate) as
 (
     select w.bundesland, mpw.partei, count(*) as numMandate
@@ -77,7 +77,7 @@ mandateProParteiProBLohne0(bundesland, partei, numMandate) as
 	group by bundesland, partei
 ),
 
--- Wie viele Direktmandate hat eine Partei pro Bundesland gewonnen 
+-- Wie viele Direktmandate hat eine Partei pro Bundesland gewonnen
 -- (hier auch Parteien enthalten, welche nicht erhalten haben)
 -- (aber auch Parteien, welche die Hürde nicht schaffen)
 mandateProParteiProBLOhneHuerde(bundesland, partei, numMandate) as
@@ -88,52 +88,52 @@ mandateProParteiProBLOhneHuerde(bundesland, partei, numMandate) as
     	(
          	select * from mandateProParteiProBLohne0 mpppb0
         )
-        union 
+        union
         (
             select b.id as bundesland, p.id as partei, 0 as numMandate
             from partei17 p, bundesland b
-        ) 
+        )
    	) tmp
     group by bundesland, partei
 ),
 
--- Wie viele Direktmandate hat eine Partei insgesamt gewonnen 
+-- Wie viele Direktmandate hat eine Partei insgesamt gewonnen
 -- (hier auch Parteien enthalten, welche nichts erhalten haben)
 -- (aber auch Parteien, welche die Hürde nicht schaffen)
-mandateProParteiOhneHuerde(partei, numMandate) as 
+mandateProParteiOhneHuerde(partei, numMandate) as
 (
 	select partei, sum(nummandate) as numMandate
 	from mandateProParteiProBLOhneHuerde
 	group by partei
 ),
 
--- Anzahl der gesamt abgegebenen Zweitstimmen pro Bundesland 
-zweitProBL(bundesland, numStimmen) as 
+-- Anzahl der gesamt abgegebenen Zweitstimmen pro Bundesland
+zweitProBL(bundesland, numStimmen) as
 (
-	select w.bundesland, sum(agg.numStimmen) 
+	select w.bundesland, sum(agg.numStimmen)
 	from aggZweit17 agg, wahlkreis17 w
 	where w.id = agg.wahlkreis
-	group by w.bundesland 
+	group by w.bundesland
 ),
 
--- Anzahl der gesamt abgegebenen Zweitstimmen pro Bundesland 
-zweitGesamt(numStimmen) as 
+-- Anzahl der gesamt abgegebenen Zweitstimmen pro Bundesland
+zweitGesamt(numStimmen) as
 (
-    select sum(numStimmen) 
+    select sum(numStimmen)
     from zweitProBL
 ),
 
--- Wie viele Zweitstimmen hat eine Partei pro Bundesland erhalten 
+-- Wie viele Zweitstimmen hat eine Partei pro Bundesland erhalten
 -- (mit Parteien, welche die Hürde nicht schaffen)
-zweitProBLProParteiOhneHuerde(bundesland, partei, numStimmen) as 
+zweitProBLProParteiOhneHuerde(bundesland, partei, numStimmen) as
 (
-	select w.bundesland, agg.partei, sum(agg.numStimmen) 
+	select w.bundesland, agg.partei, sum(agg.numStimmen)
 	from aggZweit17 agg, wahlkreis17 w
 	where w.id = agg.wahlkreis
 	group by w.bundesland, agg.partei
 ),
 
--- Wie viele Zweitstimmen hat eine Partei erhalten 
+-- Wie viele Zweitstimmen hat eine Partei erhalten
 -- (mit Parteien, welche die Hürde nicht schaffen)
 zweitProParteiOhneHuerde(partei, numStimmen) as
 (
@@ -147,7 +147,7 @@ parteiNachHuerde(id) as
 (
     select distinct p.id
     from partei17 p, zweitProParteiOhneHuerde zpbp, zweitGesamt zpb, mandateProParteiOhneHuerde mpp
-    where p.id = zpbp.partei 
+    where p.id = zpbp.partei
     and p.id = mpp.partei
     and (((zpbp.numStimmen)/(zpb.numStimmen)) > 0.05
     or mpp.numMandate >= 3)
@@ -162,7 +162,7 @@ mandateProPartei(partei, numMandate) as
 ),
 
 -- Wie viele Direktmandate hat jede Partei pro Bundesland erhalten
-mandateProParteiProBL(bundesland, partei, nummandate) as 
+mandateProParteiProBL(bundesland, partei, nummandate) as
 (
 	select mpbpp.*
     from mandateProParteiProBLOhneHuerde mpbpp, parteiNachHuerde p
@@ -170,7 +170,7 @@ mandateProParteiProBL(bundesland, partei, nummandate) as
 ),
 
 -- Wie viele Zweitstimmen hat jede Partei pro Bundesland erhalten
-zweitProBLProPartei(bundesland, partei, numStimmen) as 
+zweitProBLProPartei(bundesland, partei, numStimmen) as
 (
 	select zpbpp.*
     from zweitProBLProParteiOhneHuerde zpbpp, parteiNachHuerde p
@@ -201,9 +201,9 @@ slSitzeProBL(divisor, bundesland, wert) as (
 ),
 
 -- Wie viele Sitze haben die Bundesländer vorläufig im Bundestag (Auswertung der Saint-Lageue Tabelle)
-sitzeProBL (bundesland, numSitze) as 
-( 
-	select bundesland, count(*) 
+sitzeProBL (bundesland, numSitze) as
+(
+	select bundesland, count(*)
 	from (
 		select *
 		from slSitzeProBL
@@ -232,7 +232,7 @@ slSitzeProParteiProBL(divisor, partei, bundesland, wert) as (
 -- Wie viele Sitze haben die Parteien vorläufig?
 sitzeProParteiProBL(bundesland, partei, numSitze) as
 (
-	select b.id, p.id, 
+	select b.id, p.id,
 	(
 		select count(*) from
 		(
@@ -247,11 +247,11 @@ sitzeProParteiProBL(bundesland, partei, numSitze) as
 ),
 
 -- Wie viele Sitze hat jede Partei mindestens pro Bundesland (maximum aus direktmandaten, und zweitstimmenandteilen)
-minSitzeProParteiProBL(bundesland, partei, numSitze) as 
+minSitzeProParteiProBL(bundesland, partei, numSitze) as
 (
 	select spppb.bundesland, spppb.partei, (case when spppb.numSitze > mpppb.nummandate then spppb.numSitze else mpppb.nummandate end)
     from sitzeProParteiProBL spppb, mandateProParteiProBL mpppb
-    where spppb.partei = mpppb.partei 
+    where spppb.partei = mpppb.partei
     and mpppb.bundesland = spppb.bundesland
 ),
 
@@ -292,7 +292,7 @@ slSitzeProParteiAusgleich(divisor, partei, wert) as (
 -- pro Partei gerade noch erfüllen
 slSitzeProParteiAusgleichFilter(divisor, partei, wert) as
 (
-    select sl1.divisor, sl1.partei, sl1.wert 
+    select sl1.divisor, sl1.partei, sl1.wert
     from slSitzeProParteiAusgleich sl1
     where not exists
     (
@@ -305,11 +305,11 @@ slSitzeProParteiAusgleichFilter(divisor, partei, wert) as
     )
 ),
 
--- Die Anzahl der Sitze Pro Partei nach dem Verteilen von Ausgleichsmandaten 
+-- Die Anzahl der Sitze Pro Partei nach dem Verteilen von Ausgleichsmandaten
 sitzeProParteiAusgleich(partei, numSitze) as
 (
-    select partei, count(*) 
-	from slSitzeProParteiAusgleich 
+    select partei, count(*)
+	from slSitzeProParteiAusgleich
     where wert >= (select min(wert) from slSitzeProParteiAusgleichFilter) -- Alle sitze, dessen Wert größer als der Wert
     -- des letzten für die Einhaltung aller Mindestbedingungen nötigen Sitzes ist
     group by partei
@@ -334,14 +334,14 @@ slSitzeProParteiProBLAusgleich(divisor, bundesland, partei, wert) as (
 -- Q1: Die Sitzverteilung der Parteien je Bundesland nach verteilen der Ausgleichsmandate
 sitzeProParteiProBLAusgleich(bundesland, partei, numSitze) as
 (
-    select distinct b.id, p.id, m3.numMandate + 
+    select distinct b.id, p.id, m3.numMandate +
     (
-    	select count(*) 
-        from 
+    	select count(*)
+        from
         (
-            select sl.* 
+            select sl.*
             from slSitzeProParteiProBLAusgleich sl, mandateProParteiProBL m2
-        	where sl.partei = p.id   
+        	where sl.partei = p.id
             and sl.partei = m2.partei
             and sl.bundesland = m2.bundesland
             and sl.divisor > m2.nummandate -- Nur die Sitze Werden Betrachtet, welche nach dem Erfüllen der Mindestmandate erst vergeben werden
@@ -352,7 +352,7 @@ sitzeProParteiProBLAusgleich(bundesland, partei, numSitze) as
         and sllimit.bundesland = b.id
     )
     from parteiNachHuerde p, bundesland b, mandateProPartei m1, mandateProParteiProBL m3
-    where m1.partei = p.id 
+    where m1.partei = p.id
     and m3.partei = p.id
     and m3.bundesland = b.id
 ),
@@ -375,19 +375,19 @@ listenKandProParteiProBlOhneDirekt(kandidat, bundesland, partei, platz) as
     row_number () over (
     	partition by l.partei, l.bundesland
         order by l.platz
-    ) as platz from liste17 l 
-    where not exists 
+    ) as platz from liste17 l
+    where not exists
     (
-        select * 
+        select *
         from direktKandProParteiProBL b
-        where l.kandidat = b.kandidat 
+        where l.kandidat = b.kandidat
     )
 ),
 
 -- Welche Kandidaten sind jetzt insgesamt im Bundestag?
 kandidatenProParteiProBL(bundesland, partei, kandidat) as
 (
-	select l.bundesland, l.partei, l.kandidat 
+	select l.bundesland, l.partei, l.kandidat
     from listenKandProParteiProBlOhneDirekt l
     where platz <= (
         select (g.numSitze - m.numMandate) as dif
@@ -397,26 +397,26 @@ kandidatenProParteiProBL(bundesland, partei, kandidat) as
         and g.partei = l.partei
         and g.bundesland = l.bundesland
     )
-    union 
+    union
     (
     	select * from direktKandProParteiProBL
     )
 ),
 
--- Q2: Mitglieder des Bundestages, 
+-- Q2: Mitglieder des Bundestages,
 mitgliederDesBundestags(id, titel, vorname, name, geschlecht, gebjahr, gebort, beruf, wahlslogan, bildurl, partei) as
 (
-    select k1.* 
-    from kandidat17 k1 
+    select k1.*
+    from kandidat17 k1
      join kandidatenProParteiProBL k2 on k1.id = k2.kandidat
 ),
 
 wahlkreisDetails(wahlkreis, direktkandidat,
-                   wahlbeteiligung, 
-                   wahlbeteiligungVorj) as 
+                   wahlbeteiligung,
+                   wahlbeteiligungVorj) as
 (
-	select w17.id as wahlkreis, 
-    d.kandidat as direktkandidat, 
+	select w17.id as wahlkreis,
+    d.kandidat as direktkandidat,
     cast (((w17.numgueltigeerst + w17.numungueltigeerst) / cast(w17.numwahlb as float)) * 100 as decimal(18, 2)) as wahlbeteiligung,
     cast (((w13.numgueltigeerst + w13.numungueltigeerst) / cast(w13.numwahlb as float)) * 100 as decimal(18, 2)) as wahlkbeteiligungVorj
     from wahlkreis13 w13, wahlkreis17 w17, mandatProWahlkreis mw, direkt17 d, kandidat17 k
@@ -429,10 +429,10 @@ wahlkreisDetails(wahlkreis, direktkandidat,
 
 prozUndAbsZweitProParteiProWahlkreis(partei, wahlkreis, numStimmenProz, numStimmenAbs, numStimmenProzVorj, numStimmenAbsVorj) as
 (
-	select z17.partei, z17.wahlkreis, 
+	select z17.partei, z17.wahlkreis,
     cast(100 * cast(z17.numStimmen as float)/(w17.numGueltigeZweit + w17.numUngueltigeZweit) as decimal(18, 2)),
     z17.numStimmen,
-    cast(100 * cast(z13.numStimmen as float)/(w13.numGueltigeZweit + w13.numUngueltigeZweit) as decimal(18, 2)), 
+    cast(100 * cast(z13.numStimmen as float)/(w13.numGueltigeZweit + w13.numUngueltigeZweit) as decimal(18, 2)),
     z13.numStimmen
     from aggZweit17 z17, wahlkreis17 w17, aggZweit13 z13, wahlkreis13 w13
     where z17.wahlkreis = w17.id
@@ -440,16 +440,16 @@ prozUndAbsZweitProParteiProWahlkreis(partei, wahlkreis, numStimmenProz, numStimm
     and w13.id = z13.wahlkreis
     and z17.partei = z13.partei
 ),
-    
+
 -- Q3 Wahlkreisübersicht
 wahlkreisUebersicht(wahlkreis, partei, direktkandidat,
-                   wahlbeteiligung, 
+                   wahlbeteiligung,
                    diffWahlbeteiligung,
                    numStimmmenProz, numStimmenAbs,
                    diffStimmenProz, diffStimmenAbs) as
 (
-    select d.wahlkreis, pa.partei, d.direktkandidat, 
-    d.wahlbeteiligung, 
+    select d.wahlkreis, pa.partei, d.direktkandidat,
+    d.wahlbeteiligung,
     d.wahlbeteiligung - d.wahlbeteiligungvorj,
     pa.numStimmenProz, pa.numStimmenAbs,
     pa.numstimmenProz - pa.numStimmenProzVorj,
@@ -473,7 +473,7 @@ wahlkreisSieger(wahlkreis, siegerErst, siegerZweit) as
 (
 	select mw.wahlkreis, mw.partei, zs.partei
     from mandatProWahlkreis mw, zweitSiegerProWahlkreis zs
-    where zs.wahlkreis = mw.wahlkreis 
+    where zs.wahlkreis = mw.wahlkreis
 ),
 
 -- Q5: Überhangmandate
@@ -508,8 +508,8 @@ siegerAbstand(partei, wahlkreis, diffStimmen) as
 
 abstandTabelle(partei, wahlkreis, diffStimmen, winner) as
 (
-	select az.partei, az.wahlkreis, 
-    (case when az.diffstimmen = 0 then - ae.diffstimmen else az.diffstimmen end), 
+	select az.partei, az.wahlkreis,
+    (case when az.diffstimmen = 0 then - ae.diffstimmen else az.diffstimmen end),
     (case when az.diffstimmen = 0 then 1 else 0 end)
     from abstandZuSieger az left outer join siegerAbstand ae
     on az.wahlkreis = ae.wahlkreis
@@ -521,7 +521,7 @@ sortierteAbstandTabelle(partei, wahlkreis, diffStimmen, rang) as
 	select a.partei, a.wahlkreis, a.diffStimmen,
     row_number() over(partition by a.partei order by a.winner desc, abs(a.diffStimmen) asc) as rang
     from abstandTabelle a, direkt17 d, kandidat17 k
-    where k.id = d.kandidat 
+    where k.id = d.kandidat
     and k.partei = a.partei
     and d.wahlkreis = a.wahlkreis
 ),
