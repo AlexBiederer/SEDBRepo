@@ -4,6 +4,7 @@
  */
 const express = require('express');
 const port = 3000;
+const host = '0.0.0.0';
 const fs = require('fs');
 const path = require('path');
 const dataComplete = require('../json/complete.json');
@@ -35,7 +36,7 @@ app.use(express.static(path.join(__dirname, '../..', 'frontend')));
 // DB REST endpoint
 app.use('/db', dbConnector.DB_Connector.createRouter());
 // Specify port for listening of the web-server
-app.listen(port, () => console.log(`Generator is listening on port ${port}!`));
+app.listen(port, host, () => console.log(`Generator is listening on port ${port}!`));
 
 
 /**
@@ -63,7 +64,6 @@ const aggErst17 = () => {
   let outputString = "INSERT INTO aggerst17 (partei,wahlkreis,numstimmen) VALUES ";
   for (let id in wk) {
     wk[id].ParteiErgebnisse.forEach((val) => {
-      console.log(parteiToID[val.Partei]);
       outputString += `(${parteiToID[val.Partei]},${id},${val.Erststimme_17}),`;
     });
   }

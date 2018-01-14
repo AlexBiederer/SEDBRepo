@@ -111,11 +111,6 @@ class BarChart {
       return parteiToAbk[d.partei];
     }));
     this.x1.domain(this.keys).rangeRound([0, this.x0.bandwidth()]);
-    console.log(d3.max(data, function(d) {
-      return d3.max(that.keys, function(key) {
-        return +d[key];
-      })
-    }));
     this.y.domain([0, 10 + d3.max(data, function(d) {
       return d3.max(this.keys, function(key) {
         return +d[key];
