@@ -64,7 +64,6 @@ const aggErst17 = () => {
   let outputString = "INSERT INTO aggerst17 (partei,wahlkreis,numstimmen) VALUES ";
   for (let id in wk) {
     wk[id].ParteiErgebnisse.forEach((val) => {
-      console.log(parteiToID[val.Partei]);
       outputString += `(${parteiToID[val.Partei]},${id},${val.Erststimme_17}),`;
     });
   }
