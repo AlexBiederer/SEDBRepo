@@ -5,6 +5,7 @@
 import * as d3 from 'd3';
 import Chart from './chart';
 import parteiToColor from './parteiToColor';
+import parteiToAbk from './parteiToAbk';
 
 
 class PieChart extends Chart {
@@ -26,12 +27,24 @@ class PieChart extends Chart {
     this.label = d3.arc()
       .outerRadius(this.radius + 100)
       .innerRadius(100);
-    d3.csv("bundestag.csv", data => this.render(data));
+    d3.json("db/query/bundestag_sitze", data => this.render(data));
   }
   render(data) {
+    const union = {partei: "Union", name: "Union", abk: "Union", sitze: 0 };
+    const data2 = [];
+    data.forEach(d => {
+      d.abk = parteiToAbk[d.name];
+      if(d.partei === 0 || d.partei === 4) { // CDU or CSU
+        union.sitze += +d.sitze;
+      } else {
+        data2.push(d);
+      }
+    });
+    // Add "union"
+    data2.unshift(union);
     const chart = this;
     let arc = chart.innerSVG.selectAll(".arc")
-      .data(chart.pie(data))
+      .data(chart.pie(data2))
       .enter().append("g")
       .attr("class", "arc");
 
