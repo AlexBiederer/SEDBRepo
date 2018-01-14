@@ -39,8 +39,8 @@ prozUndAbsZweitProParteiProWahlkreis(partei, wahlkreis, numStimmenProz, numStimm
     and z17.partei = z13.partei
 ),
 
--- Q3 Wahlkreisübersicht 
-wahlkreisUebersicht(wahlkreis, partei, direktkandidat,
+-- Q3 Wahlkreisübersicht
+wahlkreisUebersicht(wahlkreis, partei, parteiID, direktkandidat,
                    wahlbeteiligung,
                    diffWahlbeteiligung,
                    numStimmenProz, numStimmenAbs,
@@ -48,6 +48,7 @@ wahlkreisUebersicht(wahlkreis, partei, direktkandidat,
 (
     select d.wahlkreis,
   	p.name,
+		p.id,
     d.direktkandidat,
     d.wahlbeteiligung,
     d.wahlbeteiligung - d.wahlbeteiligungvorj,
@@ -60,7 +61,7 @@ wahlkreisUebersicht(wahlkreis, partei, direktkandidat,
     and p.id = pa.partei
 ),
 
-wahlkreisUebersichtMitSonstige(wahlkreis, partei, direktkandidat,
+wahlkreisUebersichtMitSonstige(wahlkreis, partei, parteiID, direktkandidat,
                    wahlbeteiligung,
                    diffWahlbeteiligung,
                    numStimmenProz, numStimmenAbs,
@@ -73,8 +74,8 @@ wahlkreisUebersichtMitSonstige(wahlkreis, partei, direktkandidat,
     )
     union
     (
-        select wahlkreis, 'Sonstige',
-        direktkandidat, wahlbeteiligung, diffwahlbeteiligung, 
+        select wahlkreis, 'Sonstige', ${Number.MAX_SAFE_INTEGER},
+        direktkandidat, wahlbeteiligung, diffwahlbeteiligung,
         sum(numStimmenProz),
         sum(numStimmenAbs),
         sum(diffStimmenProz),
@@ -86,4 +87,4 @@ wahlkreisUebersichtMitSonstige(wahlkreis, partei, direktkandidat,
 	order by numStimmenAbs desc
 
 )
-select * from wahlkreisUebersichtMitSonstige where wahlkreis = ${wahlkreis}`
+select * from wahlkreisUebersichtMitSonstige where wahlkreis = ${wahlkreis} order by parteiID`
