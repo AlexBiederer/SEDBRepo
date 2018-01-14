@@ -7,8 +7,10 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="dist/css/dataTables.min.css">
   <link rel="stylesheet" href="dist/css/jquery-jvectormap-2.0.3.css">
+
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
   <!-- bootstrap 3.3.7 -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <!-- Data Tables -->
@@ -120,39 +122,54 @@
           <div class="row">
             <div class="col-sm-3 col-md-6">
               <h2 class="header">Erststimme</h2>
+                <button type="button" id="erstUngueltig" class="btn btn-danger btn-block" >Ungültig stimmen</button>
               <div class="centerAuswahl" id="erstStimme"></div>
+
             </div>
             <div class="col-sm-9 col-md-6">
               <h2 class="header">Zweitstimme</h2>
+                <button type="button" id="zweitUngueltig" class="btn btn-danger btn-block" >Ungültig stimmen</button>
                 <div class="centerAuswahl" id="zweitStimme"></div>
+
             </div>
           </div>
         </div>
         <button type="button" id="submitStimme" class="btn btn-primary btn-block">Bestätigen</button>
 
         <!-- Modal -->
-        <div class="modal fade" id="sozNrModal" tabindex="-1" role="dialog">
+        <div class="modal fade" id="modalStimmeAbgegeben" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Bitte geben Sie ihre Sozialversicherungsnummer ein</h4>
+                <h4 class="modal-title" id="exampleModalLabel">Stimmenabgabe</h4>
               </div>
               <div class="modal-body">
-                <form>
-                  <div class="form-group">
-                    <label for="recipient-name" class="control-label">Sozialversicherungsnummer:</label>
-                    <input type="text" class="form-control" id="sozNrInput">
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
-                <button type="button" id="submit" class="btn btn-primary">Bestätigen</button>
+                <span>Ihre Stimme wurde erfolgreich abgespeichert!</span>
               </div>
             </div>
           </div>
         </div>
+
+        <!-- Warning modal -->
+        <!-- Modal -->
+        <div class="modal fade" id="warningStimmenAbgabe" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Warnung</h4>
+              </div>
+              <div class="modal-body">
+              </div>
+              <div class="modal-footer">
+                <button type="button" id="submit" class="btn btn-danger">Ungültig abstimmen</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 </body>
