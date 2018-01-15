@@ -1,4 +1,6 @@
-// @TODO columnDefs müssen der Funktion übergeben werden, da nicht alle tables unsichtbare columns haben
+/**
+* Data Table
+*/
 export default function(id,options) {
   const tableOptions = Object.assign(DATA_TABLE_DEFAULTS,options);
   // Show table
@@ -6,7 +8,7 @@ export default function(id,options) {
   // init data table
   return $(`#${id}`).DataTable(tableOptions);
 }
-
+// Default option values
 const DATA_TABLE_DEFAULTS = {
   "language": {
     "search": "Suche",
