@@ -5,7 +5,8 @@ import Wahlkreis from './wahlkreis';
 
 class Bundesland {
 
-  constructor() {
+  constructor(router) {
+    this.router = router;
     this.initVectorMap();
     this.fillTable();
     this.wahlkreis = new Wahlkreis();
@@ -80,11 +81,6 @@ class Bundesland {
             <th>Name</th>
             <th>BundeslandID</th>
             <th>Bundesland</th>
-            <th>Wahlberechtigte</th>
-            <th>Gültige Erststimmen</th>
-            <th>Gültige Zweitstimmen</th>
-            <th>Ungültige Erststimmen</th>
-           <th>Ungültige Zweitstimmen</th>
           </tr>
         </thead>
         <tbody id="wkTableBody">
@@ -98,11 +94,7 @@ class Bundesland {
       <td>${val.name}</td>
       <td>${val.bundesland}</td>
       <td>${IDtoBundesland[val.bundesland]}</td>
-      <td>${val.numwahlb}</td>
-      <td>${val.numgueltigeerst}</td>
-      <td>${val.numgueltigezweit}</td>
-      <td>${val.numungueltigeerst}</td>
-      <td>${val.numungueltigezweit}</td>
+
       </tr>
     `
         );
@@ -124,14 +116,32 @@ class Bundesland {
     const that = this;
     let dataTable = this.dataTable;
     $('#wkTableBody').on('click', 'tr', function() {
-        const data = dataTable.row(this).data();
-        $.getJSON(`db/customquery/q3?param=${data[0]}`, data => {
-            if(that.wahlkreis.getBarChart(data))that.wahlkreis.getBarChart(data).update(data);
-            $('.navbar-nav a[href="#wahlkreis"]').parent('li').removeClass('disabled');
-            $('.navbar-nav a[href="#wahlkreis"]').tab('show');
-          });
-        });
-    }
+      const data = dataTable.row(this).data();
+      const wkID = data[0];
+      that.updateBarChart(wkID);
+    });
+  }
 
+  updateBarChart(wkID) {
+    const that = this;
+    $.getJSON(`db/customquery/q3?param=${wkID}`, data => {
+        $.getJSON(`db/customquery/wkDetails?param=${wkID}`, data2 => {
+          $("#wkDetails").html(`
+              <tr>
+              <td>${data2[0].numwahlb}</td>
+              <td>${data2[0].numgueltigeerst}</td>
+              <td>${data2[0].numgueltigezweit}</td>
+              <td>${data2[0].numungueltigeerst}</td>
+              <td>${data2[0].numungueltigezweit}</td>
+              </tr>
+          `);
+          $("#wahlkreis #wkHeader").html(`Wahlkreis ${wkID} - ${data[0].wkname}`);
+          const barChart = that.wahlkreis.getBarChart(data, data2, that.router);
+          if (barChart) barChart.update(data, data2);
+          $('.navbar-nav a[href="#wahlkreis"]').parent('li').removeClass('disabled');
+          that.router.navigate(`/wahlkreis`);
+        });
+      });
+    }
   }
   export default Bundesland;
