@@ -25,12 +25,16 @@ class Bundestag {
         .draw();
       checked = $("#cb1:checked").length;
       if (checked) {
-        $.getJSON("db/query/bundestagsmitglieder17_update");
+        console.log("Checked");
+        $.getJSON("db/query/bundestagsmitglieder17_update", _ => {
+          this.dataTable.clear().draw();
+          this.fillTable();
+        });
+      } else {
+        console.log("not Checked");
+        this.dataTable.clear().draw();
+        this.fillTable();
       }
-      debugger;
-      this.dataTable.clear().draw();
-
-      this.fillTable();
     }.bind(this));
   }
 
@@ -96,8 +100,6 @@ class Bundestag {
         )[0]);
 
       });
-      console.log("fillTable2");
-
       this.dataTable.rows.add(tmparray).draw();
       this.dataTable.columns.adjust().draw()
       $("#loader").hide();
