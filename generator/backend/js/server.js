@@ -4,7 +4,8 @@
  */
 const express = require('express');
 const port = 3000;
-const host = '0.0.0.0';
+const host = "localhost";
+// '0.0.0.0';
 const fs = require('fs');
 const path = require('path');
 const dataComplete = require('../json/complete.json');
