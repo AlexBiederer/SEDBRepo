@@ -4,11 +4,11 @@ class Stimmenabgabe {
   constructor() {
     $("#datum").html(`am ${this.formatDate(new Date())}`);
     this.initBtns();
-    this.renderWahlzettel();
   }
-  //   $("#submitStimme").on("click", _ => {
-  //   this.renderWahlzettel();
-  // }
+
+  update(params) {
+      this.renderWahlzettel(params.wk);
+  }
 
   initBtns() {
     // erstimme ungueltig machen
@@ -31,7 +31,6 @@ class Stimmenabgabe {
       $("#warningStimmenAbgabe .modal-body").html(warningBody);
 
       if (erstStimme && zweitStimme) { // beide stimmen gültig
-        //    $.getJSON(`db/customquery/insertVoteSecure?param=228,${erstStimme}`, data => {console.log(data)});
         $("#modalStimmeAbgegeben").modal("show");
 
       } else { // mind. eine Stimme ungültig
@@ -57,8 +56,12 @@ class Stimmenabgabe {
     return warningText;
   }
 
-  renderWahlzettel() {
-    $.getJSON("db/customquery/erstKandidaten?param=228", data => {
+  renderWahlzettel(wk) {
+    $.getJSON(`db/customquery/erstKandidaten?param=${wk}`, data => {
+      // Update stimmzettel header
+      $("#wkName").html(`im Wahlkreis ${wk} - ${data[0].wkname}`);
+      // reset HTMl
+      $("#erstStimme").html("");
       data.forEach((v, k) =>  {
         $("#erstStimme").append(`<div class="radio">
     <label>
@@ -68,8 +71,9 @@ class Stimmenabgabe {
       });
     });
 
-    $.getJSON("/db/customquery/zweitParteien?param=228", data => {
-      console.log(data);
+    $.getJSON(`/db/customquery/zweitParteien?param=${wk}`, data => {
+      // reset HTMl
+      $("#zweitStimme").html("");
       data.forEach((v, k) =>  {
         $("#zweitStimme").append(`<div class="radio">
     <label>
