@@ -40,10 +40,10 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a data-toggle="tab" href="#bundestag">Bundestag</a></li>
-            <li><a href="#bundesland" data-toggle="tab">Bundesland</a></li>
+            <li class="active"><a data-toggle="tab" href="#bundestag">Bundestag</a></li>
+            <li><a href="#bundesland" data-toggle="tab" >Bundesland</a></li>
             <li class="disabled"><a href="#wahlkreis" data-toggle="tab">Wahlkreis</a></li>
-            <li class="active"><a data-toggle="tab" href="#stimmenAbgabe">Stimmenabgabe</a></li>
+            <li><a data-toggle="tab" href="#stimmenAbgabe">Stimmenabgabe</a></li>
           </ul>
         </div>
       </div>
@@ -51,10 +51,8 @@
 
 
     <div class="tab-content">
-      <div id="home" class="tab-pane fade">
-
-      </div>
-      <div id="bundestag" class="tab-pane fade">
+      <!-- Bundestag tab -->
+      <div id="bundestag" class="tab-pane fade in active">
         <h2 class="topHeader">Sitzverteilung im 19. Deutschen Bundestag</h2>
         <label class="switchLabel" for="cb1">Rohdaten verwenden</label>
         <label class="switch" id="switch">
@@ -63,59 +61,55 @@
         </label>
         <div class="loader" id="loader"></div>
         <div id="pieRoot"></div>
+        <hr>
+
         <h2>Mitglieder des 19. Deutschen Bundestags</h2>
         <div class="container">
           <table id="membersTable" class="table table-bordered table-hover table">
           </table>
         </div>
       </div>
+      <!-- Bundesland Tab -->
       <div id="bundesland" class="tab-pane fade">
-
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
               <h2>Bundesländer</h2>
-              <div id="bundeslandMap" style="width: 500px; height: 500px"></div>
+              <div id="bundeslandMap" style="width: 300px; height: 485px"></div>
             </div>
-            <div class="col-md-6">
-              <h2>Wahlkreis-Übersicht</h2>
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Name</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                  </tr>
-                </tbody>
+            <div class="col-md-8">
+              <h2>Wahlkreise</h2>
+              <table id="wkTable" class="table table-bordered table-hover table" style="display:none">
               </table>
             </div>
           </div>
         </div>
 
-        <h2>Wahlkreise</h2>
-        <table id="wkTable" class="table table-bordered table-hover table" style="display:none">
-        </table>
       </div>
+      <!-- Wahlkreis Tab -->
       <div id="wahlkreis" class="tab-pane fade ">
+        <h2 id="wkHeader">Wahlkreis ###</h2>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Wahlberechtigte</th>
+              <th>Gültige Erststimmen</th>
+              <th>Gültige Zweitstimmen</th>
+              <th>Ungültige Erststimmen</th>
+              <th>Ungültige Zweitstimmen</th>
+            </tr>
+          </thead>
+          <tbody id="wkDetails">
+          </tbody>
+        </table>
         <svg id="barChart" width="960" height="500"></svg>
       </div>
-      <div id="stimmenAbgabe" class="tab-pane fade in active">
+      <!-- Stimmenabgabe Tab -->
+      <div id="stimmenAbgabe" class="tab-pane fade">
         <div class="header">
           <h2>Stimmzettel</h2>
           <h3>für die Wahl zum Deutschen Bundestag<h3>
-          <h3 id="wkName">im Wahlkreis 228 - Landshut</h3>
+          <h3 id="wkName"></h3>
           <h3 id="datum"></h3>
         </div>
         <div class="container-fluid">
@@ -163,7 +157,7 @@
               <div class="modal-body">
               </div>
               <div class="modal-footer">
-                <button type="button" id="submit" class="btn btn-danger">Ungültig abstimmen</button>
+                <button type="button" id="submit" class="btn btn-danger">Bestätigen</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
               </div>
             </div>
