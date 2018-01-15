@@ -1,6 +1,6 @@
 const express = require("express");
 const pg = require('pg');
-const connectionString = 'postgresql://localhost/wahlschema';
+const connectionString = 'postgresql://postgres: @localhost/wahlschema';
 const fs = require('fs');
 const path = require('path');
 const pool = new pg.Pool({
@@ -26,7 +26,9 @@ class DB_Connector {
     router.get('/customQuery/:file', api.customQuery);
     // Materialized view
     router.get('/mview/:name', api.mview);
-    return router;
+    router.get('/function/:name', api.function);
+
+      return router;
   }
 
   mview(req,res,next){
@@ -54,7 +56,10 @@ class DB_Connector {
     const file = req.params.file;
     const params = req.query.param ? req.query.param.split(',') : [];
 
+    console.log(params);
+
     const func = require(`./query/${file}`)(...params);
+    console.log(func);
     // async/await - check out a client
     (async () => {
       const client = await pool.connect();
@@ -100,6 +105,29 @@ class DB_Connector {
       res.status(500).send("Table does not exist!");
       console.log(e.stack)})
   }
+
+    function(req, res, next) {
+        const name = req.params.name;
+        let params = req.query.param ? req.query.param.split(',') : [];
+
+        params.forEach((value, key) => {params[key] = "'" + value.trim() + "'"});
+        params = params.join(',');
+
+        console.log(params);
+
+        // async/await - check out a client
+        (async () => {
+            const client = await pool.connect();
+            try {
+                const queryRes = await client.query(`SELECT * FROM ${name}(${params})`);
+                res.send(queryRes.rows);
+            } finally {
+                client.release()
+            }
+        })().catch(e => {
+            res.status(500).send("Function does not exist!");
+            console.log(e.stack)})
+    }
 }
 
 exports.DB_Connector = DB_Connector;
