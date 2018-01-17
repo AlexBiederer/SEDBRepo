@@ -77,8 +77,10 @@ class Stimmenabgabe {
   renderWahlzettel(wk) {
     $.getJSON(`db/customquery/erstKandidaten?param=${wk}`, data => {
       $.getJSON(`/db/customquery/zweitParteien?param=${wk}`, data2 => {
+        // update stimmzettel
         $("#erstStimme").html("");
         $("#zweitStimme").html("");
+        $("#wkName").html(`im Wahlkreis ${wk} - ${data[0].wkname}`);
         let parteiCounter = 0;
         let found1 = false,
           found2 = false;
