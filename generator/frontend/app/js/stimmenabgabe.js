@@ -86,7 +86,7 @@ class Stimmenabgabe {
           for (let i = 0; i < data.length; i++)  {
             let v = data[i];
             if (v.pid === parteiCounter) {
-              $("#erstStimme").append(`<div class="radio" style="height:60px">
+              $("#erstStimme").append(`<div class="radio" style="height:65px">
                   <label>
                       <input type="radio" name="optionsRadios1" value="${v.pid}">
                           ${v.titel ? v.titel : ''} ${v.vorname}, ${v.name} <b>(${v.partei})</b></label>
@@ -99,7 +99,7 @@ class Stimmenabgabe {
           for (let i = 0; i < data2.length; i++)  {
             let v = data2[i];
             if (v.pid === parteiCounter) {
-              $("#zweitStimme").append(`<div class="radio" style='height:60px'>
+              $("#zweitStimme").append(`<div class="radio" style='height:65px'>
               <label>
                 <input type="radio" name="optionsRadios2" value="${v.pid}">
                   <b>${v.pname}</b></label>
@@ -109,7 +109,7 @@ class Stimmenabgabe {
               break;
             }
           }
-          if (!found1 && found2) $("#erstStimme").append("<div class='radio' style='height:60px'></div>");
+          if (!found1 && found2) $("#erstStimme").append("<div class='radio' style='height:65px'></div>");
           if (!found2 && found1) $("#zweitStimme").append("<br>");
           found1 = found2 = false;
           parteiCounter++;
