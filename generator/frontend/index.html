@@ -41,9 +41,10 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li class="active"><a data-toggle="tab" href="#bundestag">Bundestag</a></li>
-            <li><a href="#bundesland" data-toggle="tab" >Bundesland</a></li>
+            <li><a href="#bundesland" data-toggle="tab">Bundesland</a></li>
             <li class="disabled"><a href="#wahlkreis" data-toggle="tab">Wahlkreis</a></li>
-            <li><a data-toggle="tab" href="#stimmenAbgabe">Stimmenabgabe</a></li>
+            <li><a data-toggle="tab" href="#stimmenAbgabe">Stimmenabgabe - Debug</a></li>
+              <li><a data-toggle="tab" href="#wahlkreis/228">WK - Debug</a></li>
           </ul>
         </div>
       </div>
@@ -60,12 +61,55 @@
           <span class="slider round"></span>
         </label>
         <div class="loader" id="loader"></div>
-        <div id="pieRoot"></div>
-        <hr>
 
+        <div class="container-fluid" style="clear: both">
+          <div class="row">
+            <div class="col-md-7">
+            <div id="pieRoot"></div>
+            </div>
+            <div class="col-md-5">
+              <table id="sitzeTable" class="table table-bordered table-hover table">
+                <thead>
+                  <tr>
+                    <th>Partei</th>
+                    <th>Sitze</th>
+                  </tr>
+                </thead>
+                <tbody id="sitzeTableBody">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <hr>
         <h2>Mitglieder des 19. Deutschen Bundestags</h2>
+        <table id="membersTable" class="table table-bordered table-hover table">
+          <thead>
+            <tr>
+              <th>Titel</th>
+              <th>Vorname</th>
+              <th>Nachname</th>
+              <th>Geschlecht</th>
+              <th>Gebjahr</th>
+              <th>Partei</th>
+            </tr>
+          </thead>
+          <tbody id="membersTableBody">
+          </tbody>
+        </table>
+        <hr>
+        <h2>Überhangmandate</h2>
         <div class="container">
-          <table id="membersTable" class="table table-bordered table-hover table">
+          <table id="ueberhangTable" class="table table-bordered table-hover table">
+            <thead>
+              <tr>
+                <th>Partei</th>
+                <th>Bundesland</th>
+                <th>Überhangmandate</th>
+              </tr>
+            </thead>
+            <tbody id="ueberhangTableBody">
+            </tbody>
           </table>
         </div>
       </div>
@@ -75,11 +119,21 @@
           <div class="row">
             <div class="col-md-4">
               <h2>Bundesländer</h2>
-              <div id="bundeslandMap" style="width: 300px; height: 485px"></div>
+              <div id="bundeslandMap" style="height: 485px"></div>
             </div>
             <div class="col-md-8">
               <h2>Wahlkreise</h2>
               <table id="wkTable" class="table table-bordered table-hover table" style="display:none">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>BundeslandID</th>
+                    <th>Bundesland</th>
+                  </tr>
+                </thead>
+                <tbody id="wkTableBody">
+                </tbody>
               </table>
             </div>
           </div>
@@ -92,6 +146,9 @@
         <table class="table table-bordered">
           <thead>
             <tr>
+              <th>Gew. Direktkandidat</th>
+              <th>Siegerpartei Erststimme</th>
+              <th>Siegerpartei Zweitstimme</th>
               <th>Wahlberechtigte</th>
               <th>Gültige Erststimmen</th>
               <th>Gültige Zweitstimmen</th>
@@ -102,7 +159,7 @@
           <tbody id="wkDetails">
           </tbody>
         </table>
-        <svg id="barChart" width="960" height="500"></svg>
+        <svg id="barChart" width="960" height="450"></svg>
       </div>
       <!-- Stimmenabgabe Tab -->
       <div id="stimmenAbgabe" class="tab-pane fade">
@@ -116,21 +173,21 @@
           <div class="row">
             <div class="col-sm-3 col-md-6">
               <h2 class="header">Erststimme</h2>
-                <button type="button" id="erstUngueltig" class="btn btn-danger btn-block" >Ungültig stimmen</button>
+              <button type="button" id="erstUngueltig" class="btn btn-danger btn-block">Ungültig stimmen</button>
               <div class="centerAuswahl" id="erstStimme"></div>
 
             </div>
             <div class="col-sm-9 col-md-6">
               <h2 class="header">Zweitstimme</h2>
-                <button type="button" id="zweitUngueltig" class="btn btn-danger btn-block" >Ungültig stimmen</button>
-                <div class="centerAuswahl" id="zweitStimme"></div>
+              <button type="button" id="zweitUngueltig" class="btn btn-danger btn-block">Ungültig stimmen</button>
+              <div class="centerAuswahl" id="zweitStimme"></div>
 
             </div>
           </div>
         </div>
         <button type="button" id="submitStimme" class="btn btn-primary btn-block">Bestätigen</button>
 
-        <!-- Modal -->
+        <!-- Modal Stimmenabgabe-->
         <div class="modal fade" id="modalStimmeAbgegeben" tabindex="-1" role="dialog">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -139,7 +196,9 @@
                 <h4 class="modal-title" id="exampleModalLabel">Stimmenabgabe</h4>
               </div>
               <div class="modal-body">
-                <span>Ihre Stimme wurde erfolgreich abgespeichert!</span>
+              </div>
+              <div class="modal-footer">
+                <button type="button" id="submit" class="btn btn-primary" data-dismiss="modal">OK</button>
               </div>
             </div>
           </div>
@@ -157,7 +216,7 @@
               <div class="modal-body">
               </div>
               <div class="modal-footer">
-                <button type="button" id="submit" class="btn btn-danger">Bestätigen</button>
+                <button type="button" id="submit" class="btn btn-danger" data-dismiss="modal">Bestätigen</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
               </div>
             </div>
