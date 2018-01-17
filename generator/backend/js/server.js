@@ -180,8 +180,6 @@ const liste17 = () => {
     }).on("err", err => console.log(err));
 };
 
-
-
 /**
  * Print an input string to the query.sql file
  * @param {String} data which shall be printed
@@ -196,13 +194,3 @@ var printToFile = (data, options = {
     console.log("The file was successfully saved!");
   });
 };
-
-
-// csv().fromFile("./app/csv/wahlkreise.csv")
-//   .on('json', (val) => {
-//     wahlkreisToID[val.name] = val.id;
-//   }).on("end", (err) => {
-//     if (err) return console.log(err);
-//     printToFile(JSON.stringify(wahlkreisToID));
-//     debugger;
-//   });
