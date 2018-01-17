@@ -43,9 +43,6 @@ class BarChart {
     this.y = d3.scaleLinear()
       .rangeRound([this.height, 0]);
 
-    this.z = d3.scaleOrdinal()
-      .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-
 
     this.keys = ["numstimmenproz", "numstimmenproz13"];
     data = data.map(d => {
@@ -67,16 +64,21 @@ class BarChart {
 
     this.g.append("g")
       .attr("class", "x-axis")
+      .attr("stroke-width", 1.5)
+      .attr("font-weight", "bold")
       .attr("transform", "translate(0," + this.height + ")")
       .call(d3.axisBottom(this.x0));
 
     this.g.append("g")
+      .attr("stroke-width", 1.5)
       .attr("class", "y-axis")
+      .attr("font-weight", "bold")
       .call(d3.axisLeft(this.y).tickFormat(d => d + "%"));
 
     var legend = this.g.append("g")
       .attr("font-family", "sans-serif")
       .attr("font-size", 10)
+      .attr("font-weight", "bold")
       .attr("text-anchor", "end")
       .selectAll("g")
       .data(this.keys.slice().reverse())
@@ -101,12 +103,12 @@ class BarChart {
   }
 
   update(data, data2) {
-      const that = this;
-      data = data.map(d => {
-        d.numstimmenproz13 = (+d.numstimmenproz - +d.diffstimmenproz).toFixed(2);
-        d.numstimmenabs13 = (+d.numstimmenabs - +d.diffstimmenabs);
-        return d;
-      });
+    const that = this;
+    data = data.map(d => {
+      d.numstimmenproz13 = (+d.numstimmenproz - +d.diffstimmenproz).toFixed(2);
+      d.numstimmenabs13 = (+d.numstimmenabs - +d.diffstimmenabs);
+      return d;
+    });
 
     this.x0.domain(data.map(function(d) {
       return parteiToAbk[d.partei];
@@ -120,7 +122,9 @@ class BarChart {
     d3.select(".x-axis").call(d3.axisBottom(this.x0));
     d3.select(".y-axis").call(d3.axisLeft(this.y).tickFormat(d => d + "%"))
 
-
+    var t = d3.transition()
+      .duration(1000)
+      .ease(d3.easeLinear);
 
     that.chartArea.selectAll("g")
       .remove()
@@ -145,7 +149,7 @@ class BarChart {
 
       })
       .on("mousemove", _ => {
-        const top = (d3.event.layerY - 10);
+        const top = (d3.event.layerY - 80);
         const left = (d3.event.layerX + 10);
         that.tooltip
           .style("top", `${top}px`)
@@ -173,18 +177,20 @@ class BarChart {
         });
       })
       .enter().append("rect")
-      .attr("x", function(d) {
-        return that.x1(d.key);
+      .attr("transform", function(d) {
+        return "translate(" + [that.x1(d.key), that.height] + ")"
       })
-      .attr("y", d => that.y(d.value))
       .attr("width", (that.x1.bandwidth() + 10))
-      .attr("height", function(d) {
-        return that.height - that.y(d.value);
-      })
+      .attr("height", 0)
       .attr("fill", d => parteiToColor[d.partei])
       .attr("fill-opacity", d => {
         return d.jahr === 2013 ? 0.5 : 1
       });
+    that.chartArea.selectAll("rect").transition(t).attr("height", function(d) {
+      return that.height - that.y(d.value);
+    }).attr("transform", function(d) {
+      return "translate(" + [that.x1(d.key), that.y(d.value)] + ")"
+    });
   }
 
 }
