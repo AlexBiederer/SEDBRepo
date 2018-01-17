@@ -2,7 +2,7 @@
 * Data Table
 */
 export default function(id,options) {
-  const tableOptions = Object.assign(DATA_TABLE_DEFAULTS,options);
+  const tableOptions = Object.assign({},DATA_TABLE_DEFAULTS,options);
   // Show table
   $(`#${id}`).show();
   // init data table
