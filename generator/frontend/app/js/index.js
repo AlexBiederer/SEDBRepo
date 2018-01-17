@@ -21,7 +21,7 @@ $(function() {
   // Other routes
   router
     .on({
-      '/stimmenAbgabe/:wk/:key': params => {
+      '/stimmenAbgabe/:wkID/:key': params => {
         $(`.navbar-nav a[href="#stimmenAbgabe"]`).tab('show');
         stimmenAbgabe.update(params)
       },
