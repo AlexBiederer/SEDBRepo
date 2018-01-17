@@ -18,11 +18,10 @@ zweitSiegerProWahlkreis(wahlkreis, partei) as
 	where agg2.numStimmen is null
 ),
 
-wahlkreisSieger(wahlkreis, siegerErst, siegerZweit) as
+wahlkreisSieger(wahlkreis, siegerErst, siegerZweit, siegerErstName, siegerZweitName) as
 (
-	select mw.wahlkreis, mw.partei, zs.partei
-    from mandatProWahlkreis mw, zweitSiegerProWahlkreis zs
-    where zs.wahlkreis = mw.wahlkreis 
-)
+	select mw.wahlkreis, mw.partei, zs.partei, p17_1.name, p17_2.name
+  from mandatProWahlkreis mw, zweitSiegerProWahlkreis zs, partei17 p17_1, partei17 p17_2
+  where zs.wahlkreis = mw.wahlkreis and p17_1.id = mw.partei and p17_2.id = zs.partei)
 
-select * from wahlkreisSieger where wahlkreis = ${wahlkreis}` 
+select * from wahlkreisSieger where wahlkreis = ${wahlkreis}`
