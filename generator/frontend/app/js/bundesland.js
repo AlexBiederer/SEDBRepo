@@ -1,6 +1,7 @@
 import initDataTable from './dataTable';
 import IDtoBundesland from './IDtoBundesland';
 import bundeslandToID from './bundeslandToID';
+import parteiToAbk from './parteiToAbk';
 import Wahlkreis from './wahlkreis';
 
 class Bundesland {
@@ -74,18 +75,6 @@ class Bundesland {
   // fill data table
   fillTable() {
     $.getJSON("db/wahlkreis17", data => {
-      $("#wkTable").append(`
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>BundeslandID</th>
-            <th>Bundesland</th>
-          </tr>
-        </thead>
-        <tbody id="wkTableBody">
-        </tbody>
-      `);
       data.forEach(val => {
         $("#wkTableBody").append(
           `
@@ -94,7 +83,6 @@ class Bundesland {
       <td>${val.name}</td>
       <td>${val.bundesland}</td>
       <td>${IDtoBundesland[val.bundesland]}</td>
-
       </tr>
     `
         );
@@ -125,9 +113,15 @@ class Bundesland {
   updateBarChart(wkID) {
     const that = this;
     $.getJSON(`db/customquery/q3?param=${wkID}`, data => {
-        $.getJSON(`db/customquery/wkDetails?param=${wkID}`, data2 => {
-          $("#wkDetails").html(`
+      $.getJSON(`db/customquery/wkDetails?param=${wkID}`, data2 => {
+        $.getJSON(`db/customquery/kandidatDetails?param=${data[0].direktkandidat}`, data3 => {
+          $.getJSON(`db/customquery/q4?param=${wkID}`, data4 => {
+            $("#wkDetails").html(`
               <tr>
+              <td>${data3[0].titel ? data3[0].titel : ''} ${data3[0].vorname} ${data3[0].name}
+                <b>(${parteiToAbk[data3[0].parteiname]})</b></td>
+              <td>${parteiToAbk[data4[0].siegererstname]}</td>
+              <td>${parteiToAbk[data4[0].siegerzweitname]}</td>
               <td>${data2[0].numwahlb}</td>
               <td>${data2[0].numgueltigeerst}</td>
               <td>${data2[0].numgueltigezweit}</td>
@@ -135,13 +129,15 @@ class Bundesland {
               <td>${data2[0].numungueltigezweit}</td>
               </tr>
           `);
-          $("#wahlkreis #wkHeader").html(`Wahlkreis ${wkID} - ${data[0].wkname}`);
-          const barChart = that.wahlkreis.getBarChart(data, data2, that.router);
-          if (barChart) barChart.update(data, data2);
-          $('.navbar-nav a[href="#wahlkreis"]').parent('li').removeClass('disabled');
-          that.router.navigate(`/wahlkreis`);
+            $("#wahlkreis #wkHeader").html(`Wahlkreis ${wkID} - ${data[0].wkname}`);
+            const barChart = that.wahlkreis.getBarChart(data, data2, that.router);
+            if (barChart) barChart.update(data, data2);
+            $('.navbar-nav a[href="#wahlkreis"]').parent('li').removeClass('disabled');
+            that.router.navigate(`/wahlkreis`);
+          });
         });
       });
-    }
+    });
   }
-  export default Bundesland;
+}
+export default Bundesland;
