@@ -1,19 +1,22 @@
 /**
-* PieChart für die Sitzverteilung im Bundestag
-* @author Felix Schwarzmeier
-*/
+ * PieChart für die Sitzverteilung im Bundestag
+ * @author Felix Schwarzmeier
+ */
 import * as d3 from 'd3';
-import Chart from './chart';
 import parteiToColor from './parteiToColor';
 import parteiToAbk from './parteiToAbk';
 
 
-class PieChart extends Chart {
-  constructor(root, apiCall, config) {
-    super(root, config);
-    this.radius = Math.min(this.config.width, this.config.height) * 0.9;
+class PieChart {
+  constructor(root, config) {
+    this.config = config;
+    this.config.width = $("#pieRoot").width();
+    this.config.height = 300;
+    this.outerSVG = d3.select(root).append('svg').attr('width', +this.config.width).attr('height', +this.config.height);
+    this.radius = 260;
+    //Math.min(this.config.width, this.config.height) * 0.65;
     this.innerSVG = this.outerSVG.append("g")
-       .attr("transform", "translate(" + this.config.width / 2 + "," + this.config.height+ ")");
+      .attr("transform", "translate(" + this.config.width / 2.1 + "," + this.config.height  + ")");
     this.pie = d3.pie()
       .sort(null)
       .value(d => this.config.value ? d[this.config.value] : null).startAngle(-90 * (Math.PI / 180))
@@ -30,11 +33,23 @@ class PieChart extends Chart {
     d3.json("db/query/bundestag_sitze", data => this.render(data));
   }
   render(data) {
-    const union = {partei: "Union", name: "Union", abk: "Union", sitze: 0 };
+
+    const union = {
+      partei: "Union",
+      name: "Union",
+      abk: "Union",
+      sitze: 0
+    };
     const data2 = [];
     data.forEach(d => {
+      $("#sitzeTableBody").append(`
+        <tr>
+        <td>${d.name} <b>(${parteiToAbk[d.name]})</b></td>
+        <td>${d.sitze}</td>
+        </tr>
+      `);
       d.abk = parteiToAbk[d.name];
-      if(d.partei === 0 || d.partei === 4) { // CDU or CSU
+      if (d.partei === 0 || d.partei === 4) { // CDU or CSU
         union.sitze += +d.sitze;
       } else {
         data2.push(d);
@@ -48,20 +63,20 @@ class PieChart extends Chart {
       .enter().append("g")
       .attr("class", "arc");
 
-      arc.append("polyline").transition().delay(function(d, i) {
-        return (i+1) * chart.config.durationInit;
-      }).attr("points", function(d) {
-        var c = chart.arc.centroid(d),
-          x = c[0],
-          y = c[1],
-          // pythagorean theorem for hypotenuse
-          h = Math.sqrt(x * x + y * y),
-          startX = (x / h * (chart.radius -10)),
-          startY = (y / h * (chart.radius -10)),
-          endX = (x / h * (chart.radius +30)),
-          endY = (y / h * (chart.radius +10));
-        return `${startX},${startY} ${endX}, ${endY} ${endX}, ${endY}`;
-      });
+    arc.append("polyline").transition().delay(function(d, i) {
+      return (i + 1) * chart.config.durationInit;
+    }).attr("points", function(d) {
+      var c = chart.arc.centroid(d),
+        x = c[0],
+        y = c[1],
+        // pythagorean theorem for hypotenuse
+        h = Math.sqrt(x * x + y * y),
+        startX = (x / h * (chart.radius - 10)),
+        startY = (y / h * (chart.radius - 10)),
+        endX = (x / h * (chart.radius + 5)),
+        endY = (y / h * (chart.radius ));
+      return `${startX},${startY} ${endX}, ${endY} ${endX}, ${endY}`;
+    });
 
     arc.append("path")
       .on("mouseover", function(d) {
@@ -93,8 +108,9 @@ class PieChart extends Chart {
         return "translate(" + chart.label.centroid(d) + ")";
       })
       .attr("dy", "1em")
+      .style("font-weight","bold")
       .attr("fill", d => d.data.partei !== 5 ? "white" : "black").transition().delay(function(d, i) {
-        return (i+1) * chart.config.durationInit;
+        return (i + 1) * chart.config.durationInit;
       })
       .text(function(d) {
         return `${d.data.sitze}`;
@@ -107,10 +123,10 @@ class PieChart extends Chart {
         y = c[1],
         // pythagorean theorem for hypotenuse
         h = Math.sqrt(x * x + y * y);
-      return "translate(" + (x / h * (chart.radius +30)) + ',' +
-        (y / h * (chart.radius +20)) + ")";
-    }).attr("text-anchor", "middle").attr("fill", "#333").transition().delay(function(d, i) {
-      return (i+1) * chart.config.durationInit;
+      return "translate(" + (x / h * (chart.radius + 20)) + ',' +
+        (y / h * (chart.radius + 10)) + ")";
+    }).attr("text-anchor", "middle").attr("fill", "#333").style("font-weight","bold").transition().delay(function(d, i) {
+      return (i + 1) * chart.config.durationInit;
     }).text(d => d.data.abk);
 
 
@@ -119,6 +135,7 @@ class PieChart extends Chart {
       .attr('font-size', '2em')
       .attr('fill', "#333")
       .attr("y", -20)
+      .style("font-weight", 500)
       .transition().delay(function(d, i) {
         return chart.config.durationInit * data.length;
       })
