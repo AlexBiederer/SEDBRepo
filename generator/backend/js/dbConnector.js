@@ -26,12 +26,12 @@ class DB_Connector {
     router.get('/customQuery/:file', api.customQuery);
     // Materialized view
     router.get('/mview/:name', api.mview);
-    router.get('/function/:name', api.function);
+    router.get('/function/:name', api.sqlFunction);
 
-      return router;
+    return router;
   }
 
-  mview(req,res,next){
+  mview(req, res, next) {
     const name = req.params.name;
     // async/await - check out a client
     (async () => {
@@ -44,22 +44,19 @@ class DB_Connector {
       }
     })().catch(e => {
       res.status(500).send("Materialized view does not exist!");
-      console.log(e.stack);
+      console.error(e.stack);
     })
   }
 
   test(req, res, next) {
-      res.sendFile(path.join(__dirname, "..", "sql/testMitglieder.csv"));
+    res.sendFile(path.join(__dirname, "..", "sql/testMitglieder.csv"));
   }
 
-  customQuery(req, res, next){
+  customQuery(req, res, next) {
     const file = req.params.file;
     const params = req.query.param ? req.query.param.split(',') : [];
 
-    console.log(params);
-
     const func = require(`./query/${file}`)(...params);
-    console.log(func);
     // async/await - check out a client
     (async () => {
       const client = await pool.connect();
@@ -71,7 +68,7 @@ class DB_Connector {
       }
     })().catch(e => {
       res.status(500).send("Custom query failed!");
-      console.log(e.stack);
+      console.error(e.stack);
     })
   }
 
@@ -87,7 +84,7 @@ class DB_Connector {
       } finally {
         client.release()
       }
-    })().catch(e => console.log(e.stack))
+    })().catch(e => console.error(e.stack))
   }
 
   table(req, res, next) {
@@ -103,31 +100,33 @@ class DB_Connector {
       }
     })().catch(e => {
       res.status(500).send("Table does not exist!");
-      console.log(e.stack)})
+      console.error(e.stack)
+    })
   }
 
-    function(req, res, next) {
-        const name = req.params.name;
-        let params = req.query.param ? req.query.param.split(',') : [];
+  sqlFunction(req, res, next) {
+    const name = req.params.name;
+    let params = req.query.param ? req.query.param.split(',') : [];
 
-        params.forEach((value, key) => {params[key] = "'" + value.trim() + "'"});
-        params = params.join(',');
+    params.forEach((value, key) => {
+      params[key] = "'" + value.trim() + "'"
+    });
+    params = params.join(',');
 
-        console.log(params);
-
-        // async/await - check out a client
-        (async () => {
-            const client = await pool.connect();
-            try {
-                const queryRes = await client.query(`SELECT * FROM ${name}(${params})`);
-                res.send(queryRes.rows);
-            } finally {
-                client.release()
-            }
-        })().catch(e => {
-            res.status(500).send("Function does not exist!");
-            console.log(e.stack)})
-    }
+    // async/await - check out a client
+    (async () => {
+      const client = await pool.connect();
+      try {
+        const queryRes = await client.query(`SELECT * FROM ${name}(${params})`);
+        res.send(queryRes.rows);
+      } finally {
+        client.release()
+      }
+    })().catch(e => {
+      res.status(500).send("Function does not exist!");
+      console.error(e.stack)
+    })
+  }
 }
 
 exports.DB_Connector = DB_Connector;
