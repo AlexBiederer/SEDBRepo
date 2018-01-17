@@ -4,3 +4,5 @@ query*.*
 wahlD3/
 test*.html
 app.js
+dist/js/app.js
+package-lock.json
