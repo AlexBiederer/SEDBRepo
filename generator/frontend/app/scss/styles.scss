@@ -27,3 +27,16 @@ body {
     overflow-y: hidden;
 }
 /* bootstrap hack end */
+
+/* Remove focus color highlighting for routing purposes */
+.navbar-inverse .navbar-nav>li>a:focus, .navbar-inverse .navbar-brand:focus {
+  color: #9d9d9d;
+}
+.navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-brand:hover {
+  color: #fff;
+}
+
+/* Remove default margin-bottom from bootstrap table */
+.table {
+  margin-bottom: 0;
+}

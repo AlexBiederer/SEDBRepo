@@ -4,7 +4,8 @@ import parteiToColor from './parteiToColor';
 
 class BarChart {
 
-  constructor(data) {
+  constructor(data, data2, router) {
+    this.router = router;
     this.svg = d3.select("#barChart");
     this.margin = {
       top: 20,
@@ -96,10 +97,10 @@ class BarChart {
       .attr("y", 9.5)
       .attr("dy", "0.32em")
       .text((d, i) => i ? "Bundestagswahl 2013" : "Bundestagswahl 2017");
-    this.update(data);
+    this.update(data, data2);
   }
 
-  update(data) {
+  update(data, data2) {
       const that = this;
       data = data.map(d => {
         d.numstimmenproz13 = (+d.numstimmenproz - +d.diffstimmenproz).toFixed(2);

@@ -93,7 +93,7 @@ class PieChart extends Chart {
         return "translate(" + chart.label.centroid(d) + ")";
       })
       .attr("dy", "1em")
-      .attr("fill", d => d.data.partei !== "5" ? "white" : "black").transition().delay(function(d, i) {
+      .attr("fill", d => d.data.partei !== 5 ? "white" : "black").transition().delay(function(d, i) {
         return (i+1) * chart.config.durationInit;
       })
       .text(function(d) {
