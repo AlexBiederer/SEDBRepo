@@ -84,7 +84,10 @@ class DB_Connector {
       } finally {
         client.release()
       }
-    })().catch(e => console.error(e.stack))
+    })().catch(e => {
+      res.status(500).send("Query failed!");
+      console.error(e.stack);
+    })
   }
 
   table(req, res, next) {
