@@ -23,17 +23,17 @@ class Bundesland {
         var newID = bundeslandToID[region.split('-')[1]];
 
         if (bundeslandID != newID) {
-          bundeslandID = newID;
+          bundeslandID = IDtoBundesland[newID];
           $('#bundeslandMap').vectorMap("get", "mapObject").clearSelectedRegions();
           $('#bundeslandMap').vectorMap("get", "mapObject").setSelectedRegions(region);
 
-          this.dataTable.columns(2)
+          this.dataTable.columns(3)
             .search(bundeslandID)
             .draw();
         } else {
           bundeslandID = null;
           $('#bundeslandMap').vectorMap("get", "mapObject").clearSelectedRegions();
-          this.dataTable.columns(2)
+          this.dataTable.columns(3)
             .search("")
             .draw();
         }
