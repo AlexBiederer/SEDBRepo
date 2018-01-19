@@ -16,6 +16,13 @@
   <!-- Data Tables -->
   <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+
+  <!-- Bootstrap select -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-de_DE.min.js"></script>
+
+
   <!-- jVector map -->
   <script src="dist/js/jquery-jvectormap-2.0.3.min.js"></script>
   <script src="dist/js/jquery-jvectormap-de-merc.js"></script>
@@ -43,8 +50,10 @@
             <li class="active"><a data-toggle="tab" href="#bundestag">Bundestag</a></li>
             <li><a href="#bundesland" data-toggle="tab">Bundesland</a></li>
             <li class="disabled"><a href="#wahlkreis" data-toggle="tab">Wahlkreis</a></li>
+            <li><a href="#sieger" data-toggle="tab">Knappste Sieger</a></li>
+            <li><a href="#sonstiges" data-toggle="tab">Sonstiges</a></li>
             <li><a data-toggle="tab" href="#stimmenAbgabe">Stimmenabgabe - Debug</a></li>
-              <li><a data-toggle="tab" href="#wahlkreis/228">WK - Debug</a></li>
+            <li><a data-toggle="tab" href="#wahlkreis/228">WK - Debug</a></li>
           </ul>
         </div>
       </div>
@@ -65,10 +74,10 @@
         <div class="container-fluid" style="clear: both">
           <div class="row">
             <div class="col-md-7">
-            <div id="pieRoot"></div>
+              <div id="pieRoot"></div>
             </div>
             <div class="col-md-5">
-              <table id="sitzeTable" class="table table-bordered table-hover table">
+              <table id="sitzeTable" class="table table-bordered table-hover">
                 <thead>
                   <tr>
                     <th>Partei</th>
@@ -83,7 +92,7 @@
         </div>
         <hr>
         <h2>Mitglieder des 19. Deutschen Bundestags</h2>
-        <table id="membersTable" class="table table-bordered table-hover table">
+        <table id="membersTable" class="table table-bordered table-hover">
           <thead>
             <tr>
               <th>Titel</th>
@@ -99,19 +108,17 @@
         </table>
         <hr>
         <h2>Überhangmandate</h2>
-        <div class="container">
-          <table id="ueberhangTable" class="table table-bordered table-hover table">
-            <thead>
-              <tr>
-                <th>Partei</th>
-                <th>Bundesland</th>
-                <th>Überhangmandate</th>
-              </tr>
-            </thead>
-            <tbody id="ueberhangTableBody">
-            </tbody>
-          </table>
-        </div>
+        <table id="ueberhangTable" class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>Partei</th>
+              <th>Bundesland</th>
+              <th>Überhangmandate</th>
+            </tr>
+          </thead>
+          <tbody id="ueberhangTableBody">
+          </tbody>
+        </table>
       </div>
       <!-- Bundesland Tab -->
       <div id="bundesland" class="tab-pane fade">
@@ -123,7 +130,7 @@
             </div>
             <div class="col-md-8">
               <h2>Wahlkreise</h2>
-              <table id="wkTable" class="table table-bordered table-hover table" style="display:none">
+              <table id="wkTable" class="table table-bordered table-hover">
                 <thead>
                   <tr>
                     <th>ID</th>
@@ -142,8 +149,14 @@
       </div>
       <!-- Wahlkreis Tab -->
       <div id="wahlkreis" class="tab-pane fade ">
-        <h2 id="wkHeader">Wahlkreis ###</h2>
-        <table class="table table-bordered">
+        <h2 id="wkHeader" class="topHeader">Wahlkreis ###</h2>
+        <label class="switchLabel" for="cb2">Rohdaten verwenden</label>
+        <label class="switch" id="switch2">
+          <input type="checkbox" id="cb2">
+          <span class="slider round"></span>
+        </label>
+        <div class="loader" id="loader2"></div>
+        <table class="table table-bordered table-hover">
           <thead>
             <tr>
               <th>Gew. Direktkandidat</th>
@@ -159,7 +172,73 @@
           <tbody id="wkDetails">
           </tbody>
         </table>
-        <svg id="barChart" width="960" height="450"></svg>
+        <div style="text-align: center">
+          <svg id="barChart" width="960" height="450"></svg>
+        </div>
+      </div>
+      <!-- Kanppste Sieger Tab -->
+      <div id="sieger" class="tab-pane fade ">
+        <h2>Knappste Sieger</h2>
+        <div style="text-align:center"><b>Partei: </b>
+          <select id="partySelect" class="selectpicker" data-live-search="true" data-width="auto">
+            <option style="display:none">
+        </select>
+        </div>
+        <br>
+        <table id="knappsteTable" class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>Partei</th>
+              <th>Wahlkreis</th>
+              <th>Differenz Stimmen</th>
+            </tr>
+          </thead>
+          <tbody id="knappsteTableBody">
+          </tbody>
+        </table>
+      </div>
+      <!-- Zusatzaufgaben Tab -->
+      <div id="sonstiges" class="tab-pane fade ">
+        <h2>Sonstiges</h2>
+        <div class="container-fluid">
+          <table class="table table-bordered table-hover" style="text-align: center">
+            <thead>
+              <tr>
+                <th class="text-center">Frage</th>
+                <th class="text-center">Beschreibung</th>
+                <th class="text-center">Ergebnis</th>
+              </tr>
+            </thead>
+            <tbody id="wkDetails">
+              <tr>
+                <td>Gab es bei der Bundestagswahl 2017 einen Frauenbonus?</td>
+                <td>(Frauenquote gewählter Direktkandidaten) / (Frauenquote Direktkandidaten) => Ist dieser Wert größer als 1 => “Frauenbonus“, sonst: “Männerbonus“</td>
+                <td id="zusatz2"></td>
+              </tr>
+              <tr>
+                <td>Wer war der “ökonomischte” Direktkandidat bei der Bundestagswahl 2017?</td>
+                <td>Finde den Direktkandidaten, der es mit prozentual am wenigsten Stimmen in den Bundestag geschafft hat. </td>
+                <td id="zusatz5"></td>
+              </tr>
+            </tbody>
+          </table>
+          <br>
+          <h5 style="text-align: center">Für jede Partei, in welchem Wahlkreis war die Diskrepanz zwischen Erstimmenergebnis für den Direktkandidaten der Partei und dem Zweitstimmenergebnis für die Partei am größten (Anzahl Erststimmen - Anzahl Zweitstimmen):</h5>
+          <table id="zusatz1Table" class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>Partei-ID</th>
+                <th>Partei</th>
+                <th>Wahlkreis (Maximale Diskrepanz)</th>
+                <th>Maximale Diskrepanz</th>
+                <th>Wahlkreis (Minimale Diskrepanz)</th>
+                <th>Minimale Diskrepanz</th>
+              </tr>
+            </thead>
+            <tbody id="zusatz1Body">
+            </tbody>
+          </table>
+        </div>
       </div>
       <!-- Stimmenabgabe Tab -->
       <div id="stimmenAbgabe" class="tab-pane fade">
