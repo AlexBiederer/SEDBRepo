@@ -23,12 +23,12 @@ class Bundesland {
         var newID = bundeslandToID[region.split('-')[1]];
 
         if (bundeslandID != newID) {
-          bundeslandID = IDtoBundesland[newID];
+          bundeslandID = newID;
           $('#bundeslandMap').vectorMap("get", "mapObject").clearSelectedRegions();
           $('#bundeslandMap').vectorMap("get", "mapObject").setSelectedRegions(region);
 
           this.dataTable.columns(3)
-            .search(bundeslandID)
+            .search(IDtoBundesland[bundeslandID])
             .draw();
         } else {
           bundeslandID = null;
