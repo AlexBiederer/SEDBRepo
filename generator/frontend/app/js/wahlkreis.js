@@ -1,7 +1,7 @@
 import BarChart from './barChart';
 class Wahlkreis {
-  constructor(){
-  }
+  constructor(){}
+
   getBarChart(data, router){
     if(!this.barChart) {
       this.barChart = new BarChart(data, router);

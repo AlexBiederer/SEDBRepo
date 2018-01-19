@@ -44,8 +44,6 @@ class Stimmenabgabe {
 
   vote(erstStimme, zweitStimme, modalOpen) {
     $.getJSON(`db/function/insertVote?param=${this.wkID},${erstStimme},${zweitStimme},${this.key}`, data => {
-      debugger;
-
       let bodyHTML = "";
       if (data[0].insertvote === "Key invalid") bodyHTML = (`<span>Der Key <b>${this.key}</b> ist ungültig!</span>`);
       else if (data[0].insertvote === "Vote Inserted") bodyHTML = ("<span>Ihre Stimme wurde erfolgreich abgespeichert!</span>");
@@ -54,7 +52,6 @@ class Stimmenabgabe {
       $('#warningStimmenAbgabe').one('hidden.bs.modal', _ => {
         $("#modalStimmeAbgegeben").modal("show");
       });
-      debugger;
       if (!modalOpen) $("#modalStimmeAbgegeben").modal("show");
       else $("#warningStimmenAbgabe").modal("hide");
     });
@@ -63,7 +60,6 @@ class Stimmenabgabe {
   genWarningBody(erstStimme, zweitStimme) {
     let warningText = "";
     if (erstStimme === -1 && zweitStimme === -1) {
-      debugger;
       warningText = "Sie habe eine <b>ungültige Erststimme und eine ungültige Zweitstimme</b> abgegeben.<br>";
     } else if (erstStimme === -1) {
       warningText = "Sie habe eine <b>ungültige Erststimme</b> abgegeben.<br>";
@@ -89,9 +85,9 @@ class Stimmenabgabe {
             let v = data[i];
             if (v.pid === parteiCounter) {
               $("#erstStimme").append(`<div class="radio" style="min-height:75px">
-                  <label>
+                  <label class="labelStimmenabgabe">
                       <input type="radio" name="optionsRadios1" value="${v.pid}">
-                          ${v.titel ? v.titel : ''} ${v.vorname}, ${v.name} <b>(${v.partei})</b></label>
+                          ${v.titel ? v.titel : ''} ${v.name}, ${v.vorname} <b>(${v.partei})</b></label>
                   <div style="padding-left:20px;">${v.beruf}</div>
               </div>`);
               found1 = true;
@@ -102,7 +98,7 @@ class Stimmenabgabe {
             let v = data2[i];
             if (v.pid === parteiCounter) {
               $("#zweitStimme").append(`<div class="radio" style='min-height:75px'>
-              <label>
+              <label class="labelStimmenabgabe">
                 <input type="radio" name="optionsRadios2" value="${v.pid}">
                   <b>${v.pname}</b></label>
                   <div style="padding-left:20px;">${v.k1name}, ${v.k1vorname}; ${v.k2name}, ${v.k2vorname}; ${v.k3name}, ${v.k3vorname}</div>
