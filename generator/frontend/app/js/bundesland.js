@@ -10,6 +10,7 @@ class Bundesland {
     this.router = router;
     this.initVectorMap();
     this.fillTable();
+    this.initSwitch();
     this.wahlkreis = new Wahlkreis();
   }
   // init germany jVector map
@@ -110,12 +111,41 @@ class Bundesland {
     });
   }
 
-  updateBarChart(wkID) {
+  // init rohdaten-switch for wahlkreis
+  initSwitch() {
     const that = this;
-    $.getJSON(`db/customquery/q3?param=${wkID}`, data => {
-      $.getJSON(`db/customquery/wkDetails?param=${wkID}`, data2 => {
+    let checked = $("#cb2:checked").length;
+    $("#cb2").change(function() {
+      const wkID = that.wkID;
+      $("#switch2").hide();
+      $("#loader2").show();
+
+      $("#wkDetails").html("");
+      that.wahlkreis.getBarChart().update([]);
+
+      checked = $("#cb2:checked").length;
+      if (checked) {
+        $.getJSON(`db/customquery/q7?param=${wkID}`, _ => {
+          this.updateBarChart(wkID);
+          $("#loader2").hide();
+          $("#switch2").show();
+        });
+      } else {
+          this.updateBarChart(wkID);
+          $("#loader2").hide();
+          $("#switch2").show();
+      }
+    }.bind(this));
+  }
+
+  // updates D3-BarChart
+  updateBarChart(wkID) {
+    this.wkID = wkID;
+    const that = this;
+    $.getJSON(`db/customquery/q3?param=${this.wkID}`, data => {
+      $.getJSON(`db/customquery/wkDetails?param=${this.wkID}`, data2 => {
         $.getJSON(`db/customquery/kandidatDetails?param=${data[0].direktkandidat}`, data3 => {
-          $.getJSON(`db/customquery/q4?param=${wkID}`, data4 => {
+          $.getJSON(`db/customquery/q4?param=${this.wkID}`, data4 => {
             $("#wkDetails").html(`
               <tr>
               <td>${data3[0].titel ? data3[0].titel : ''} ${data3[0].vorname} ${data3[0].name}
@@ -129,9 +159,9 @@ class Bundesland {
               <td>${data2[0].numungueltigezweit}</td>
               </tr>
           `);
-            $("#wahlkreis #wkHeader").html(`Wahlkreis ${wkID} - ${data[0].wkname}`);
-            const barChart = that.wahlkreis.getBarChart(data, data2, that.router);
-            if (barChart) barChart.update(data, data2);
+            $("#wahlkreis #wkHeader").html(`Wahlkreis ${this.wkID} - ${data[0].wkname}`);
+            const barChart = that.wahlkreis.getBarChart(data, that.router);
+            if (barChart) barChart.update(data);
             $('.navbar-nav a[href="#wahlkreis"]').parent('li').removeClass('disabled');
             that.router.navigate(`/wahlkreis`);
           });
