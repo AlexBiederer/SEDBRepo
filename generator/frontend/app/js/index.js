@@ -3,6 +3,8 @@ import Bundestag from './bundestag';
 import Bundesland from './bundesland';
 import Wahlkreis from './wahlkreis';
 import StimmenAbgabe from './stimmenAbgabe';
+import KnappstSieger from './knappsteSieger';
+import Sonstiges from './sonstiges';
 import Navigo from 'Navigo';
 
 $(function() {
@@ -12,6 +14,8 @@ $(function() {
   const stimmenAbgabe = new StimmenAbgabe();
   const bundesland = new Bundesland(router);
   const bundestag =  new Bundestag();
+  const knappsteSieger = new KnappstSieger();
+  const sonstiges = new Sonstiges();
   // Main route
   router
     .on(_ => {
@@ -25,17 +29,15 @@ $(function() {
         $(`.navbar-nav a[href="#stimmenAbgabe"]`).tab('show');
         stimmenAbgabe.update(params)
       },
-      '/wahlkreis': _ => $(`.navbar-nav a[href="#wahlkreis"]`).tab('show'),
       '/wahlkreis/:wkID': params => {
         bundesland.updateBarChart(params.wkID)
         $(`.navbar-nav a[href="#wahlkreis"]`).tab('show');
       },
-      '/bundesland': _ => $(`.navbar-nav a[href="#bundesland"]`).tab('show'),
-      '/bundestag': _ => $(`.navbar-nav a[href="#bundestag"]`).tab('show'),
       '/stimmenAbgabe': _ => {
         $(`.navbar-nav a[href="#stimmenAbgabe"]`).tab('show');
         router.navigate(`/stimmenAbgabe/228/1234`);
-      }
+      },
+      '/:tab': params => $(`.navbar-nav a[href="#${params.tab}"]`).tab('show')
     })
     .resolve();
 

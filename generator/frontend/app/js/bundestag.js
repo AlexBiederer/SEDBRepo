@@ -68,9 +68,9 @@ class Bundestag {
         }
         // init data table überhangmandate
         if (!this.dataTableUeberhang) {
-          this.dataTableUeberhang = initDataTable("ueberhangTable", {});
+          this.dataTableUeberhang = initDataTable("ueberhangTable");
           this.dataTableUeberhang.rows.add(tmparray).draw();
-          this.dataTableUeberhang.columns.adjust().draw()
+        //  this.dataTableUeberhang.columns.adjust().draw()
         }
       });
     });
@@ -96,7 +96,7 @@ class Bundestag {
         )[0]);
       });
       this.dataTable.rows.add(tmparray).draw();
-      this.dataTable.columns.adjust().draw()
+    //  this.dataTable.columns.adjust().draw()
       $("#loader").hide();
       $("#switch").show();
     });
