@@ -24,7 +24,7 @@ class Sonstiges {
       $.getJSON("/db/query/zusatzgrp2", data2 => {
         $.getJSON("/db/query/zusatzgrp5", data5 => {
           $("#zusatz2").html(`<b>${data2[0].bonus}</b>`);
-          $("#zusatz5").html(`<b>${data5[0].name} (${parteiToAbk[data5[0].parteiname]}) im WK: ${data5[0].wkname} mit ${data5[0].percent}% der Stimmen</b>`);
+          $("#zusatz5").html(`<b>${data5[0].name} (${parteiToAbk[data5[0].parteiname]}) im Wahlkreis ${data5[0].wkname} mit ${data5[0].percent}% der Stimmen</b>`);
           let tmparray = [];
           data1.forEach(val => {
             tmparray.push($(
