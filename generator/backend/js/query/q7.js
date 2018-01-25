@@ -46,20 +46,34 @@ mandatProWahlkreis(wahlkreis, partei) as
 
 ),
 
-wahlkreisDetails(wahlkreis, direktkandidat,
+wahlkreisDetails(wahlkreis, wkName, direktkandidat,
                    wahlbeteiligung,
                    wahlbeteiligungVorj) as
 (
-	select w17.id as wahlkreis,
+	select w17.id as wahlkreis, w17.name as wkName,
     d.kandidat as direktkandidat,
-    cast (((w17.numgueltigeerst + w17.numungueltigeerst) / cast(w17.numwahlb as float)) * 100 as decimal(18, 2)) as wahlbeteiligung,
-    cast (((w13.numgueltigeerst + w13.numungueltigeerst) / cast(w13.numwahlb as float)) * 100 as decimal(18, 2)) as wahlkbeteiligungVorj
+    cast (((w17.numgueltigeerst + w17.numungueltigeerst + w17.numgueltigezweit + w17.numungueltigezweit) / cast(2 * w17.numwahlb as float)) * 100 as decimal(18, 2)) as wahlbeteiligung,
+    cast (((w13.numgueltigeerst + w13.numungueltigeerst + w13.numgueltigezweit + w13.numungueltigezweit) / cast(2 * w13.numwahlb as float)) * 100 as decimal(18, 2)) as wahlkbeteiligungVorj
     from wahlkreis13 w13, wahlkreis17 w17, mandatProWahlkreis mw, direkt17 d, kandidat17 k
     where w17.id = mw.wahlkreis
     and mw.partei = k.partei
     and d.kandidat = k.id
     and d.wahlkreis = w17.id
     and w17.id = w13.id
+),
+
+prozUndAbsErstProParteiProWahlkreis(partei, wahlkreis, numStimmenProz, numStimmenAbs, numStimmenProzVorj, numStimmenAbsVorj) as
+(
+	select e17.partei, e17.wahlkreis,
+    cast(100 * cast(e17.numStimmen as float)/(w17.numGueltigeErst + w17.numUngueltigeErst) as decimal(18, 2)),
+    e17.numStimmen,
+    cast(100 * cast(e13.numStimmen as float)/(w13.numGueltigeErst + w13.numUngueltigeErst) as decimal(18, 2)),
+    e13.numStimmen
+    from altAggErst17 e17, wahlkreis17 w17, altAggErst13 e13, wahlkreis13 w13
+    where e17.wahlkreis = w17.id
+    and w17.id = w13.id
+    and w13.id = e13.wahlkreis
+    and e17.partei = e13.partei
 ),
 
 prozUndAbsZweitProParteiProWahlkreis(partei, wahlkreis, numStimmenProz, numStimmenAbs, numStimmenProzVorj, numStimmenAbsVorj) as
@@ -76,53 +90,66 @@ prozUndAbsZweitProParteiProWahlkreis(partei, wahlkreis, numStimmenProz, numStimm
     and z17.partei = z13.partei
 ),
 
-
 -- Q3 Wahlkreisübersicht
-wahlkreisUebersicht(wahlkreis, partei, parteiID, direktkandidat,
+wahlkreisUebersicht(wahlkreis, wkName, partei, parteiID, direktkandidat,
                    wahlbeteiligung,
                    diffWahlbeteiligung,
-                   numStimmenProz, numStimmenAbs,
-                   diffStimmenProz, diffStimmenAbs) as
+                   numErstStimmenProz, numErstStimmenAbs,
+                   diffErstStimmenProz, diffErstStimmenAbs,
+				   numZweitStimmenProz, numZweitStimmenAbs,
+                   diffZweitStimmenProz, diffZweitStimmenAbs) as
 (
-    select d.wahlkreis,
+    select d.wahlkreis, d.wkName,
   	p.name,
 		p.id,
     d.direktkandidat,
     d.wahlbeteiligung,
     d.wahlbeteiligung - d.wahlbeteiligungvorj,
-    pa.numStimmenProz,
-    pa.numStimmenAbs,
-    pa.numstimmenProz - pa.numStimmenProzVorj,
-    pa.numStimmenAbs - pa.numStimmenAbsVorj
-    from wahlkreisdetails d, prozUndAbsZweitProParteiProWahlkreis pa, partei17 p
-    where pa.wahlkreis = d.wahlkreis
-    and p.id = pa.partei
+    pea.numStimmenProz,
+    pea.numStimmenAbs,
+    pea.numstimmenProz - pea.numStimmenProzVorj,
+    pea.numStimmenAbs - pea.numStimmenAbsVorj,
+    pza.numStimmenProz,
+    pza.numStimmenAbs,
+    pza.numstimmenProz - pza.numStimmenProzVorj,
+    pza.numStimmenAbs - pza.numStimmenAbsVorj
+    from wahlkreisdetails d, prozUndAbsErstProParteiProWahlkreis pea, prozUndAbsZweitProParteiProWahlkreis pza, partei17 p
+    where pea.wahlkreis = d.wahlkreis
+    and p.id = pea.partei
+	and pza.wahlkreis = d.wahlkreis
+    and p.id = pza.partei
 ),
 
-wahlkreisUebersichtMitSonstige(wahlkreis, partei, parteiID, direktkandidat,
+wahlkreisUebersichtMitSonstige(wahlkreis, wkName, partei, parteiID, direktkandidat,
                    wahlbeteiligung,
                    diffWahlbeteiligung,
-                   numStimmenProz, numStimmenAbs,
-                   diffStimmenProz, diffStimmenAbs) as
+                   numErstStimmenProz, numErstStimmenAbs,
+                   diffErstStimmenProz, diffErstStimmenAbs,
+				   numZweitStimmenProz, numZweitStimmenAbs,
+                   diffZweitStimmenProz, diffZweitStimmenAbs) as
 (
 	(
         select * from wahlkreisUebersicht
-    	where numStimmenProz >= 5
+    	where numZweitStimmenProz >= 5
 
     )
     union
     (
-        select wahlkreis, 'Sonstige', ${Number.MAX_SAFE_INTEGER},
+        select wahlkreis, wkName, 'Sonstige', ${Number.MAX_SAFE_INTEGER},
         direktkandidat, wahlbeteiligung, diffwahlbeteiligung,
-        sum(numStimmenProz),
-        sum(numStimmenAbs),
-        sum(diffStimmenProz),
-        sum(diffStimmenAbs)
+        sum(numErstStimmenProz),
+        sum(numErstStimmenAbs),
+        sum(diffErstStimmenProz),
+        sum(diffErstStimmenAbs) ,
+        sum(numZweitStimmenProz),
+        sum(numZweitStimmenAbs),
+        sum(diffZweitStimmenProz),
+        sum(diffZweitStimmenAbs)
         from wahlkreisUebersicht
-        where numStimmenProz < 5
-        group by wahlkreis, direktkandidat, wahlbeteiligung, diffWahlbeteiligung
+        where numZweitStimmenProz < 5
+        group by wahlkreis, wkName, direktkandidat, wahlbeteiligung, diffWahlbeteiligung
     )
-	order by numStimmenAbs desc
+	order by numZweitStimmenAbs desc
 
 )
 select * from wahlkreisUebersichtMitSonstige where wahlkreis = ${wahlkreis} order by parteiID`
