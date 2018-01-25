@@ -74,7 +74,7 @@ Für das Frontend wurde Javascript und D3 zur Darstellung der Grafiken, für das
 Die Daten werden in einer Postgres-Datenbank gespeichert.
 
 #### Verwendetes Datenschema
-![alt text] https://github.com/AlexBiederer/SEDBRepo/blob/master/Aufgabenblatt_1/umlDiagram.png "Verwendetes Datenbankschema"
+![alt text] (https://github.com/AlexBiederer/SEDBRepo/blob/master/Aufgabenblatt_1/umlDiagram.png "Verwendetes Datenbankschema")
 
 Um das Schema in der Datenbank gut umzusetzen, wurde das Schema in der Datenbank 2 mal angelegt, einmal für die Ergebnisse von 2013, und einmal für die Ergebnisse von 2017. Die Stimmen sind sowohl aggregiert, als auch nicht-aggregiert abgespeichert.
 
