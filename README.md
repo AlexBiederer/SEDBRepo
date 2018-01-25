@@ -67,3 +67,14 @@ Wieder kann in der Liste sortiert und gefiltert werden.
 
 #### Sonstiges
 Auf dem Tab Sonstiges finden sich die Ergebnisse der Zusatzaufgaben. Dafür ist oben eine Liste, welche die Auswertung der Fragestellungen über das vorhandenseien eines Frauenbonus, den/die "ökonimischste/n" Kandidat/in (welche/r es mit dem geringsten Vorsprung in den Bundestag geschafft hat), sowie den Wahlkreis mit der größten Diskrepanz zwischen Erst- und Zweitstimme pro Partei, vorhanden.
+
+### Beschreibung der Implementierung
+#### Verwendete Technologien
+Für das Frontend wurde Javascript und D3 zur Darstellung der Grafiken, für das Backend Node.js verwendet.
+Die Daten werden in einer Postgres-Datenbank gespeichert.
+
+#### Verwendetes Datenschema
+![alt text][dbscheme]
+
+
+[dbscheme]: https://github.com/AlexBiederer/SEDBRepo/blob/master/Aufgabenblatt_1/umlDiagram.png "Verwendetes Datenbankschema"
