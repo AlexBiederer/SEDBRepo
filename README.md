@@ -29,10 +29,22 @@ In einer kommerziellen Version werden beide Teile natürlich strikt getrennt wer
 * Sicherheit / Manipulationsschutz bei der Stimmabgabe
 
 ### Beschreibung der Benutzer-Schnittstelle
+Das Wahlinformationssystem ist aufgegliedert auf 5 Seiten, welche von der Navigationsbar oben auf der Seite navigierbar sind:
+1. Bundestag
+2. Bundesland
+3. Wahlkreis
+4. Knappste Sieger
+5. Sonstiges
+
+#### Bundestag
 Auf der Startseite des Wahlsystems (im Tab Bundestag) ist die Auswertung der vorliegenden Stimmdaten zu sehen.
-Dabei werden
+Dabei werden angezeigt: 
 1. Ein Kuchendiagramm zur Darstellung der Sitzplatzverteilung und der Zusammensetzung des Bundestags, gruppiert nach Parteien
-2. Eine Liste mit allen gewählten Abgeordneten
-angezeigt.
+2. Eine Detailansicht zur Darstellung der Sitzplatzverteilung und der Zusammensetzung des Bundestags, gruppiert nach Parteien
+3. Eine Liste mit allen gewählten Abgeordneten
+4. Eine Liste mit der Anzahl aller Vergebenen Überhangmandate gruppoert nach Parteien und Bundesland
 
-
+Oben rechts ist die Option zum Umschalten zwischen voraggregierten und nicht-aggregierten Daten angezeigt (Rohdaten verwenden).
+Wenn auf den Aggregierten Daten gearbeitet wird, so werden die Anfragen auf bereits voraggregierten Wahldaten ausgeführt.
+Sobald auf die nicht-aggregierten Daten gewechselt wird, werden die Anfragen auf nicht-aggregierten Daten ausgeführt. Dies führt dazu, dass diese auch deutlich länger für die Berechnung der Ergebnisse benötigen.
+In den Listen kann nach beliebigen Einträgen gefiltert und sortiert werden.
