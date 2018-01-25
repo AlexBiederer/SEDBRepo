@@ -82,15 +82,16 @@ Um Berechnungen im Rahmen der erlaubten Möglichkeiten zu beschleunigen, wurden
 * keine Indexe verwendet!
 * speichereffiziente Datentypen verwendet
 * nur speichereffiziente Datentypen für Referenzen anstatt Strings in den Wahlergebnistabellen verwendet
-* Erst- und Zweitstimmen getrennt, aufgeteilt bezüglich der Wahlperiode und reduziert auf kurze Partei- und Wahlkreisreferenzen gespeichert (Um die aggregation zu beschleunigen)
+* Erst- und Zweitstimmen getrennt, aufgeteilt bezüglich der Wahlperiode und reduziert auf kurze Partei- und Wahlkreisreferenzen gespeichert (Um die Reaggregation zu beschleunigen)
 
 
 #### Verwendete Daten
 Als Grundlage für die Berechnung der Zusammensetzung des Bundestags wurden die [offiziellen Wahlergebnisse des Bundeswahlleiters von 2017](https://www.bundeswahlleiter.de/dam/jcr/72f186bb-aa56-47d3-b24c-6a46f5de22d0/btw17_kerg.csv) verwendet.
 Hier liegen die Wahlergebnisse in bereits aggergierter Form vor.
 
-Um die Performance der Datenbanken testen zu können
+Um die Performance der Datenbanken testen zu können, wurden die Wahldaten per SQL deaggregiert und gespeichert.
+Das Deaggregieren (und Einfügen von 4 * 40.000.000 Einträgen) dauert ca 5min.  
 
 #### Berechnung der Sitzplatzverteilung
-Die Berechnung der Sitzplatzverteilung und der Zusammensetzung des Bundestags funkioniert nach dem [Sainte-Laguë/Schepers-Verfahren](https://www.bundeswahlleiter.de/dam/jcr/992a9841-b869-49a6-b7b9-0b1366bf2589/btw17_erl_sitzzuteilung.pdf), welches allerdings nicht nach dem Divisorverfahren, sondern nach dem Höchstzahlverfahren (welches nachgewiesenermaßen identische Ergebnisse liefert) implementiert wurde. Die Implementierung beruht zu 100% auf SQL, und ist sehr performant. 
+Die Berechnung der Sitzplatzverteilung und der Zusammensetzung des Bundestags funkioniert nach dem [Sainte-Laguë/Schepers-Verfahren](https://www.bundeswahlleiter.de/dam/jcr/992a9841-b869-49a6-b7b9-0b1366bf2589/btw17_erl_sitzzuteilung.pdf), welches allerdings nicht nach dem Divisorverfahren, sondern nach dem Höchstzahlverfahren (welches nachgewiesenermaßen identische Ergebnisse liefert) implementiert wurde. Die Implementierung beruht zu 100% auf SQL, und ist deshalb auch sehr performant, sowohl auf aggregierten als auch auf nicht-aggregierten Daten.
 
