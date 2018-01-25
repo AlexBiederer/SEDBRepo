@@ -76,5 +76,7 @@ Die Daten werden in einer Postgres-Datenbank gespeichert.
 #### Verwendetes Datenschema
 ![alt text][dbscheme]
 
+#### Berechnung der Sitzplatzverteilung
+Die Berechnung der Sitzplatzverteilung und der Zusammensetzung des Bundestags funkioniert nach dem [Sainte-Laguë/Schepers-Verfahren](https://www.bundeswahlleiter.de/dam/jcr/992a9841-b869-49a6-b7b9-0b1366bf2589/btw17_erl_sitzzuteilung.pdf), welches allerdings nicht nach dem Divisorverfahren, sondern nach dem Höchstzahlverfahren (welches nachgewiesenermaßen identische Ergebnisse liefert) implementiert wurde. Die Implementierung beruht zu 100% auf SQL, weshalb die Anfrage auch eine sehr Performance bietet. 
 
 [dbscheme]: https://github.com/AlexBiederer/SEDBRepo/blob/master/Aufgabenblatt_1/umlDiagram.png "Verwendetes Datenbankschema"
