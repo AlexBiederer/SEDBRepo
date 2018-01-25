@@ -8,7 +8,7 @@ In einer kommerziellen Version werden beide Teile natürlich strikt getrennt wer
 
 ### Angebotene Funktionalität
 * Interaktives Web-Interface
-* Graphische Daten-Visualisierung der Wahlergebnisse (Pie-charts, D3.js)
+* Graphische Daten-Visualisierung der Wahlergebnisse (Pie-charts, Bar-charts, Bundesland-picker, D3.js, Bootstrap 3)
 * Ermöglicht effiziente Analysen des Wahlergebnisses der Bundestagswahl 2017:
 	* Anzeige der Direktmandate pro Bundesland/Wahlkreis
 	* Anzahl Gültige/Ungültige Stimmen pro Bundesland/Wahlkreis
