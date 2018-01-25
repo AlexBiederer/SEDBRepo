@@ -161,7 +161,9 @@ class Bundesland {
           `);
             $("#wahlkreis #wkHeader").html(`Wahlkreis ${this.wkID} - ${data[0].wkname}`);
             const barChart = that.wahlkreis.getBarChart(data, that.router);
+            const barChart2 = that.wahlkreis.getBarChart2(data, that.router);
             if (barChart) barChart.update(data);
+            if (barChart2) barChart2.update(data);
             $('.navbar-nav a[href="#wahlkreis"]').parent('li').removeClass('disabled');
             that.router.navigate(`/wahlkreis`);
           });
