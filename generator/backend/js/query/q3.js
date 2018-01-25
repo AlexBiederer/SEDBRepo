@@ -71,7 +71,7 @@ wahlkreisUebersicht(wahlkreis, wkName, partei, parteiID, direktkandidat,
     pea.numStimmenProz,
     pea.numStimmenAbs,
     pea.numstimmenProz - pea.numStimmenProzVorj,
-    pea.numStimmenAbs - pea.numStimmenAbsVorj
+    pea.numStimmenAbs - pea.numStimmenAbsVorj,
     pza.numStimmenProz,
     pza.numStimmenAbs,
     pza.numstimmenProz - pza.numStimmenProzVorj,
