@@ -54,11 +54,11 @@ In den Listen kann nach beliebigen Einträgen gefiltert und sortiert werden, sow
 Auf dem Tab Bundesland eine Navigierbare und Zoombare Karte mit den Bundesländern Deutschlands, sowie daneben eine Liste mit allen Wahlkreisen angezeigt. Die Liste ist wie immer filter-, sortier- und in der Größe anpassbar. Diese Seite dient dazu, einen bestimmten Wahlkreis für die Wahlkreis-Ansicht auszuwählen. Dazu wird in der Liste auf der rechten Seite der gewünschte Wahlkreis ausgewählt. Daraufhin erfolgt automatisch der Übergang zur Wahlkreis-Ansicht.
 
 #### Wahlkreis
-In der Wahlkreis-Ansicht (Tab Wahlkreis) werden alle Daten bezüglich eines gewählten Wahlkreises, wie der gewählte Direktkandidat, die Gewinnerparteien, die Anzahl der berechtigten Wähler, die Anzahl der gültigen und ungültigen Erst-und Zweitstimmen tabellarisch dargestellt. Außerdem werden die Ergebnisse der Wahl, sowie der Vergleich der Ergebnisse mit den Ergebnissen der Vorperiode in Form eines Balkendiagramms angezeigt.
+In der Wahlkreis-Ansicht (Tab Wahlkreis) werden alle Daten bezüglich eines gewählten Wahlkreises, wie der gewählte Direktkandidat, die Gewinnerparteien, die Anzahl der berechtigten Wähler, die Anzahl der gültigen und ungültigen Erst-und Zweitstimmen tabellarisch dargestellt. Außerdem werden die Ergebnisse der Wahl, sowie der Vergleich der Ergebnisse mit den Ergebnissen der Vorperiode in Form zweier Balkendiagramme für die Erst- und Zweitstimmen angezeigt.
 
-Für genauere Details zu den Wahlergebnissen einer Partei kann im Balkgendiagramm per Tooltip das Wahlergebnis der jeweiligen Partei in % und Anzahl der Stimmen jeweils wieder im Vergleich zur Vorperiode entnommen werden.
+Für genauere Details zu den Wahlergebnissen einer Partei kann in den Balkgendiagrammen per Tooltip das Wahlergebnis der jeweiligen Partei in % und Anzahl der Stimmen jeweils wieder im Vergleich zur Vorperiode entnommen werden.
 
-Auch auf der Wahlkreis-Ansicht findet sich oben rechts wieder ein Umschalter, dir auch hier wieder zwischen der Berechnung aus aggregierten und nicht-aggregierten Daten umschaltet. 
+Auch auf der Wahlkreis-Ansicht findet sich oben rechts wieder ein Umschalter, der auch hier wieder zwischen der Berechnung aus aggregierten und nicht-aggregierten Daten umschaltet. 
 
 #### Knappste Sieger
 Auf dem Tab Knappste Sieger werden die (bis zu) 10 Knappsten Sieger einer Partei mit der Anzahl der Stimmen Vorsprung (-) angezeigt. Für den Fall dass eine Partei keine 10 Kandidaten im Bundestag hat, wird mit knappsten Verlierern (+) aufgefüllt.
