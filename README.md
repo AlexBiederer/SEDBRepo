@@ -74,9 +74,23 @@ Für das Frontend wurde Javascript und D3 zur Darstellung der Grafiken, für das
 Die Daten werden in einer Postgres-Datenbank gespeichert.
 
 #### Verwendetes Datenschema
-![alt text][dbscheme]
+![alt text] https://github.com/AlexBiederer/SEDBRepo/blob/master/Aufgabenblatt_1/umlDiagram.png "Verwendetes Datenbankschema"
+
+Um das Schema in der Datenbank gut umzusetzen, wurde das Schema in der Datenbank 2 mal angelegt, einmal für die Ergebnisse von 2013, und einmal für die Ergebnisse von 2017. Die Stimmen sind sowohl aggregiert, als auch nicht-aggregiert abgespeichert.
+
+Um Berechnungen im Rahmen der erlaubten Möglichkeiten zu beschleunigen, wurden 
+* keine Indexe verwendet!
+* speichereffiziente Datentypen verwendet
+* nur speichereffiziente Datentypen für Referenzen anstatt Strings in den Wahlergebnistabellen verwendet
+* Erst- und Zweitstimmen getrennt, aufgeteilt bezüglich der Wahlperiode und reduziert auf kurze Partei- und Wahlkreisreferenzen gespeichert (Um die aggregation zu beschleunigen)
+
+
+#### Verwendete Daten
+Als Grundlage für die Berechnung der Zusammensetzung des Bundestags wurden die [offiziellen Wahlergebnisse des Bundeswahlleiters von 2017](https://www.bundeswahlleiter.de/dam/jcr/72f186bb-aa56-47d3-b24c-6a46f5de22d0/btw17_kerg.csv) verwendet.
+Hier liegen die Wahlergebnisse in bereits aggergierter Form vor.
+
+Um die Performance der Datenbanken testen zu können
 
 #### Berechnung der Sitzplatzverteilung
-Die Berechnung der Sitzplatzverteilung und der Zusammensetzung des Bundestags funkioniert nach dem [Sainte-Laguë/Schepers-Verfahren](https://www.bundeswahlleiter.de/dam/jcr/992a9841-b869-49a6-b7b9-0b1366bf2589/btw17_erl_sitzzuteilung.pdf), welches allerdings nicht nach dem Divisorverfahren, sondern nach dem Höchstzahlverfahren (welches nachgewiesenermaßen identische Ergebnisse liefert) implementiert wurde. Die Implementierung beruht zu 100% auf SQL, weshalb die Anfrage auch eine sehr Performance bietet. 
+Die Berechnung der Sitzplatzverteilung und der Zusammensetzung des Bundestags funkioniert nach dem [Sainte-Laguë/Schepers-Verfahren](https://www.bundeswahlleiter.de/dam/jcr/992a9841-b869-49a6-b7b9-0b1366bf2589/btw17_erl_sitzzuteilung.pdf), welches allerdings nicht nach dem Divisorverfahren, sondern nach dem Höchstzahlverfahren (welches nachgewiesenermaßen identische Ergebnisse liefert) implementiert wurde. Die Implementierung beruht zu 100% auf SQL, und ist sehr performant. 
 
-[dbscheme]: https://github.com/AlexBiederer/SEDBRepo/blob/master/Aufgabenblatt_1/umlDiagram.png "Verwendetes Datenbankschema"
