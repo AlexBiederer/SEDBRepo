@@ -28,6 +28,10 @@ In einer kommerziellen Version werden beide Teile natürlich strikt getrennt wer
 	* Stimmen werden anonymisiert und Erst-und Zweitstimme getrennt gespeichert
 * Sicherheit / Manipulationsschutz bei der Stimmabgabe
 
+### [Lastenheft](https://github.com/AlexBiederer/SEDBRepo/blob/master/Aufgabenblatt_2/Lastenheft_Wahlinformationssystem.md) 
+
+### [Pflichtenheft](https://github.com/AlexBiederer/SEDBRepo/blob/master/Aufgabenblatt_3/Pflichtenheft_Wahlinformatonssystem.pdf)
+
 ### Beschreibung der Benutzer-Schnittstelle
 Das Wahlinformationssystem ist aufgegliedert auf 5 Seiten, welche von der Navigationsbar oben auf der Seite navigierbar sind:
 1. Bundestag
