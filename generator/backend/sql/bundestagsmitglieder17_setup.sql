@@ -1,5 +1,7 @@
 drop materialized view bundestagsmitglieder17;
 
+-- Hier stehen alle Queries für die Sitzplatzberechnung dokumentiert
+-- Das ganze wird in einem materialized View gespeichert, und bei bedarf neu berechnet.
 create materialized view bundestagsmitglieder17 as
 (
 with
