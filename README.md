@@ -8,7 +8,7 @@ In einer kommerziellen Version werden beide Teile natürlich strikt getrennt wer
 
 ### Angebotene Funktionalität
 * Interaktives Web-Interface
-* Graphische Daten-Visualisierung der Wahlergebnisse (Pie-charts, D3.js)
+* Graphische Daten-Visualisierung der Wahlergebnisse (Pie-charts, Bar-charts, Bundesland-picker, D3.js, Bootstrap 3)
 * Ermöglicht effiziente Analysen des Wahlergebnisses der Bundestagswahl 2017:
 	* Anzeige der Direktmandate pro Bundesland/Wahlkreis
 	* Anzahl Gültige/Ungültige Stimmen pro Bundesland/Wahlkreis
@@ -27,6 +27,10 @@ In einer kommerziellen Version werden beide Teile natürlich strikt getrennt wer
 * Datenschutzrechtlich unbedenklich
 	* Stimmen werden anonymisiert und Erst-und Zweitstimme getrennt gespeichert
 * Sicherheit / Manipulationsschutz bei der Stimmabgabe
+
+### [Lastenheft](https://github.com/AlexBiederer/SEDBRepo/blob/master/Aufgabenblatt_2/Lastenheft_Wahlinformationssystem.md) 
+
+### [Pflichtenheft](https://github.com/AlexBiederer/SEDBRepo/blob/master/Aufgabenblatt_3/Pflichtenheft_Wahlinformatonssystem.pdf)
 
 ### Beschreibung der Benutzer-Schnittstelle
 Das Wahlinformationssystem ist aufgegliedert auf 5 Seiten, welche von der Navigationsbar oben auf der Seite navigierbar sind:
@@ -54,11 +58,11 @@ In den Listen kann nach beliebigen Einträgen gefiltert und sortiert werden, sow
 Auf dem Tab Bundesland eine Navigierbare und Zoombare Karte mit den Bundesländern Deutschlands, sowie daneben eine Liste mit allen Wahlkreisen angezeigt. Die Liste ist wie immer filter-, sortier- und in der Größe anpassbar. Diese Seite dient dazu, einen bestimmten Wahlkreis für die Wahlkreis-Ansicht auszuwählen. Dazu wird in der Liste auf der rechten Seite der gewünschte Wahlkreis ausgewählt. Daraufhin erfolgt automatisch der Übergang zur Wahlkreis-Ansicht.
 
 #### Wahlkreis
-In der Wahlkreis-Ansicht (Tab Wahlkreis) werden alle Daten bezüglich eines gewählten Wahlkreises, wie der gewählte Direktkandidat, die Gewinnerparteien, die Anzahl der berechtigten Wähler, die Anzahl der gültigen und ungültigen Erst-und Zweitstimmen tabellarisch dargestellt. Außerdem werden die Ergebnisse der Wahl, sowie der Vergleich der Ergebnisse mit den Ergebnissen der Vorperiode in Form eines Balkendiagramms angezeigt.
+In der Wahlkreis-Ansicht (Tab Wahlkreis) werden alle Daten bezüglich eines gewählten Wahlkreises, wie der gewählte Direktkandidat, die Gewinnerparteien, die Anzahl der berechtigten Wähler, die Anzahl der gültigen und ungültigen Erst-und Zweitstimmen tabellarisch dargestellt. Außerdem werden die Ergebnisse der Wahl, sowie der Vergleich der Ergebnisse mit den Ergebnissen der Vorperiode in Form zweier Balkendiagramme für die Erst- und Zweitstimmen angezeigt.
 
-Für genauere Details zu den Wahlergebnissen einer Partei kann im Balkgendiagramm per Tooltip das Wahlergebnis der jeweiligen Partei in % und Anzahl der Stimmen jeweils wieder im Vergleich zur Vorperiode entnommen werden.
+Für genauere Details zu den Wahlergebnissen einer Partei kann in den Balkgendiagrammen per Tooltip das Wahlergebnis der jeweiligen Partei in % und Anzahl der Stimmen jeweils wieder im Vergleich zur Vorperiode entnommen werden.
 
-Auch auf der Wahlkreis-Ansicht findet sich oben rechts wieder ein Umschalter, dir auch hier wieder zwischen der Berechnung aus aggregierten und nicht-aggregierten Daten umschaltet. 
+Auch auf der Wahlkreis-Ansicht findet sich oben rechts wieder ein Umschalter, der auch hier wieder zwischen der Berechnung aus aggregierten und nicht-aggregierten Daten umschaltet. 
 
 #### Knappste Sieger
 Auf dem Tab Knappste Sieger werden die (bis zu) 10 Knappsten Sieger einer Partei mit der Anzahl der Stimmen Vorsprung (-) angezeigt. Für den Fall dass eine Partei keine 10 Kandidaten im Bundestag hat, wird mit knappsten Verlierern (+) aufgefüllt.
@@ -93,8 +97,12 @@ Um die Performance der Datenbanken testen zu können, wurden die Wahldaten per S
 Das Deaggregieren (und Einfügen von 4 * 40.000.000 Einträgen) dauert ca 5min.  
 
 #### Berechnung der Sitzplatzverteilung
-Die Berechnung der Sitzplatzverteilung und der Zusammensetzung des Bundestags funkioniert nach dem [Sainte-Laguë/Schepers-Verfahren](https://www.bundeswahlleiter.de/dam/jcr/992a9841-b869-49a6-b7b9-0b1366bf2589/btw17_erl_sitzzuteilung.pdf), welches allerdings nicht nach dem Divisorverfahren, sondern nach dem Höchstzahlverfahren (welches nachgewiesenermaßen identische Ergebnisse liefert) implementiert wurde. Die Implementierung beruht zu 100% auf SQL, und ist deshalb auch sehr performant, sowohl auf aggregierten als auch auf nicht-aggregierten Daten.
+Die Berechnung der Sitzplatzverteilung und der Zusammensetzung des Bundestags funkioniert nach dem [Sainte-Laguë/Schepers-Verfahren](https://www.bundeswahlleiter.de/dam/jcr/992a9841-b869-49a6-b7b9-0b1366bf2589/btw17_erl_sitzzuteilung.pdf), welches allerdings nicht nach dem Divisorverfahren, sondern nach dem Höchstzahlverfahren (welches nachgewiesenermaßen identische Ergebnisse liefert) implementiert wurde. Die Implementierung beruht zu 100% auf SQL, und ist deshalb auch sehr performant, sowohl auf aggregierten als auch auf nicht-aggregierten Daten. Die Daten werden in einem Materialized View gespeichert, und auf Anforderung neu aggregiert.
+Die implementierung ist im Quellcode dokumentiert [hier](https://github.com/AlexBiederer/SEDBRepo/blob/master/generator/backend/sql/bundestagsmitglieder17_setup.sql) zu finden.
 
 #### Berechnung aller weiteren Daten
-Alle Anfrage (Knappste Sieger, etc.) wurden in SQL modelliert, und können im Backend mithilfe von statischem Routing durch REST-APIs abgerufen werden: *localhost:3000/db/query/Name_der_Query* . Bei Anfragen mit Parametern (z.B. Wahlkeisübersicht) wurde die SQL Anfrage in einem .js mit Variablem Parameter gespeichert. Diese sind dann unter *localhost:3000/db/query/Name_der_Query/?params=Parameter*.
+Alle Anfrage (Knappste Sieger, etc.) wurden in SQL modelliert, und können im Backend mithilfe von statischem Routing durch REST-APIs abgerufen werden: *localhost:3000/db/query/Name_der_Query* . Bei Anfragen mit Parametern (z.B. Wahlkeisübersicht) wurde die SQL Anfrage in einem .js mit Variablem Parameter gespeichert. Diese sind dann unter *localhost:3000/db/customquery/Name_der_Query/?params=Parameter*.
+
+#### Messen der Backend-Performance
+Die Performance des Backends wurde mithilfe des Tools [JMeter](http://jmeter.apache.org/) nach den gegebenen Vorgaben gemessen.
 

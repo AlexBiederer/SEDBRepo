@@ -6,14 +6,13 @@ class BarChart {
 
   constructor(data, router) {
     this.router = router;
-    this.svg = d3.select("#barChart");
+    this.svg = d3.select("#barChart2");
     this.margin = {
       top: 20,
       right: 20,
       bottom: 30,
       left: 40
     };
-
     this.width = +(window.innerWidth / 2.5) - this.margin.left - this.margin.right;
     this.height = +this.svg.attr("height") - this.margin.top - this.margin.bottom;
     this.g = this.svg.append("g").attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
@@ -45,10 +44,10 @@ class BarChart {
       .rangeRound([this.height, 0]);
 
 
-    this.keys = ["numzweitstimmenproz", "numzweitstimmenproz13"];
+    this.keys = ["numerststimmenproz", "numerststimmenproz13"];
     data = data.map(d => {
-      d.numzweitstimmenproz13 = (+d.numzweitstimmenproz - +d.diffzweitstimmenproz).toFixed(2);
-      d.numzweitstimmenabs13 = (+d.numzweitstimmenabs - +d.diffzweitstimmenabs);
+      d.numerststimmenproz13 = (+d.numerststimmenproz - +d.differststimmenproz).toFixed(2);
+      d.numertststimmenabs13 = (+d.numerststimmenabs - +d.differststimmenabs);
       return d;
     });
 
@@ -106,8 +105,8 @@ class BarChart {
   update(data) {
     const that = this;
     data = data.map(d => {
-      d.numzweitstimmenproz13 = (+d.numzweitstimmenproz - +d.diffzweitstimmenproz).toFixed(2);
-      d.numzweitstimmenabs13 = (+d.numzweitstimmenabs - +d.diffzweitstimmenabs);
+      d.numerststimmenproz13 = (+d.numerststimmenproz - +d.differststimmenproz).toFixed(2);
+      d.numertststimmenabs13 = (+d.numerststimmenabs - +d.differststimmenabs);
       return d;
     });
 
@@ -138,19 +137,18 @@ class BarChart {
         that.tooltip
           .style("top", `${top}px`)
           .style("left", `${left}px`)
-        const vorzeichen1 = d.diffzweitstimmenproz >= 0 ? "+" : "",
-          vorzeichen2 = d.diffzweitstimmenabs >= 0 ? "+" : "";
+        const vorzeichen1 = d.differststimmenproz >= 0 ? "+" : "",
+          vorzeichen2 = d.differststimmenabs >= 0 ? "+" : "";
 
         that.tooltip
           .style("visibility", "visible")
           .html(`<b>${parteiToAbk[d.partei]}</b><br>
-            <b>Stimmen (%): </b>${d.numzweitstimmenproz} % (${vorzeichen1}${d.diffzweitstimmenproz} %)<br>
-            <b>Anzahl Stimmen: </b>${d.numzweitstimmenabs} (${vorzeichen2}${d.diffzweitstimmenabs})
+            <b>Stimmen (%): </b>${d.numerststimmenproz} % (${vorzeichen1}${d.differststimmenproz} %)<br>
+            <b>Anzahl Stimmen: </b>${d.numerststimmenabs} (${vorzeichen2}${d.differststimmenabs})
            `);
 
       })
       .on("mousemove", _ => {
-        console.log(d3.event);
         const top = (d3.event.clientY - 80);
         const left = (d3.event.clientX + 10);
         that.tooltip
@@ -172,8 +170,8 @@ class BarChart {
             key: key,
             value: d[key],
             partei: parteiToAbk[d.partei],
-            anzahlStimmen: key === "numzweitstimmenproz13" ? d.numzweitstimmenabs13 : d.numzweitstimmenabs,
-            jahr: key === "numzweitstimmenproz13" ? 2013 : 2017,
+            anzahlStimmen: key === "numerststimmenproz13" ? d.numertststimmenabs13 : d.numerststimmenabs,
+            jahr: key === "numerststimmenproz13" ? 2013 : 2017,
             data: d
           };
         });
