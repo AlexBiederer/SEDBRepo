@@ -105,4 +105,11 @@ Alle Anfrage (Knappste Sieger, etc.) wurden in SQL modelliert, und können im Ba
 
 #### Messen der Backend-Performance
 Die Performance des Backends wurde mithilfe des Tools [JMeter](http://jmeter.apache.org/) nach den gegebenen Vorgaben gemessen.
+Nach der intialen Messung, welche [hier](https://github.com/AlexBiederer/SEDBRepo/tree/master/Aufgabenblatt_7) zu finden sind, wurde die Datenbank weiter optimiert, und noch bessere Ergebnisse erreicht:
 
+Für t = 1s, n = 10:
+
+|  | Durchschnitt in ms | Mittel in ms  |
+| --- |:---:| ---:|
+| nicht optimiert | 757 | 43 |
+| optimiert      | 367 | 92 |
