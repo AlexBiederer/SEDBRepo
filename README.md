@@ -2,7 +2,7 @@
 Felix Schwarzmeier und Alex Biederer.
 
 ## Zielsetzung
-Das Wahlinformationssystem ist soll prototypisch mehrere Anwendungsfälle explorieren:
+Das Wahlinformationssystem soll prototypisch mehrere Anwendungsfälle explorieren:
 * Die Möglichkeit für Bürger, sich online über den Ausgang der Bundestagswahl informieren zu können, und diese im Detail analysieren zu können
 * Die Möglichkeit für Bürger, die Wahl elektronisch durchführen zu können. Dabei wird sowohl die Anwendung des Systems als elektronisches Backend in einem Wahllokal, als auch der Einsatz für eine Online-Wahl betrachtet.
 
@@ -158,7 +158,7 @@ Der Wähler erhält dann wieder einen zufälligen Code zugesandt, mit welchem er
 <kbd><img src="https://github.com/AlexBiederer/SEDBRepo/blob/master/Abschlusspr%C3%A4sentation/Wahl.png"/></kbd>
 
 Die Darstellung des Digitalen Wahlscheins ist dem realen Wahlschein nachempfunden.
-So werden auf der Linken Seite alle im Wahlkreis kandidierenden Erstkandidaten, auf der Linken Seite alle im Wahlkreis antretenden Parteien angezeigt.
+So werden auf der linken Seite alle im Wahlkreis kandidierenden Erstkandidaten, auf der rechten Seite alle im Wahlkreis antretenden Parteien angezeigt.
 Beim Klick auf eine der Möglichkeiten wird diese ausgewählt, und die vorher getroffene Wahl wieder entfernt. So werden versehentliche Invalidierungen des Stimmzettels vermieden.
 Falls ein Wähler dennoch eine ungültige Erst- oder Zweitstimme abgeben möchte, kann er dies durch die Auswahl von *Ungültig stimmen* tun.
 Um seine Stimme abzugeben, muss der Wähler dann noch *Bestätigen* auswählen.
