@@ -1,7 +1,7 @@
 # Wahlsystem - Dokumentation
 Felix Schwarzmeier und Alex Biederer.
 
-# Inhaltsverzeichnis
+## Inhaltsverzeichnis
 1. [Zielsetzung](#zielsetzung)
 2. [Highlights](#highlights)
 3. [Zielsetzung](#zielsetzung)
@@ -10,12 +10,12 @@ Felix Schwarzmeier und Alex Biederer.
 6. [Dokumentation des Wahlinformationssystems](#dokumentation-des-wahlinformationssystems)
 7. [Dokumentation des Stimmabgabesystems](#dokumentation-des-stimmabgabesystems)
 
-# Zielsetzung
+## Zielsetzung
 Das Wahlinformationssystem soll prototypisch mehrere Anwendungsfälle explorieren: 
  * Die Möglichkeit für Bürger, sich online über den Ausgang der Bundestagswahl informieren zu können, und diese im Detail analysieren zu können
 * Die Möglichkeit für Bürger, die Wahl elektronisch durchführen zu können. Dabei wird sowohl die Anwendung des Systems als elektronisches Backend in einem Wahllokal, als auch der Einsatz für eine Online-Wahl betrachtet.
 
-# Highlights
+## Highlights
 * Interaktives, ansprechendes und intuitives Web-Interface
 * Graphische Daten-Visualisierung der Wahlergebnisse (Pie-charts, Bar-charts, Bundesland-picker, D3.js, Bootstrap 3)
 * Ermöglicht effiziente Analysen des Wahlergebnisses der Bundestagswahl 2017:
@@ -27,9 +27,9 @@ Das Wahlinformationssystem soll prototypisch mehrere Anwendungsfälle exploriere
 * Verwendung des Systems als Backend für die elektronische Stimmabgabe im Wahllokal
 * Verwendung des Systems zur sicheren Online-Wahl
 
-# [Lastenheft](https://github.com/AlexBiederer/SEDBRepo/blob/master/Aufgabenblatt_2/Lastenheft_Wahlinformationssystem.md) 
+## [Lastenheft](https://github.com/AlexBiederer/SEDBRepo/blob/master/Aufgabenblatt_2/Lastenheft_Wahlinformationssystem.md) 
 
-# [Pflichtenheft](https://github.com/AlexBiederer/SEDBRepo/blob/master/Aufgabenblatt_3/Pflichtenheft_Wahlinformatonssystem.pdf)
+## [Pflichtenheft](https://github.com/AlexBiederer/SEDBRepo/blob/master/Aufgabenblatt_3/Pflichtenheft_Wahlinformatonssystem.pdf)
 
 # Dokumentation des Wahlinformationssystems
 
