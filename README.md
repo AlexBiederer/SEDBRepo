@@ -250,7 +250,7 @@ Um das Wahlsystem zu installieren, wird das Repository gecloned, dann im *backen
 
 `npm run dev`
 
-und im *frontend*
+und im *frontend*:
 
 `npm install`
 
