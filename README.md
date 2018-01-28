@@ -209,7 +209,7 @@ ist so also sicherheitstechnisch etwas bedenklicher.
 
 ### Stimmabgabe duch nicht-autorisierte Personen
 
-Siehe Mehrfache Stimmabgabe
+Siehe [Mehrfache Stimmabgabe](#Mehrfache-Stimmabgabe)
 
 ### SQL-Injection
 
