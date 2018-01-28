@@ -1,6 +1,11 @@
 # Wahlsystem - Dokumentation
 Felix Schwarzmeier und Alex Biederer.
 
+# Inhaltsverzeichnis
+1. [Zielsetzung](#zielsetzung)
+2. [Highlights](#highlights)
+3. [Zielsetzung](#zielsetzung)
+
 ## Zielsetzung
 Das Wahlinformationssystem soll prototypisch mehrere Anwendungsfälle explorieren: 
  * Die Möglichkeit für Bürger, sich online über den Ausgang der Bundestagswahl informieren zu können, und diese im Detail analysieren zu können
