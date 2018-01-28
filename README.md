@@ -152,7 +152,8 @@ Der Wähler erhält dann wieder einen zufälligen Code zugesandt, mit welchem er
 ## Beschreibung der Benutzer-Schnittstelle des Stimmabgabesystems
 
 ### Stimmabgabe
-![alt text](https://github.com/AlexBiederer/SEDBRepo/blob/master/Abschlusspr%C3%A4sentation/Wahl.png "Stimmabgabe")
+<kbd><img src="https://github.com/AlexBiederer/SEDBRepo/blob/master/Abschlusspr%C3%A4sentation/Wahl.png"/></kbd>
+
 Die Darstellung des Digitalen Wahlscheins ist dem realen Wahlschein nachempfunden.
 So werden auf der Linken Seite alle im Wahlkreis kandidierenden Erstkandidaten, auf der Linken Seite alle im Wahlkreis antretenden Parteien angezeigt.
 Beim Klick auf eine der Möglichkeiten wird diese ausgewählt, und die vorher getroffene Wahl wieder entfernt. So werden versehentliche Invalidierungen des Stimmzettels vermieden.
