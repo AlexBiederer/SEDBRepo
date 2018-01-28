@@ -216,6 +216,7 @@ Siehe Mehrfache Stimmabgabe
 Alle Interaktion mit dem System passiert auf Browser-Ebene, dem Wähler stehen keine Freitextfelder zur Verfügung. SQL-Injection ist somit unmöglich.
 
 ### Ausspähen / Manipulation der Kommunikation
+(#ausspähen)
 
 Mithilfe eines Man-in-the-middle Angriffes könnten Betrüger einen Gültigen Stimmbefehl abfangen, und die Stimmdaten verändern, den Schlüssel aber gleich lassen, oder einfach das Paket blockieren (damit der Schlüssel nicht invalidiert wird) und den Schlüssel auslesen. Alternativ könnten Angreifer einfach die Kommunikation auslesen, und so Rückschlüsse auf die Wähler machen, die zu der Zeit z.B. im Wahllokal waren. Um dies zu verhindern muss die Kommunikation mit dem Wahlserver verschlüsselt erfolgen. Damit sind diese Art von Angriffen ausgeschlossen.
 
@@ -224,4 +225,4 @@ Mithilfe eines Man-in-the-middle Angriffes könnten Betrüger einen Gültigen St
 Selbst bei einer Manipulation des Wahlrechners kann die Datenbasis nur mit einem gültigen Code verändert werden. 
 Diese Codes sind von keinem System aus abrufbar, und werden nur intern zur Validierung verwendet.
 Die Wahlrechner sind für die Wahl nichts weiter als Browser.
-Dennoch müssen diese vor Manipulation geschützt werden, da ansonsten z.B. die Kommunikation einfach Manipuliert werden kann (siehe [Ausspähen / Manipulation der Kommunikation](https://github.com/AlexBiederer/SEDBRepo#aussp%C3%A4hen--manipulation-der-kommunikation).)
+Dennoch müssen diese vor Manipulation geschützt werden, da ansonsten z.B. die Kommunikation einfach Manipuliert werden kann (siehe [Ausspähen / Manipulation der Kommunikation](#ausspähen).)
