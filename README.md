@@ -8,7 +8,12 @@ Felix Schwarzmeier und Alex Biederer.
 4. [Lastenheft](#lastenheft)
 5. [Pflichtenheft](#pflichtenheft)
 6. [Dokumentation des Wahlinformationssystems](#dokumentation-des-wahlinformationssystems)
+ 6.1. [Beschreibung der Benutzer-Schnittstelle](#beschreibung-der-benutzer-schnittstelle)
+ 6.2. [Technische Umsetzung](#technische-umsetzung)
 7. [Dokumentation des Stimmabgabesystems](#dokumentation-des-stimmabgabesystems)
+ 7.1. [Beschreibung der Benutzer-Schnittstelle](#beschreibung-der-benutzer-schnittstelle-1)
+ 7.2. [Technische Umsetzung](#technische-umsetzung-1)
+
 
 ## Zielsetzung
 Das Wahlinformationssystem soll prototypisch mehrere Anwendungsfälle explorieren: 
@@ -170,7 +175,7 @@ Der dafür nötige Code wird (wie bisher), per Brief oder auch online angeforder
 Der Wähler erhält dann wieder einen zufälligen Code zugesandt, mit welchem er Online von Zuhause genau einmal wählen kann.
 Der Wahlprozess ist dann der Selbe.
 
-## Beschreibung der Benutzer-Schnittstelle des Stimmabgabesystems
+## Beschreibung der Benutzer-Schnittstelle
 
 ### Stimmabgabe
 <kbd><img src="https://github.com/AlexBiederer/SEDBRepo/blob/master/Abschlusspr%C3%A4sentation/Wahl.png"/></kbd>
