@@ -63,7 +63,7 @@ class BarChart {
 
 
     this.g.append("g")
-      .attr("class", "x-axis")
+      .attr("class", "x-axis2")
       .attr("stroke-width", 1.5)
       .attr("font-weight", "bold")
       .attr("transform", "translate(0," + this.height + ")")
@@ -71,7 +71,7 @@ class BarChart {
 
     this.g.append("g")
       .attr("stroke-width", 1.5)
-      .attr("class", "y-axis")
+      .attr("class", "y-axis2")
       .attr("font-weight", "bold")
       .call(d3.axisLeft(this.y).tickFormat(d => d + "%"));
 
@@ -119,8 +119,8 @@ class BarChart {
         return +d[key];
       });
     }.bind(this))]).nice();
-    d3.select(".x-axis").call(d3.axisBottom(this.x0));
-    d3.select(".y-axis").call(d3.axisLeft(this.y).tickFormat(d => d + "%"))
+    d3.select(".x-axis2").call(d3.axisBottom(this.x0));
+    d3.select(".y-axis2").call(d3.axisLeft(this.y).tickFormat(d => d + "%"))
 
     var t = d3.transition()
       .duration(1000)

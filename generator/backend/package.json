@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./app/js",
+    "start": "node ./js/server.js",
     "dev": "node --inspect ./js/server.js",
     "devBrk": "node --inspect-brk app/js/server.js"
   },

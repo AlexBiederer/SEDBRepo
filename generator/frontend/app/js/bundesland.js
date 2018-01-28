@@ -122,6 +122,7 @@ class Bundesland {
 
       $("#wkDetails").html("");
       that.wahlkreis.getBarChart().update([]);
+      that.wahlkreis.getBarChart2().update([]);
 
       checked = $("#cb2:checked").length;
       if (checked) {
@@ -131,9 +132,9 @@ class Bundesland {
           $("#switch2").show();
         });
       } else {
-          this.updateBarChart(wkID);
-          $("#loader2").hide();
-          $("#switch2").show();
+        this.updateBarChart(wkID);
+        $("#loader2").hide();
+        $("#switch2").show();
       }
     }.bind(this));
   }
@@ -149,7 +150,7 @@ class Bundesland {
             $("#wkDetails").html(`
               <tr>
               <td>${data3[0].titel ? data3[0].titel : ''} ${data3[0].vorname} ${data3[0].name}
-                <b>(${parteiToAbk[data3[0].parteiname]})</b></td>
+                </td>
               <td>${parteiToAbk[data4[0].siegererstname]}</td>
               <td>${parteiToAbk[data4[0].siegerzweitname]}</td>
               <td>${data2[0].numwahlb}</td>
