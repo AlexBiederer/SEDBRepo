@@ -180,6 +180,7 @@ Im Falle eines ungültigen Wahlschlüssels (Mehrfachwahl oder Wahlbetrug) wird d
 Die Implementierung des Stimmabgabesystems beruht auf den selben Technologien wie die Implementierung des Wahlinformationssystems. Die md5-hashes der gültigen Schlüssel werden in einer Tabelle gespeichert.
 Beim Wahlversuch wird eine Datenbank-Funktion- Aufgerufen, welche den Wahlkreis, Wahldaten und einen Schlüssel fordert.
 Der Schlüssel wird dann in der Datenbank gehashed, und mit der Liste der gültigen Schlüssel-Hashes verglichen. Im Falle eines Treffers wird in einer Transaktion der Schlüssel zuerst aus der Datenbank gelöscht, und dann die Stimmen eingefügt.
+Im *Wahlinformationssystem* werden die aktuellen Stimmdaten nach dem neuaggregieren der Stimmdaten aktualisiert.
 
 ## Datenschutz
 
@@ -220,5 +221,3 @@ Selbst bei einer Manipulation des Wahlrechners kann die Datenbasis nur mit einem
 Diese Codes sind von keinem System aus abrufbar, und werden nur intern zur Validierung verwendet.
 Die Wahlrechner sind für die Wahl nichts weiter als Browser.
 Dennoch müssen diese vor Manipulation geschützt werden, da ansonsten z.B. die Kommunikation einfach Manipuliert werden kann (siehe *Ausspähen / Manipulation der Kommunikation*) 
-
-
