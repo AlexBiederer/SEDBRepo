@@ -34,7 +34,7 @@ CREATE TABLE bundesland (
 );
 
 CREATE TABLE wahlkreis13 (
-  id integer PRIMARY KEY,
+  id shortint PRIMARY KEY,
   name text NOT NULL,
   bundesland integer references bundesland(id),
   numWahlb integer NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE wahlkreis13 (
 );
 
 CREATE TABLE wahlkreis17 (
-  id integer PRIMARY KEY,
+  id shortint PRIMARY KEY,
   name text NOT NULL,
   bundesland integer references bundesland(id),
   numWahlb integer NOT NULL,
@@ -56,14 +56,14 @@ CREATE TABLE wahlkreis17 (
 );
 
 CREATE TABLE partei13 (
-  id integer PRIMARY KEY,
+  id shortint PRIMARY KEY,
   name text NOT NULL,
   abk text,
   fraktion text
 );
 
 CREATE TABLE partei17 (
-  id integer PRIMARY KEY,
+  id shortint PRIMARY KEY,
   name text NOT NULL,
   abk text,
   fraktion text
@@ -80,7 +80,7 @@ CREATE TABLE kandidat13 (
   beruf text,
   wahlSlogan text,
   bildURL text,
-  partei integer references partei13(id)
+  partei shortint references partei13(id)
 );
 
 CREATE TABLE kandidat17 (
@@ -94,76 +94,76 @@ CREATE TABLE kandidat17 (
   beruf text,
   wahlSlogan text,
   bildURL text,
-  partei integer references partei17(id)
+  partei shortint references partei17(id)
 );
 
 CREATE TABLE direkt13 (
   kandidat integer references kandidat13(id),
-  wahlkreis integer references wahlkreis13(id)
+  wahlkreis shortint references wahlkreis13(id)
 );
 
 CREATE TABLE direkt17 (
   kandidat integer references kandidat17(id),
-  wahlkreis integer references wahlkreis17(id)
+  wahlkreis shortint references wahlkreis17(id)
 );
 
 CREATE TABLE liste13 (
   kandidat integer references kandidat13(id),
   bundesland integer references bundesland(id),
-  partei integer references partei13(id),
+  partei shortint references partei13(id),
   platz integer NOT NULL
 );
 
 CREATE TABLE liste17 (
   kandidat integer references kandidat17(id),
   bundesland integer references bundesland(id),
-  partei integer references partei17(id),
+  partei shortint references partei17(id),
   platz integer NOT NULL
 );
 
 CREATE TABLE aggErst13 (
-  partei integer,
-  wahlkreis integer,
-  numStimmen integer NOT NULL
+  partei shortint,
+  wahlkreis shortint,
+  numStimmen integer
 );
 
 CREATE TABLE aggErst17 (
-  partei integer,
-  wahlkreis integer,
+  partei shortint,
+  wahlkreis shortint,
   numStimmen integer
 );
 
 
 CREATE TABLE aggZweit13 (
-  partei integer,
-  wahlkreis integer,
+  partei shortint,
+  wahlkreis shortint,
   numStimmen integer
 );
 
 CREATE TABLE aggZweit17 (
-  partei integer,
-  wahlkreis integer,
+  partei shortint,
+  wahlkreis shortint,
   numStimmen integer
 );
 
 CREATE TABLE erst13 (
-  partei integer,
-  wahlkreis integer
+  partei shortint,
+  wahlkreis shortint
 );
 
 CREATE TABLE erst17 (
-  partei integer,
-  wahlkreis integer
+  partei shortint,
+  wahlkreis shortint
 );
 
 CREATE TABLE zweit13 (
-  partei integer,
-  wahlkreis integer
+  partei shortint,
+  wahlkreis shortint
 );
 
 CREATE TABLE zweit17 (
-  partei integer,
-  wahlkreis integer
+  partei shortint,
+  wahlkreis shortint
 );
 
 CREATE TABLE hashes
