@@ -48,7 +48,6 @@ Sobald auf die nicht-aggregierten Daten gewechselt wird, werden die Anfragen auf
 <kbd><img src="https://github.com/AlexBiederer/SEDBRepo/blob/master/Abschlusspr%C3%A4sentation/Rohdaten-Spinner.png"/></kbd>
 <kbd><img src="https://github.com/AlexBiederer/SEDBRepo/blob/master/Abschlusspr%C3%A4sentation/Rohdaten-done.png"/></kbd>
 
-
 In den Listen kann nach beliebigen Einträgen gefiltert und sortiert werden, sowie die Anzahl der angezeigten Einträge angepasst werden. 
 
 ### Bundesland
