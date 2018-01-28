@@ -224,4 +224,4 @@ Mithilfe eines Man-in-the-middle Angriffes könnten Betrüger einen Gültigen St
 Selbst bei einer Manipulation des Wahlrechners kann die Datenbasis nur mit einem gültigen Code verändert werden. 
 Diese Codes sind von keinem System aus abrufbar, und werden nur intern zur Validierung verwendet.
 Die Wahlrechner sind für die Wahl nichts weiter als Browser.
-Dennoch müssen diese vor Manipulation geschützt werden, da ansonsten z.B. die Kommunikation einfach Manipuliert werden kann (siehe *Ausspähen / Manipulation der Kommunikation*) 
+Dennoch müssen diese vor Manipulation geschützt werden, da ansonsten z.B. die Kommunikation einfach Manipuliert werden kann (siehe [Ausspähen / Manipulation der Kommunikation](https://github.com/AlexBiederer/SEDBRepo#aussp%C3%A4hen--manipulation-der-kommunikation).)
