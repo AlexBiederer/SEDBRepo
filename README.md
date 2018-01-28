@@ -216,7 +216,7 @@ Siehe Mehrfache Stimmabgabe
 Alle Interaktion mit dem System passiert auf Browser-Ebene, dem Wähler stehen keine Freitextfelder zur Verfügung. SQL-Injection ist somit unmöglich.
 
 ### Ausspähen / Manipulation der Kommunikation
-(#ausspähen)
+[](#ausspähen)
 
 Mithilfe eines Man-in-the-middle Angriffes könnten Betrüger einen Gültigen Stimmbefehl abfangen, und die Stimmdaten verändern, den Schlüssel aber gleich lassen, oder einfach das Paket blockieren (damit der Schlüssel nicht invalidiert wird) und den Schlüssel auslesen. Alternativ könnten Angreifer einfach die Kommunikation auslesen, und so Rückschlüsse auf die Wähler machen, die zu der Zeit z.B. im Wahllokal waren. Um dies zu verhindern muss die Kommunikation mit dem Wahlserver verschlüsselt erfolgen. Damit sind diese Art von Angriffen ausgeschlossen.
 
