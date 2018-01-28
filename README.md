@@ -31,7 +31,7 @@ Das Wahlinformationssystem ist aufgegliedert auf 5 Seiten, welche von der Naviga
 5. Sonstiges
 
 #### Bundestag
-[!alt text](https://github.com/AlexBiederer/SEDBRepo/blob/master/Abschlusspr%C3%A4sentation/Bundestag.png "Bundestagsansicht") 
+![alt text](https://github.com/AlexBiederer/SEDBRepo/blob/master/Abschlusspr%C3%A4sentation/Bundestag.png "Bundestagsansicht") 
 Auf der Startseite des Wahlsystems (im Tab Bundestag) ist die Auswertung der vorliegenden Stimmdaten zu sehen.
 Dabei werden angezeigt: 
 1. Ein Kuchendiagramm zur Darstellung der Sitzplatzverteilung und der Zusammensetzung des Bundestags, gruppiert nach Parteien
