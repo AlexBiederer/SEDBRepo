@@ -2,8 +2,8 @@
 Felix Schwarzmeier und Alex Biederer.
 
 ## Zielsetzung
-Das Wahlinformationssystem soll prototypisch mehrere Anwendungsfälle explorieren:
-* Die Möglichkeit für Bürger, sich online über den Ausgang der Bundestagswahl informieren zu können, und diese im Detail analysieren zu können
+Das Wahlinformationssystem soll prototypisch mehrere Anwendungsfälle explorieren: 
+ * Die Möglichkeit für Bürger, sich online über den Ausgang der Bundestagswahl informieren zu können, und diese im Detail analysieren zu können
 * Die Möglichkeit für Bürger, die Wahl elektronisch durchführen zu können. Dabei wird sowohl die Anwendung des Systems als elektronisches Backend in einem Wahllokal, als auch der Einsatz für eine Online-Wahl betrachtet.
 
 ## Highlights
@@ -74,7 +74,7 @@ Wieder kann in der Liste sortiert und gefiltert werden.
 
 Auf dem Tab Sonstiges finden sich die Ergebnisse der Zusatzaufgaben. Dafür ist oben eine Liste, welche die Auswertung der Fragestellungen über das vorhandenseien eines Frauenbonus, den/die "ökonimischste/n" Kandidat/in (welche/r es mit dem geringsten Vorsprung in den Bundestag geschafft hat), sowie den Wahlkreis mit der größten Diskrepanz zwischen Erst- und Zweitstimme pro Partei, vorhanden.
 
-## Beschreibung der Implementierung
+## Technische Umsetzung
 ### Verwendete Technologien
 Für das Frontend wurde Javascript und D3 zur Darstellung der Grafiken, für das Backend Node.js verwendet.
 Die Daten werden in einer Postgres-Datenbank gespeichert.
@@ -128,6 +128,12 @@ Detailierte Testergebnisse:
 | Q5 | 538 |
 | Q6 | 42 |
 
+## Datenschutz
+
+Stimmdaten werden anonymisiert und ohne Zusammenhang zwischen Erst- und Zweitstimme gespeichert, sodass keine Rückschlüsse auf einzelne Wähler gemacht werden können.
+Zudem werden keinerlei weitere Wählerdaten gespeichert.
+Die Kandidaten, welche im Wahlinformationssystem angezeigt werden, müssen diese beim Kandidieren öffentlich machen, also sind diese Datenschutztechnisch unbedenklich.  
+
 # Dokumentation des Stimmabgabesystems
 
 Das Wahlinformationssystem soll zum Sammeln von Stimmen ähnlich dem Herkömmlichen Verfahren angewendet werden.
@@ -150,15 +156,13 @@ Zusätzlich zur konventionellen Wahl besteht die Möglichkeit, die Wahl online d
 Der dafür nötige Code wird (wie bisher), per Brief oder auch online angefordert.
 Der Wähler erhält dann wieder einen zufälligen Code zugesandt, mit welchem er Online von Zuhause genau einmal wählen kann.
 
-
-
 ## Beschreibung der Benutzer-Schnittstelle des Stimmabgabesystems
 
 ### Stimmabgabe
 <kbd><img src="https://github.com/AlexBiederer/SEDBRepo/blob/master/Abschlusspr%C3%A4sentation/Wahl.png"/></kbd>
 
 Die Darstellung des Digitalen Wahlscheins ist dem realen Wahlschein nachempfunden.
-So werden auf der linken Seite alle im Wahlkreis kandidierenden Erstkandidaten, auf der rechten Seite alle im Wahlkreis antretenden Parteien angezeigt.
+So werden auf der linken Seite alle im Wahlkreis kandidierenden Erstkandidaten, auf der rechten Seite alle im Wahlkreis antretenden Parteien angezeigt. 
 Beim Klick auf eine der Möglichkeiten wird diese ausgewählt, und die vorher getroffene Wahl wieder entfernt. So werden versehentliche Invalidierungen des Stimmzettels vermieden.
 Falls ein Wähler dennoch eine ungültige Erst- oder Zweitstimme abgeben möchte, kann er dies durch die Auswahl von *Ungültig stimmen* tun.
 Um seine Stimme abzugeben, muss der Wähler dann noch *Bestätigen* auswählen.
@@ -170,7 +174,21 @@ Im Falle eines ungültigen Wahlschlüssels (Mehrfachwahl oder Wahlbetrug) wird d
 
 <kbd><img src="https://github.com/AlexBiederer/SEDBRepo/blob/master/Abschlusspr%C3%A4sentation/Stimmabgabe%20-%20schl%C3%BCssel.png"/></kbd>
 
-## Schutz vor Wahlbetrug
+## Technische Umsetzung
+
+Die Implementierung des Stimmabgabesystems beruht auf den selben Technologien wie die Implementierung des Wahlinformationssystems. Die md5-hashes der gültigen Schlüssel werden in einer Tabelle gespeichert.
+Beim Wahlversuch wird eine Datenbank-Funktion- Aufgerufen, welche den Wahlkreis, Wahldaten und einen Schlüssel fordert.
+Der Schlüssel wird dann in der Datenbank gehashed, und mit der Liste der gültigen Schlüssel-Hashes verglichen. Im Falle eines Treffers wird in einer Transaktion der Schlüssel zuerst aus der Datenbank gelöscht, und dann die Stimmen eingefügt.
+
+## Datenschutz
+
+Alle gültigen (und eindeutigen) Hashwerte werden vor der Verteilung der Codes auf Personen gespeichert, um keinen Rückschluss auf diese treffen zu können.
+Zudem werden die Hashes alle gleichzeitig generiert, sodass auch keine Rückschlüsse basierend auf der Erstellungsreihenfolge gemacht werden können.
+Wenn ein Schlüssel benutzt und damit ungültig gemacht wird, wird er komplett aus der Datenbank entfernt. Auch damit lässt sich über das Timing kein Rückschluss auf den Wähler herstellen.
+Die Codes werden zufällig ausgegeben, bei der Onlinewahl sowie bei der Wahl im Lokal. Theoretisch kann zwar eine Zuordnung von Wählern zu Wahlcodes hergestellt werden, doch dies kann auch mit Markierten Wahlscheinen im bisherigen System erfolgen, und müsste von Seiten des Staates passieren, wovon wir jetzt mal nicht ausgehen.    
+
+## Sicherheitsaspekte
+### Schutz vor Wahlbetrug
 
 Ein Code enspricht einem Bogen mit Wahlunterlagen, und wird exakt genau so wie diese bisher verteilt. 
 Deshalb gibt es faktisch keine Unterschiede zur konventionellen Wahl, der Schutz vor Wahlbetrug ist genauso hoch. 
@@ -191,9 +209,15 @@ Siehe Mehrfache Stimmabgabe
 
 Alle Interaktion mit dem System passiert auf Browser-Ebene, dem Wähler stehen keine Freitextfelder zur Verfügung. SQL-Injection ist somit unmöglich.
 
+### Ausspähen / Manipulation der Kommunikation
+
+Mithilfe eines Man-in-the-middle Angriffes könnten Betrüger einen Gültigen Stimmbefehl abfangen, und die Stimmdaten verändern, den Schlüssel aber gleich lassen, oder einfach das Paket blockieren (damit der Schlüssel nicht invalidiert wird) und den Schlüssel auslesen. Alternativ könnten Angreifer einfach die Kommunikation auslesen, und so Rückschlüsse auf die Wähler machen, die zu der Zeit z.B. im Wahllokal waren. Um dies zu verhindern muss die Kommunikation mit dem Wahlserver verschlüsselt erfolgen. Damit sind diese Art von Angriffen ausgeschlossen.
+
 ### Manipulation des Wahlcomputers
 
 Selbst bei einer Manipulation des Wahlrechners kann die Datenbasis nur mit einem gültigen Code verändert werden. 
-Diese Codes sind von keinem System aus abrufbar, werden nur intern zur Validierung verwendet. 
+Diese Codes sind von keinem System aus abrufbar, und werden nur intern zur Validierung verwendet.
+Die Wahlrechner sind für die Wahl nichts weiter als Browser.
+Dennoch müssen diese vor Manipulation geschützt werden, da ansonsten z.B. die Kommunikation einfach Manipuliert werden kann (siehe *Ausspähen / Manipulation der Kommunikation*) 
 
 
