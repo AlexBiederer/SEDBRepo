@@ -1,5 +1,7 @@
 drop materialized view bundestagsmitglieder17;
 
+-- Hier stehen alle Queries für die Sitzplatzberechnung dokumentiert
+-- Das ganze wird in einem materialized View gespeichert, und bei bedarf neu berechnet.
 create materialized view bundestagsmitglieder17 as
 (
 with
@@ -45,7 +47,9 @@ with
 	(
 		select agg1.wahlkreis, agg1.partei
 		from altAggErst17 agg1 LEFT JOIN altAggErst17 agg2
+		-- Joine mit allen Parteien, welche im selben Wahlkreis besser sind 
 		on (agg1.wahlkreis = agg2.Wahlkreis and agg1.numStimmen < agg2.numStimmen)
+		-- Sieger ist dann die Partei, wo keine bessere gefunden werden konnte
 		where agg2.numStimmen IS NULL
 
 	),
@@ -55,18 +59,21 @@ with
 	(
 		select agg1.wahlkreis, agg1.partei
 		from (select * from altAggErst17 a
+		      	-- Entferne die Sieger aus der liste
 			  where not exists 
 			  (
 				  select * from mandatProWahlkreis w
 				  where w.partei = a.partei 
 				  and w.wahlkreis = a.wahlkreis
 			  )) agg1 LEFT JOIN (select * from altAggErst17 a
+		     -- Entferne die Sieger aus der liste auch hier
 			  where not exists 
 			  (
 				  select * from mandatProWahlkreis w
 				  where w.partei = a.partei 
 				  and w.wahlkreis = a.wahlkreis
 			  )) agg2
+		-- Berechne davon wieder den besten
 		on (agg1.wahlkreis = agg2.Wahlkreis and agg1.numStimmen < agg2.numStimmen)
 		where agg2.numStimmen IS NULL
 	),
@@ -192,15 +199,20 @@ with
 	-- Saint-Lageue Tabelle, welche die Bundesländer nach dem Höchstzahlverfahren anordnet
 	slSitzeProBL(divisor, bundesland, wert) as (
 		(
-		select 0.5 as divisor, id, numEinwohner/0.5 as wert
-		from bundesland
+			-- Starte mit 0,5 in der divisortabelle
+			select 0.5 as divisor, id, numEinwohner/0.5 as wert
+			from bundesland
 		)
 		union
 		(
-		select divisor + 1, id, numEinwohner/(divisor+1) as wert
-		from slSitzeProBL, bundesland
-		where divisor < 598 -- Maximale Größe der Tabelle: Ein Bundesland erhält alle 598 Stimmen, Abbruchbedinung für die rekursion
-		and id = bundesland
+			-- Erhöhe rekursiv den Divisor um 1 
+			select divisor + 1, id, numEinwohner/(divisor+1) as wert
+			from slSitzeProBL, bundesland
+			-- Maximale Größe der Tabelle: Ein Bundesland erhält alle 598 Stimmen,
+			-- Abbruchbedinung für die Rekursion,
+			-- da der Divisor = Anzahl - 0.5
+			where divisor < 598 
+			and id = bundesland
 		)
 	),
 
@@ -212,6 +224,7 @@ with
 			select *
 			from slSitzeProBL
 			order by wert DESC
+			-- Nimm die obersten 598 der Eben berechneten, geordneten tabelle
 			limit 598) as tmp
 		group by bundesland
 	),
@@ -219,17 +232,21 @@ with
 	-- Saint-Lageue Tabelle, welche Parteien in den Bundesländern per Höchstzahlverfahren anordnet
 	slSitzeProParteiProBL(divisor, partei, bundesland, wert) as (
 		(
-		select 0.5 as divisor, p.id, zpb.bundesland, zpb.numStimmen/0.5 as wert
-		from partei17 p, zweitProBLProPartei zpb
-		where zpb.partei = p.id
+			-- Starte wieder mit 0,5 als Divisor
+			select 0.5 as divisor, p.id, zpb.bundesland, zpb.numStimmen/0.5 as wert
+			from partei17 p, zweitProBLProPartei zpb
+			where zpb.partei = p.id
 		)
 		union
 		(
-		select sl.divisor + 1, sl.partei, sl.bundesland, (zpb.numStimmen*1.00)/(sl.divisor+1.0) as wert
-		from slSitzeProParteiProBL sl, zweitProBLProPartei zpb
-		where divisor < (select numSitze from sitzeProBL where sl.bundesland = bundesland) -- Abbruch: Eine Partei hat alle sitze im Bundesland
-		and zpb.bundesland = sl.bundesland
-		and zpb.partei = sl.partei
+			-- Inkrementiere wieder den Divisor um 1 pro Schritt
+			select sl.divisor + 1, sl.partei, sl.bundesland, (zpb.numStimmen*1.00)/(sl.divisor+1.0) as wert
+			from slSitzeProParteiProBL sl, zweitProBLProPartei zpb
+			-- Abbruchbedingung jetzt abhängig von der Maximalzahl der verfügbaren Sitze pro Bundesland
+			-- Abbruch = Eine Partei hat alle sitze im Bundesland
+			where divisor < (select numSitze from sitzeProBL where sl.bundesland = bundesland) 
+			and zpb.bundesland = sl.bundesland
+			and zpb.partei = sl.partei
 		)
 	),
 
@@ -243,6 +260,7 @@ with
 				select * from slSitzeProParteiProBL sl
 				where b.id = sl.bundesland
 				order by wert desc
+				-- Weise die Anzahl der Sitze pro Bundesland zu, die verfügbar sind 
 				limit (select numSitze from sitzeProBL spb where spb.bundesland = b.id)
 			) as sllimit
 			where partei = p.id
@@ -279,16 +297,20 @@ with
 	-- Saint-Lageue Tabelle, welche alle Parteien nach dem Höchstzahlverfahren anordnet
 	slSitzeProParteiAusgleich(divisor, partei, wert) as (
 		(
-		select 0.5 as divisor, mpp.partei, zpp.numStimmen/0.5 as wert
-		from minSitzeProPartei mpp, zweitProPartei zpp
-		where zpp.partei = mpp.partei
+			-- Wieder Start mit 0,5 als Divisor
+			select 0.5 as divisor, mpp.partei, zpp.numStimmen/0.5 as wert
+			from minSitzeProPartei mpp, zweitProPartei zpp
+			where zpp.partei = mpp.partei
 		)
 		union
 		(
-		select sl.divisor + 1, sl.partei, (zpp.numStimmen)/(sl.divisor+1) as wert
-		from slSitzeProParteiAusgleich sl, zweitProPartei zpp
-		where sl.divisor < (select sum(numSitze) from minSitzeProPartei)
-		and zpp.partei = sl.partei
+			-- Wieder inkrementieren des Divisors
+			select sl.divisor + 1, sl.partei, (zpp.numStimmen)/(sl.divisor+1) as wert
+			from slSitzeProParteiAusgleich sl, zweitProPartei zpp
+			-- Abbruchbedingung ist hier gegeben, wenn eine Partei alleine alle 
+			-- von allen Parteien benötigten Sitze hat (unrealistisch, aber der mögliche Extremfall) 
+			where sl.divisor < (select sum(numSitze) from minSitzeProPartei)
+			and zpp.partei = sl.partei
 		)
 	),
 
@@ -298,12 +320,15 @@ with
 	(
 		select sl1.divisor, sl1.partei, sl1.wert 
 		from slSitzeProParteiAusgleich sl1
+		-- Checke für jeden Sitz, ob nicht einer Existiert, der höhere Prio hat und die Anforderungen schon erfüllt
 		where not exists
 		(
 			select *
 			from slSitzeProParteiAusgleich sl2, minSitzeProPartei mspp1
+			-- höhere Prio
 			where sl2.wert > sl1.wert
 			and sl2.partei = sl1.partei
+			-- Mindestanforderungen der Partei sind erfüllt
 			and sl2.divisor + 1 > mspp1.numsitze
 			and mspp1.partei = sl2.partei
 		)
@@ -314,14 +339,16 @@ with
 	(
 		select partei, count(*) 
 		from slSitzeProParteiAusgleich 
-		where wert >= (select min(wert) from slSitzeProParteiAusgleichFilter) -- Alle sitze, dessen Wert größer als der Wert
+		-- Alle sitze, dessen Wert größer als der Wert
 		-- des letzten für die Einhaltung aller Mindestbedingungen nötigen Sitzes ist
+		where wert >= (select min(wert) from slSitzeProParteiAusgleichFilter)
 		group by partei
 	),
 
 	-- Saint-Lageue Tabelle, welche alle Sitze pro Partei pro Bundesland nach Höchstzahlverfahren anordnet
 	slSitzeProParteiProBLAusgleich(divisor, bundesland, partei, wert) as (
 		(
+			-- Wie immer start mit 0,5 als Divisor
 			select 0.5 as divisor, bundesland, partei, numStimmen/0.5 as wert
 			from zweitProBLProPartei
 		)
@@ -329,6 +356,7 @@ with
 		(
 			select sl.divisor + 1, sl.bundesland, sl.partei, zbp.numStimmen/(sl.divisor+1) as wert
 			from slSitzeProParteiProBLAusgleich sl, zweitProBLProPartei zbp
+			-- Abbruchbedingung hier wieder die mindestanzahl der partei
 			where sl.divisor < (select numSitze from sitzeProParteiAusgleich spu where spu.partei = sl.partei)
 			and sl.bundesland = zbp.bundesland
 			and sl.partei = zbp.partei
@@ -338,8 +366,10 @@ with
 	-- Q1: Die Sitzverteilung der Parteien je Bundesland nach verteilen der Ausgleichsmandate
 	sitzeProParteiProBLAusgleich(bundesland, partei, numSitze) as
 	(
+		-- Wähle Parteidaten mit anzahl der direktmandate + anzahl der sonstigen mandate
 		select distinct b.id, p.id, m3.numMandate + 
 		(
+			-- Anzahl der Über zweitstimme erhaltenen Mandate
 			select count(*) 
 			from 
 			(
@@ -348,8 +378,10 @@ with
 				where sl.partei = p.id   
 				and sl.partei = m2.partei
 				and sl.bundesland = m2.bundesland
-				and sl.divisor > m2.nummandate -- Nur die Sitze Werden Betrachtet, welche nach dem Erfüllen der Mindestmandate erst vergeben werden
+				-- Nur die Sitze Werden Betrachtet, welche nach dem Erfüllen der Mindestmandate erst vergeben werden
+				and sl.divisor > m2.nummandate 
 				order by sl.wert desc
+				-- Nimm nur so viele Sitze, bis die der Partei zustehenden Plätze aufgebraucht sind
 				limit (select spp.numSitze from sitzeProParteiAusgleich spp where spp.partei = p.id) - (m1.numMandate)
 			) as sllimit
 			where sllimit.partei = p.id
@@ -377,9 +409,11 @@ with
 	(
 		select distinct l.kandidat, l.bundesland, l.partei,
 		row_number () over (
+			-- Ordne alle Kandidaten pro bundesland und partei
 			partition by l.partei, l.bundesland
 			order by l.platz
 		) as platz from liste17 l 
+		-- Entferne die Kandidaten aus der liste, welche bereits ein Direktmandat haben
 		where not exists 
 		(
 			select * 
@@ -393,6 +427,7 @@ with
 	(
 		select l.bundesland, l.partei, l.kandidat 
 		from listenKandProParteiProBlOhneDirekt l
+		-- Wähle alle Kandidaten, deren Platznummer kleiner der Anzahl der Partei pro BL zustehenden Plätze ist
 		where platz <= (
 			select (g.numSitze - m.numMandate) as dif
 			from sitzeProParteiProBLAusgleich g, mandateProParteiProBL m
@@ -401,6 +436,7 @@ with
 			and g.partei = l.partei
 			and g.bundesland = l.bundesland
 		)
+		-- Füge die Direktkandidaten dazu
 		union 
 		(
 			select * from direktKandProParteiProBL
