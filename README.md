@@ -1,4 +1,4 @@
-# Wallsystem - Dokumentation
+# Wahlsystem - Dokumentation
 Felix Schwarzmeier und Alex Biederer.
 
 ## Zielsetzung
@@ -78,13 +78,12 @@ Die Daten werden in einer Postgres-Datenbank gespeichert.
 ![alt text](https://github.com/AlexBiederer/SEDBRepo/blob/master/Aufgabenblatt_1/umlDiagram.png "Verwendetes Datenbankschema")
 
 Um das Schema in der Datenbank gut umzusetzen, wurde das Schema in der Datenbank 2 mal angelegt, einmal für die Ergebnisse von 2013, und einmal für die Ergebnisse von 2017. Die Stimmen sind sowohl aggregiert, als auch nicht-aggregiert abgespeichert.
+Das genaue Implementierung des Schemas ist [hier](https://github.com/AlexBiederer/SEDBRepo/blob/master/generator/backend/sql/schema.sql) zu finden.
+Die aggregierten Daten wurden mithilfe einer [SQL-Query](https://github.com/AlexBiederer/SEDBRepo/blob/master/generator/backend/sql/DeaggreggateSQL.sql) deaggrigiert. 
 
-Um Berechnungen im Rahmen der erlaubten Möglichkeiten zu beschleunigen, wurden 
-* keine Indexe verwendet!
-* speichereffiziente Datentypen verwendet
-* nur speichereffiziente Datentypen für Referenzen anstatt Strings in den Wahlergebnistabellen verwendet
+Da laut Vorgabe keine Indexe auf den Datenstrukturen verwendet werden durften, wurden um Berechnungen im Rahmen der erlaubten Möglichkeiten zu beschleunigen: 
+* nur speichereffiziente Datentypen (shortint) für Referenzen anstatt Strings in den Wahlergebnistabellen verwendet
 * Erst- und Zweitstimmen getrennt, aufgeteilt bezüglich der Wahlperiode und reduziert auf kurze Partei- und Wahlkreisreferenzen gespeichert (Um die Reaggregation zu beschleunigen)
-
 
 #### Verwendete Daten
 Als Grundlage für die Berechnung der Zusammensetzung des Bundestags wurden die [offiziellen Wahlergebnisse des Bundeswahlleiters von 2017](https://www.bundeswahlleiter.de/dam/jcr/72f186bb-aa56-47d3-b24c-6a46f5de22d0/btw17_kerg.csv) verwendet.
@@ -99,6 +98,7 @@ Die implementierung ist im Quellcode dokumentiert [hier](https://github.com/Alex
 
 #### Berechnung aller weiteren Daten
 Alle Anfrage (Knappste Sieger, etc.) wurden in SQL modelliert, und können im Backend mithilfe von statischem Routing durch REST-APIs abgerufen werden: *localhost:3000/db/query/Name_der_Query* . Bei Anfragen mit Parametern (z.B. Wahlkeisübersicht) wurde die SQL Anfrage in einem .js mit Variablem Parameter gespeichert. Diese sind dann unter *localhost:3000/db/customquery/Name_der_Query/?params=Parameter*.
+Die Implementierungen der Weiteren Queries sind [hier](https://github.com/AlexBiederer/SEDBRepo/tree/master/generator/backend/sql), bzw. [hier](https://github.com/AlexBiederer/SEDBRepo/tree/master/generator/backend/js/query). 
 
 #### Messen der Backend-Performance
 Die Performance des Backends wurde mithilfe des Tools [JMeter](http://jmeter.apache.org/) nach den gegebenen Vorgaben gemessen.
