@@ -1,0 +1,21 @@
+{
+  "name": "D3_Tube_Test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./app/js",
+    "dev": "node --inspect ./js/server.js",
+    "devBrk": "node --inspect-brk app/js/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "csvtojson": "^1.1.9",
+    "express": "^4.16.2",
+    "path": "^0.12.7",
+    "pg": "^7.4.0"
+  },
+  "devDependencies": {}
+}
