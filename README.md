@@ -160,7 +160,7 @@ Falls ein Wähler dennoch eine ungültige Erst- oder Zweitstimme abgeben möchte
 Um seine Stimme abzugeben, muss der Wähler dann noch *Bestätigen* auswählen.
 Im Falle von ungültigen Stimmen (bewusst oder unbewusst) wird der Wähler noch einmal gewarnt.
 
-![Bild konnte nicht geladen werden](https://github.com/AlexBiederer/SEDBRepo/blob/master/Abschlusspr%C3%A4sentation/Stimmabgabe%20-%20ung%C3%BCltig.png "Stimmabgabe")
+<kbd><img src="https://github.com/AlexBiederer/SEDBRepo/blob/master/Abschlusspr%C3%A4sentation/Stimmabgabe%20-%20ung%C3%BCltig.png"/></kbd>
 
 Im Falle eines ungültigen Wahlschlüssels (Mehrfachwahl oder Wahlbetrug) wird dem Wähler die Wahl verweigert.
 
