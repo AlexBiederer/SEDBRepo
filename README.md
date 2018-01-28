@@ -22,7 +22,7 @@ Das Wahlinformationssystem ist soll prototypisch mehrere Anwendungsfälle explor
 
 ## [Pflichtenheft](https://github.com/AlexBiederer/SEDBRepo/blob/master/Aufgabenblatt_3/Pflichtenheft_Wahlinformatonssystem.pdf)
 
-## Beschreibung der Benutzer-Schnittstelle
+## Beschreibung der Benutzer-Schnittstelle des Wahlinformationssystems
 Das Wahlinformationssystem ist aufgegliedert auf 5 Seiten, welche von der Navigationsbar oben auf der Seite navigierbar sind:
 1. Bundestag
 2. Bundesland
@@ -122,5 +122,10 @@ Detailierte Testergebnisse:
 | Q4 | 18 |
 | Q5 | 538 |
 | Q6 | 42 |
+
+## Beschreibung der Benutzer-Schnittstelle des Stimmabgabesystems
+
+### Stimmabgabe
+![alt text](https://github.com/AlexBiederer/SEDBRepo/blob/master/Abschlusspr%C3%A4sentation/Wahl.png "Stimmabgabe")
 
 
