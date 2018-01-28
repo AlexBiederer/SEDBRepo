@@ -155,6 +155,7 @@ angezeigt. Mit der Abgabe seiner Stimme wird der Hashwert seines Codes ungültig
 Zusätzlich zur konventionellen Wahl besteht die Möglichkeit, die Wahl online durchzuführen.
 Der dafür nötige Code wird (wie bisher), per Brief oder auch online angefordert.
 Der Wähler erhält dann wieder einen zufälligen Code zugesandt, mit welchem er Online von Zuhause genau einmal wählen kann.
+Der Wahlprozess ist dann der Selbe.
 
 ## Beschreibung der Benutzer-Schnittstelle des Stimmabgabesystems
 
