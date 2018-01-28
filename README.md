@@ -259,5 +259,5 @@ und im *frontend*:
 Das System ist dann unter *localhost:3000* erreichbar.
 
 Um das System verwenden zu können, muss dann noch die Datenbank aufgesetzt werden.
-Dafür kann mit _pg-admin_* das file *wahlschema* als .tar file restored werden.
+Dafür kann mit _pg-admin_* das file [wahlschema](https://1drv.ms/u/s!AthH0l5R8rvUjJZag-4Ig6bWQr30MA) als .tar file restored werden.
 Im [db-connector](https://github.com/AlexBiederer/SEDBRepo/blob/master/generator/backend/js/dbConnector.js) werden dann die Zugangsdaten entsprechend angepasst. 
