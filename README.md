@@ -245,10 +245,19 @@ Dennoch müssen diese vor Manipulation geschützt werden, da ansonsten z.B. die 
 # Installation
 
 Um das Wahlsystem zu installieren, wird das Repository gecloned, dann im *backend*:
+
 `npm install`
+
 `npm run dev`
+
 und im *frontend*
+
 `npm install`
+
 `npm run buildWatch`
 
 Das System ist dann unter *localhost:3000* erreichbar.
+
+Um das System verwenden zu können, muss dann noch die Datenbank aufgesetzt werden.
+Dafür kann mit _pg-admin_ das file *wahlschema* als tar file restored werden.
+Im [db-connector](https://github.com/AlexBiederer/SEDBRepo/blob/master/generator/backend/js/dbConnector.js) werden dann die Zugangsdaten entsprechend angepasst. 
