@@ -8,11 +8,11 @@ Felix Schwarzmeier und Alex Biederer.
 4. [Lastenheft](#lastenheft)
 5. [Pflichtenheft](#pflichtenheft)
 6. [Dokumentation des Wahlinformationssystems](#dokumentation-des-wahlinformationssystems)
-  1. [Beschreibung der Benutzer-Schnittstelle](#beschreibung-der-benutzer-schnittstelle)
-  2. [Technische Umsetzung](#technische-umsetzung)
+    1. [Beschreibung der Benutzer-Schnittstelle](#beschreibung-der-benutzer-schnittstelle)
+    2. [Technische Umsetzung](#technische-umsetzung)
 7. [Dokumentation des Stimmabgabesystems](#dokumentation-des-stimmabgabesystems)
-  1. [Beschreibung der Benutzer-Schnittstelle](#beschreibung-der-benutzer-schnittstelle-1)
-  2. [Technische Umsetzung](#technische-umsetzung-1)
+    1. [Beschreibung der Benutzer-Schnittstelle](#beschreibung-der-benutzer-schnittstelle-1)
+    2. [Technische Umsetzung](#technische-umsetzung-1)
 
 
 ## Zielsetzung
