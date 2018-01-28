@@ -13,6 +13,7 @@ Felix Schwarzmeier und Alex Biederer.
 7. [Dokumentation des Stimmabgabesystems](#dokumentation-des-stimmabgabesystems)
     1. [Beschreibung der Benutzer-Schnittstelle](#beschreibung-der-benutzer-schnittstelle-1)
     2. [Technische Umsetzung](#technische-umsetzung-1)
+8. [Installation](#installation)
 
 
 ## Zielsetzung
@@ -159,6 +160,7 @@ Dafür bekommt jedem Wähler ein 64-stelliger Code (codiert als QR-Code), welche
 und dessen Hash garantiert eindeutig ist zugeteilt.
 Die Zuteilung ist zufällig, nur der Wahlkreis muss für jeden Bürger stimmen.
 Alle gültigen (und eindeutigen) Hashwerte werden vor der Verteilung der Codes auf Personen gespeichert, um keinen Rückschluss auf diese treffen zu können.
+Für den realen Einsatz ist angedacht, pro Wahlkreis eine Datenbank mit Hashes zu generieren.
 Wählen funkioniert nun auf 2 Arten: Konventionell und Online:
 
 ## Konventionelle Stimmabgabe
@@ -239,3 +241,14 @@ Selbst bei einer Manipulation des Wahlrechners kann die Datenbasis nur mit einem
 Diese Codes sind von keinem System aus abrufbar, und werden nur intern zur Validierung verwendet.
 Die Wahlrechner sind für die Wahl nichts weiter als Browser.
 Dennoch müssen diese vor Manipulation geschützt werden, da ansonsten z.B. die Kommunikation einfach Manipuliert werden kann (siehe [Ausspähen / Manipulation der Kommunikation](#sicherheitsaspekte).)
+
+# Installation
+
+Um das Wahlsystem zu installieren, wird das Repository gecloned, dann im *backend*:
+`npm install`
+`npm run dev`
+und im *frontend*
+`npm install`
+`npm run buildWatch`
+
+Das System ist dann unter *localhost:3000* erreichbar.
