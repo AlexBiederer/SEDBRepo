@@ -60,6 +60,7 @@ Für genauere Details zu den Wahlergebnissen einer Partei kann in den Balkgendia
 Auch auf der Wahlkreis-Ansicht findet sich oben rechts wieder ein Umschalter, der auch hier wieder zwischen der Berechnung aus aggregierten und nicht-aggregierten Daten umschaltet. 
 
 #### Knappste Sieger
+![alt text](https://github.com/AlexBiederer/SEDBRepo/blob/master/Abschlusspr%C3%A4sentation/Knappste Sieger.png "Knappste Sieger") 
 Auf dem Tab Knappste Sieger werden die (bis zu) 10 Knappsten Sieger einer Partei mit der Anzahl der Stimmen Vorsprung (-) angezeigt. Für den Fall dass eine Partei keine 10 Kandidaten im Bundestag hat, wird mit knappsten Verlierern (+) aufgefüllt.
 Über der Liste findet sich ein Feld, wo eine Partei (gesucht und) ausgewählt werden kann.
 Wieder kann in der Liste sortiert und gefiltert werden.
