@@ -6,7 +6,7 @@ Das Wahlinformationssystem ist soll prototypisch mehrere Anwendungsfälle explor
 * Die Möglichkeit für Bürger, sich online über den Ausgang der Bundestagswahl informieren zu können, und diese im Detail analysieren zu können
 * Die Möglichkeit für Bürger, die Wahl elektronisch durchführen zu können. Dabei wird sowohl die Anwendung des Systems als elektronisches Backend in einem Wahllokal, als auch der Einsatz für eine Online-Wahl betrachtet.
 
-## Highlights des Wahlinformationssystems
+## Highlights
 * Interaktives, ansprechendes und intuitives Web-Interface
 * Graphische Daten-Visualisierung der Wahlergebnisse (Pie-charts, Bar-charts, Bundesland-picker, D3.js, Bootstrap 3)
 * Ermöglicht effiziente Analysen des Wahlergebnisses der Bundestagswahl 2017:
@@ -22,7 +22,9 @@ Das Wahlinformationssystem ist soll prototypisch mehrere Anwendungsfälle explor
 
 ## [Pflichtenheft](https://github.com/AlexBiederer/SEDBRepo/blob/master/Aufgabenblatt_3/Pflichtenheft_Wahlinformatonssystem.pdf)
 
-## Beschreibung der Benutzer-Schnittstelle des Wahlinformationssystems
+# Dokumentation des Wahlinformationssystems
+
+## Beschreibung der Benutzer-Schnittstelle
 Das Wahlinformationssystem ist aufgegliedert auf 5 Seiten, welche von der Navigationsbar oben auf der Seite navigierbar sind:
 1. Bundestag
 2. Bundesland
@@ -123,9 +125,18 @@ Detailierte Testergebnisse:
 | Q5 | 538 |
 | Q6 | 42 |
 
+# Dokumentation des Stimmabgabesystems
+
 ## Beschreibung der Benutzer-Schnittstelle des Stimmabgabesystems
 
 ### Stimmabgabe
 ![alt text](https://github.com/AlexBiederer/SEDBRepo/blob/master/Abschlusspr%C3%A4sentation/Wahl.png "Stimmabgabe")
+Die Darstellung des Digitalen Wahlscheins ist dem realen Wahlschein nachempfunden.
+So werden auf der Linken Seite alle im Wahlkreis kandidierenden Erstkandidaten, auf der Linken Seite alle im Wahlkreis antretenden Parteien angezeigt.
+Beim Klick auf eine der Möglichkeiten wird diese ausgewählt, und die vorher getroffene Wahl wieder entfernt. So werden versehentliche Invalidierungen des Stimmzettels vermieden.
+Falls ein Wähler dennoch eine ungültige Erst- oder Zweitstimme abgeben möchte, kann er dies durch die Auswahl von *Ungültig stimmen* tun.
+Um seine Stimme abzugeben, muss der Wähler dann noch *Bestätigen* auswählen.
+Im Falle von ungültigen Stimmen (bewusst oder unbewusst) wird der Wähler noch einmal gewarnt.
+![Bild konnte nicht geladen werden](https://github.com/AlexBiederer/SEDBRepo/blob/master/Abschlusspr%C3%A4sentation/Stimmabgabe%20-%20ung%C3%BCltig.png "Stimmabgabe")
 
 
