@@ -1,32 +1,22 @@
-# SEDBRepo
-Hier liegen alle Daten für das Wahlinformattionssystem von Felix und Alex.
+# Wallsystem - Dokumentation
+Felix Schwarzmeier und Alex Biederer.
 
-## Dokumentation
-Dies ist die Benutzerdokumentation für das Wahlinformationssystem.
-In dieser Version sind der Übersichtlichkeit alle Systemteile über die selbe Benutzerüberfläche verfügbar.
-In einer kommerziellen Version werden beide Teile natürlich strikt getrennt werden.
+## Zielsetzung
+Das Wahlinformationssystem ist soll prototypisch mehrere Anwendungsfälle explorieren:
+* Die Möglichkeit für Bürger, sich online über den Ausgang der Bundestagswahl informieren zu können, und diese im Detail analysieren zu können
+* Die Möglichkeit für Bürger, die Wahl elektronisch durchführen zu können. Dabei wird sowohl die Anwendung des Systems als elektronisches Backend in einem Wahllokal, als auch der Einsatz für eine Online-Wahl betrachtet.
 
-### Angebotene Funktionalität
-* Interaktives Web-Interface
+## Highlights des Wahlinformationssystems
+* Interaktives, ansprechendes und intuitives Web-Interface
 * Graphische Daten-Visualisierung der Wahlergebnisse (Pie-charts, Bar-charts, Bundesland-picker, D3.js, Bootstrap 3)
 * Ermöglicht effiziente Analysen des Wahlergebnisses der Bundestagswahl 2017:
-	* Anzeige der Direktmandate pro Bundesland/Wahlkreis
-	* Anzahl Gültige/Ungültige Stimmen pro Bundesland/Wahlkreis
-	* Sitzverteilung/Mitglieder im Bundestag
-	* Eigene konfigurierbare Anfragen (z.B. über SQL)
+	* Implementierung der kompletten Auswertung in SQL
+	* Effizientes Datenbankschema
 * Korrektheit der Ergebnisse
   * Verwendung der offiziellen Stimmdaten der Wahlen von 2017/2013 auf [bundeswahlleiter.de](https://www.bundeswahlleiter.de/)
 	* Ergebnisse identisch zu den offiziellen Auswertungen
-* Berücksichtichtigung von juristischen Ausnahmefällen:
-	* Sperrklausel (“5%-Hürde“) oder mind. 3 Direktmandate
-	* Überhangsmandate
-	* Ausgleichsmandate
 * Verwendung des Systems als Backend für die elektronische Stimmabgabe im Wahllokal
-	* Einfügen neuer Stimmen
-* Ermöglicht die Ergebnisse der Wahl 2017 mit den der Wahl 2013 zu vergleichen
-* Datenschutzrechtlich unbedenklich
-	* Stimmen werden anonymisiert und Erst-und Zweitstimme getrennt gespeichert
-* Sicherheit / Manipulationsschutz bei der Stimmabgabe
+* Verwendung des Systems zur sicheren Online-Wahl
 
 ### [Lastenheft](https://github.com/AlexBiederer/SEDBRepo/blob/master/Aufgabenblatt_2/Lastenheft_Wahlinformationssystem.md) 
 
@@ -41,6 +31,7 @@ Das Wahlinformationssystem ist aufgegliedert auf 5 Seiten, welche von der Naviga
 5. Sonstiges
 
 #### Bundestag
+[!alt text](https://github.com/AlexBiederer/SEDBRepo/blob/master/Abschlusspr%C3%A4sentation/Bundestag.png "Bundestagsansicht") 
 Auf der Startseite des Wahlsystems (im Tab Bundestag) ist die Auswertung der vorliegenden Stimmdaten zu sehen.
 Dabei werden angezeigt: 
 1. Ein Kuchendiagramm zur Darstellung der Sitzplatzverteilung und der Zusammensetzung des Bundestags, gruppiert nach Parteien
