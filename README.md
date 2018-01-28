@@ -31,13 +31,14 @@ Das Wahlinformationssystem ist aufgegliedert auf 5 Seiten, welche von der Naviga
 5. Sonstiges
 
 #### Bundestag
-![alt text](https://github.com/AlexBiederer/SEDBRepo/blob/master/Abschlusspr%C3%A4sentation/Bundestag.png "Bundestagsansicht") 
 Auf der Startseite des Wahlsystems (im Tab Bundestag) ist die Auswertung der vorliegenden Stimmdaten zu sehen.
 Dabei werden angezeigt: 
 1. Ein Kuchendiagramm zur Darstellung der Sitzplatzverteilung und der Zusammensetzung des Bundestags, gruppiert nach Parteien
 2. Eine Detailansicht zur Darstellung der Sitzplatzverteilung und der Zusammensetzung des Bundestags, gruppiert nach Parteien
 3. Eine Liste mit allen gewählten Abgeordneten
 4. Eine Liste mit der Anzahl aller Vergebenen Überhangmandate gruppoert nach Parteien und Bundesland
+
+![alt text](https://github.com/AlexBiederer/SEDBRepo/blob/master/Abschlusspr%C3%A4sentation/Bundestag.png "Bundestagsansicht") 
 
 Oben rechts ist die Option zum Umschalten zwischen voraggregierten und nicht-aggregierten Daten angezeigt (Rohdaten verwenden).
 Wenn auf den Aggregierten Daten gearbeitet wird, so werden die Anfragen auf bereits voraggregierten Wahldaten ausgeführt.
@@ -46,6 +47,7 @@ Sobald auf die nicht-aggregierten Daten gewechselt wird, werden die Anfragen auf
 In den Listen kann nach beliebigen Einträgen gefiltert und sortiert werden, sowie die Anzahl der angezeigten Einträge angepasst werden. 
 
 #### Bundesland
+![alt text](https://github.com/AlexBiederer/SEDBRepo/blob/master/Abschlusspr%C3%A4sentation/Bundesland1.png "Bundeslandansicht") 
 Auf dem Tab Bundesland eine Navigierbare und Zoombare Karte mit den Bundesländern Deutschlands, sowie daneben eine Liste mit allen Wahlkreisen angezeigt. Die Liste ist wie immer filter-, sortier- und in der Größe anpassbar. Diese Seite dient dazu, einen bestimmten Wahlkreis für die Wahlkreis-Ansicht auszuwählen. Dazu wird in der Liste auf der rechten Seite der gewünschte Wahlkreis ausgewählt. Daraufhin erfolgt automatisch der Übergang zur Wahlkreis-Ansicht.
 
 #### Wahlkreis
