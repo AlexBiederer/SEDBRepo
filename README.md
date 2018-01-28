@@ -244,19 +244,20 @@ Dennoch müssen diese vor Manipulation geschützt werden, da ansonsten z.B. die 
 
 # Installation
 
-Um das Wahlsystem zu installieren, wird das Repository gecloned, dann im *backend*:
+Um das Wahlsystem zu installieren, wird das Repository gecloned, dann im *backend* Ordner:
 
-`npm install`
+`npm install` (um alle Dependencies herunterzuladen)
 
-`npm run dev`
-
-und im *frontend*:
-
-`npm install`
-
-`npm run buildWatch`
+`npm run start` (um den Node-Webserver zu starten)
 
 Das System ist dann unter *localhost:3000* erreichbar.
+
+Damit Änderungen im Frontend wirksam werden, müssen im *frontend* Ordner folgende Befehle ausgeführt werden:
+
+`npm install` (um alle Dependencies herunterzuladen)
+
+`npm run buildProduction` (um eine neue "bundle"-app.js zu erstellen, die vom Node-Server an den Client geschickt wird)
+
 
 Um das System verwenden zu können, muss dann noch die Datenbank aufgesetzt werden.
 Dafür kann mit _pg-admin_* das file [wahlschema](https://1drv.ms/u/s!AthH0l5R8rvUjJZag-4Ig6bWQr30MA) als .tar file restored werden.
